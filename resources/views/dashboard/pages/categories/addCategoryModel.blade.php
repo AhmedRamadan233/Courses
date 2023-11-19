@@ -33,6 +33,7 @@
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-success">Save changes</button>
                         </div>
                     </div>

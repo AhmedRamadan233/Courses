@@ -77,10 +77,7 @@
                 serverSide: true,
                 ajax: {
                     url: '{{ route('category.index')}}',
-                    // data: function (d) {
-                    //     // Include the selected status in the DataTables request
-                    //     d.status = $('#status').val();
-                    // }
+     
                 },
                 pageLength: 5,
                 lengthMenu: [5, 10, 15, 20],
@@ -93,17 +90,7 @@
                 ],
             });
 
-                // Handle form submission and update DataTable
-            //     $('#status-form').on('submit', function (e) {
-            //         e.preventDefault();
-            //         var status = $('#status').val();
-
-            // // Apply search criteria and redraw the table
-
-            //     dataTable.columns(4).search(status).draw();
-
-            //     });
-            // add new country
+            // add new category
             $('#add-category-form').on('submit', function (e) {
                 e.preventDefault();
                 let form = this;
@@ -124,9 +111,9 @@
                                 $(form).find('span.' +indexInArray+'_error').text(valueOfElement[0]); 
                             });
                         } else {
-                            $('#addCategoryModal').modal('hide');
+                            // $('#addCategoryModal').modal('hide');
                            
-                            $('#category-table').DataTable().ajax.reload(null, false);
+                            $('#category-table').DataTable().ajax.reload(null, true);
                             toastr.success(data.msg);
                         }
                     }
