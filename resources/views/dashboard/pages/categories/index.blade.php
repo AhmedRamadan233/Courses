@@ -89,7 +89,6 @@
                     { data: 'actions', name: 'actions', orderable: false, searchable: false }
                 ],
             });
-
             // add new category
             $('#add-category-form').on('submit', function (e) {
                 e.preventDefault();
@@ -117,6 +116,35 @@
                             toastr.success(data.msg);
                         }
                     }
+                });
+            });
+            // delete category
+            $(document).on('click','#deleteCategory', function(){
+                var category_id = $(this).data('id');
+                var url = '<?= route("category.deleteCategory") ?>';
+
+                    swal.fire({
+                            title:'Are you sure?',
+                            html: 'You want to <b>' +category_id+ '</b> this country',
+                            showCancelButton:true,
+                            showCloseButton:true,
+                            cancelButtonText:'Cancel',
+                            confirmButtonText:'Yes, Delete',
+                            cancelButtonColor:'#d33',
+                            confirmButtonColor:'#556ee6',
+                            width:300,
+                            allowOutsideClick:false
+                    }).then(function(result){
+                            if(result.value){
+                                $.post(url,{category_id:category_id}, function(data){
+                                    if(data.code == 1){
+                                        $('#category-table').DataTable().ajax.reload(null, false);
+                                        toastr.success(data.msg);
+                                    }else{
+                                        toastr.error(data.msg);
+                                    }
+                                },'json');
+                            }
                 });
             });
         });

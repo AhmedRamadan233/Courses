@@ -30,6 +30,7 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('categories')->group(function () {
             Route::get('/',[CategoryController::class , 'index'])->name('category.index');
             Route::post('/store', [CategoryController::class, 'store'])->name('category.store');
+            Route::post('/delete', [CategoryController::class, 'deleteCategory'])->name('category.deleteCategory');
 
         });
 

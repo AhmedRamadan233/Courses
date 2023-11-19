@@ -26,7 +26,7 @@ class CategoryController extends Controller
                         ->addColumn('actions', function($row){
                             return '<div class="btn-group">
                                         <button class="btn btn-sm btn-primary" data-id="'.$row['id'].'" id="editCountryBtn">Update</button>
-                                        <button class="btn btn-sm btn-danger" data-id="'.$row['id'].'" id="deleteCountryBtn">Delete</button>
+                                        <button class="btn btn-sm btn-danger" data-id="'.$row['id'].'" id="deleteCategory">Delete</button>
                                     </div>';
                         })
                         ->rawColumns(['actions'])
@@ -65,6 +65,15 @@ class CategoryController extends Controller
         }
     }
 
+    public function deleteCategory(Request $request){
+        $category_id = $request->category_id;
+        $query = Category::find($category_id)->delete();
 
+        if($query){
+            return response()->json(['code'=>1, 'msg'=>'Category has been deleted from database']);
+        }else{
+            return response()->json(['code'=>0, 'msg'=>'Something went wrong']);
+        }
+    }
     
 }
