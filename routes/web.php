@@ -28,9 +28,9 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
 
         // Route Categories
         Route::prefix('categories')->group(function () {
-            Route::get('/',[CategoryController::class , 'index'])->name('index.category');
+            Route::get('/',[CategoryController::class , 'index'])->name('category.index');
             
-            
+
         });
 
     });
