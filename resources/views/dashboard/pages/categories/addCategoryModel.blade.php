@@ -9,18 +9,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" method="POST" id="add-Category-form">
+                <form action="{{route('category.store')}}" method="POST" id="add-category-form">
                     @csrf
                     <div class="form-group">
                         <label for="Category">Category</label>
                         <input type="text" class="form-control" id="Category" placeholder="Enter Category" name="name">
                         <span class="text-danger error-text name_error"></span>
                     </div>
-                    <div class="form-group">
-                        <label for="CategorySlug">Slug</label>
-                        <input type="text" class="form-control" id="CategorySlug" placeholder="Enter Category Slug" name="slug">
-                        <span class="text-danger error-text slug_error"></span>
-                    </div>
+                   
                     <div class="form-group">
                         <label for="CategoryDescription">Description</label>
                         <input type="text" class="form-control" id="CategoryDescription" placeholder="Enter Category Description" name="description">
@@ -37,7 +33,6 @@
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-success">Save changes</button>
                         </div>
                     </div>

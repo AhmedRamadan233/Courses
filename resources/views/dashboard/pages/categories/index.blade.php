@@ -69,43 +69,70 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
-
         $(function() {
-    // Initialize DataTable with server-side processing
-    var dataTable = $('#category-table').DataTable({
-        processing: true,
-        info: true,
-        serverSide: true,
-        ajax: {
-            url: '{!! route('category.index') !!}',
-            // data: function (d) {
-            //     // Include the selected status in the DataTables request
-            //     d.status = $('#status').val();
-            // }
-        },
-        pageLength: 5,
-        lengthMenu: [5, 10, 15, 20],
-        columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-            { data: 'name', name: 'name' },
-            { data: 'description', name: 'description' },
-            { data: 'status', name: 'status' },
-            { data: 'actions', name: 'actions', orderable: false, searchable: false }
-        ],
-    });
+            // Initialize DataTable with server-side processing
+            $('#category-table').DataTable({
+                processing: true,
+                info: true,
+                serverSide: true,
+                ajax: {
+                    url: '{{ route('category.index')}}',
+                    // data: function (d) {
+                    //     // Include the selected status in the DataTables request
+                    //     d.status = $('#status').val();
+                    // }
+                },
+                pageLength: 5,
+                lengthMenu: [5, 10, 15, 20],
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'name', name: 'name' },
+                    { data: 'description', name: 'description' },
+                    { data: 'status', name: 'status' },
+                    { data: 'actions', name: 'actions', orderable: false, searchable: false }
+                ],
+            });
 
-    // Handle form submission and update DataTable
-//     $('#status-form').on('submit', function (e) {
-//         e.preventDefault();
-//         var status = $('#status').val();
+                // Handle form submission and update DataTable
+            //     $('#status-form').on('submit', function (e) {
+            //         e.preventDefault();
+            //         var status = $('#status').val();
 
-// // Apply search criteria and redraw the table
+            // // Apply search criteria and redraw the table
 
-//     dataTable.columns(4).search(status).draw();
+            //     dataTable.columns(4).search(status).draw();
 
-//     });
-});
+            //     });
+            // add new country
+            $('#add-category-form').on('submit', function (e) {
+                e.preventDefault();
+                let form = this;
+                $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data:new FormData(form),
+                    processData:false,
+                    dataType:'json',
+                    contentType:false,
+                    beforeSend:function(){
+                        $(form).find('span.error-text').text('');
+                    },
+                    
+                    success: function (data) {
+                        if(data.code == 0){
+                            $.each(data.error, function (indexInArray, valueOfElement) { 
+                                $(form).find('span.' +indexInArray+'_error').text(valueOfElement[0]); 
+                            });
+                        } else {
+                            $('#addCategoryModal').modal('hide');
+                           
+                            $('#category-table').DataTable().ajax.reload(null, false);
+                            toastr.success(data.msg);
+                        }
+                    }
+                });
+            });
+        });
 
     </script>
 @endpush
