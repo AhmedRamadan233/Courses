@@ -111,7 +111,8 @@
                         } else {
                             // $('#addCategoryModal').modal('hide');
                                 // console.log('Modal hidden');
-                           
+                            // $('#addCategoryModal').modal("hide");
+                            // $('#addCategoryModal').find('form')[0].reset();
                             $('#category-table').DataTable().ajax.reload(null, false);
                             // console.log('Modal reload');
                             // setTimeout(function () {

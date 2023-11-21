@@ -92,7 +92,7 @@ class CategoryController extends Controller
         $query = $category->save();
     
         if ($query) {
-            return response()->json(['code' => 1, 'msg' => 'Country Details have been updated']);
+            return response()->json(['code' => 1, 'msg' => 'Category Details have been updated']);
         } else {
             return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
         }
