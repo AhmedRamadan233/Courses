@@ -58,7 +58,7 @@
         </div>
     </div>
     @include("dashboard.pages.categories.addCategoryModel")    
-    {{-- @include("dashboard.pages.categories.editCategoryModel") --}}
+    @include("dashboard.pages.categories.editCategoryModel")
     @push('category.scripts')
     <script>
         toastr.options.preventDuplicates = true;
@@ -70,11 +70,10 @@
             }
         });
         $(function() {
-            // Initialize DataTable with server-side processing
             $('#category-table').DataTable({
-                processing: true,
-                info: true,
-                serverSide: true,
+                // processing: true,
+                // info: true,
+                // serverSide: true,
                 ajax: {
                     url: '{{ route('category.index')}}',
      
@@ -111,21 +110,68 @@
                             });
                         } else {
                             // $('#addCategoryModal').modal('hide');
+                                // console.log('Modal hidden');
                            
-                            $('#category-table').DataTable().ajax.reload(null, true);
+                            $('#category-table').DataTable().ajax.reload(null, false);
+                            // console.log('Modal reload');
+                            // setTimeout(function () {
+                            //     $('#category-table').DataTable().ajax.reload(null, false);
+                            // }, 100);
                             toastr.success(data.msg);
                         }
                     }
                 });
             });
-            // delete category
+
+            $(document).on('click', '#editCategory', function(){
+                let category_id = $(this).data('id');
+                $('#editCategoryModel').find('form')[0].reset();
+                $('#editCategoryModel').find('span.error-text').text('');
+                $.post('<?= route("category.edit") ?>',{category_id:category_id}, function(data){
+                    // alert(data.details.name);
+                    $('#editCategoryModel').find('input[name="cid"]').val(data.details.id);
+                    $('#editCategoryModel').find('input[name="name"]').val(data.details.name);
+                    $('#editCategoryModel').find('input[name="description"]').val(data.details.description);
+                    $('#editCategoryModel').find('input[name="status"]').val(data.details.status);
+                    $('#editCategoryModel').modal('show');
+                }, 'json');
+                });
+
+            $('#update-category-form').on('submit', function (e) {
+                e.preventDefault();
+                let form = this;
+                $.ajax({
+                    url: $(form).attr('action'),
+                    method: $(form).attr('method'),
+                    data: new FormData(form),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend: function () {
+                        $(form).find('span.error-text').text('');
+                    },
+                    success: function (data) {
+                        if (data.code == 0) {
+                            $.each(data.error, function (indexInArray, valueOfElement) {
+                                $(form).find('span.' + indexInArray + '_error').text(valueOfElement[0]);
+                            });
+                        } else {
+                            $('#editCategoryModel').modal("hide");
+                            $('#editCategoryModel').find('form')[0].reset();
+                            $('#category-table').DataTable().ajax.reload(null, false);
+                            toastr.success(data.msg);
+                        }
+                    }
+                });
+            });
+
             $(document).on('click','#deleteCategory', function(){
                 var category_id = $(this).data('id');
                 var url = '<?= route("category.deleteCategory") ?>';
 
                     swal.fire({
                             title:'Are you sure?',
-                            html: 'You want to <b>' +category_id+ '</b> this country',
+                            html: 'You want to <strong style="color: red;">Delete</strong> this Category',
                             showCancelButton:true,
                             showCloseButton:true,
                             cancelButtonText:'Cancel',
