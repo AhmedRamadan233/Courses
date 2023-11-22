@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{route('category.store')}}" method="POST" id="add-category-form">
+                <form action="{{ route('category.store') }}" method="POST" id="add-category-form">
                     @csrf
                     <div class="form-group">
                         <label for="Category">Category</label>
@@ -18,10 +18,18 @@
                     </div>
                    
                     <div class="form-group">
+                        <label for="parent_id">Parent Category</label>
+                        <select class="form-control" id="parent_id" name="parent_id">
+                            <option value="">Select Parent Category</option>
+                        </select>
+                    </div>
+                   
+                    <div class="form-group">
                         <label for="CategoryDescription">Description</label>
                         <input type="text" class="form-control" id="CategoryDescription" placeholder="Enter Category Description" name="description">
                         <span class="text-danger error-text description_error"></span>
                     </div>
+                   
                     <div class="form-group">
                         <label for="CategoryStatus">Status</label>
                         <select class="form-control" id="CategoryStatus" name="status">
@@ -31,6 +39,7 @@
                         </select>
                         <span class="text-danger error-text status_error"></span>
                     </div>
+                   
                     <div class="modal-footer">
                         <div class="form-group">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

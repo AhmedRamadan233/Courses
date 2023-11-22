@@ -27,7 +27,7 @@
                             <button type="submit" class="btn btn-primary mx-2">Search</button>
                         </form> --}}
                         <div>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal" id="addCategory">
                                 Add New Category
                             </button>
                         </div>
@@ -40,6 +40,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Category</th>
                                 <th>Description</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -50,7 +51,6 @@
                         </tbody>
                     </table>
                 </div>
-
                 <div class="card-footer text-center">
                     <h5 class="m-0">Featured</h5>
                 </div>
@@ -63,81 +63,130 @@
     <script>
         toastr.options.preventDuplicates = true;
         toastr.options.positionClass = 'toast-top-center';
-        
         $.ajaxSetup({
             headers:{
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
         $(function() {
+
+            // display all Data
             $('#category-table').DataTable({
-                // processing: true,
-                // info: true,
-                // serverSide: true,
                 ajax: {
-                    url: '{{ route('category.index')}}',
-     
+                    url: '{{ route('category.index') }}',
                 },
                 pageLength: 5,
                 lengthMenu: [5, 10, 15, 20],
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'name', name: 'name' },
+                    { data: 'parent_name', name: 'parent_name' },
                     { data: 'description', name: 'description' },
                     { data: 'status', name: 'status' },
                     { data: 'actions', name: 'actions', orderable: false, searchable: false }
                 ],
             });
-            // add new category
+            // display data in model
+            $(document).on('click', '#addCategory', function() {
+                $.ajax({
+                    url: '<?= route("category.create") ?>',
+                    method: 'GET',
+                    dataType: 'json',
+                    beforeSend: function() {
+                        $('body').find('span.error-text').text('');
+                    },
+                    success: function(data) {
+                        // Clear the existing options and add a default one
+                        $('#addCategoryModal #parent_id').empty();
+                        $('#addCategoryModal #parent_id').append('<option value="">Select Parent Category</option>');
+
+                        // Populate the dropdown with fetched data
+                        $.each(data.details, function(index, value) {
+                            $('#addCategoryModal #parent_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                        $('#addCategoryModal').modal('show');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+            // On form submission
             $('#add-category-form').on('submit', function (e) {
                 e.preventDefault();
                 let form = this;
+                let formData = new FormData(form);
+
+                // Append the selected parent_id to formData
+                formData.append('parent_id', $('#parent_id').val());
+
+                // Log form data to console for debugging
+                console.log('FormData content:', formData);
+
                 $.ajax({
-                    url:$(form).attr('action'),
-                    method:$(form).attr('method'),
-                    data:new FormData(form),
-                    processData:false,
-                    dataType:'json',
-                    contentType:false,
-                    beforeSend:function(){
+                    url: $(form).attr('action'),
+                    method: $(form).attr('method'),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function () {
                         $(form).find('span.error-text').text('');
                     },
-                    
                     success: function (data) {
-                        if(data.code == 0){
-                            $.each(data.error, function (indexInArray, valueOfElement) { 
-                                $(form).find('span.' +indexInArray+'_error').text(valueOfElement[0]); 
+                        if (data.code == 0) {
+                            // Handle validation errors
+                            $.each(data.error, function (indexInArray, valueOfElement) {
+                                $(form).find('span.' + indexInArray + '_error').text(valueOfElement[0]);
                             });
                         } else {
-                            // $('#addCategoryModal').modal('hide');
-                                // console.log('Modal hidden');
-                            // $('#addCategoryModal').modal("hide");
-                            // $('#addCategoryModal').find('form')[0].reset();
+                            // If the operation is successful, update the DataTable and show a success message
                             $('#category-table').DataTable().ajax.reload(null, false);
-                            // console.log('Modal reload');
-                            // setTimeout(function () {
-                            //     $('#category-table').DataTable().ajax.reload(null, false);
-                            // }, 100);
                             toastr.success(data.msg);
                         }
                     }
                 });
             });
-
-            $(document).on('click', '#editCategory', function(){
+            $(document).on('click', '#editCategory', function () {
+                // Get the category ID from the clicked element's data attribute
                 let category_id = $(this).data('id');
+
+                // Reset the form and clear error messages
                 $('#editCategoryModel').find('form')[0].reset();
                 $('#editCategoryModel').find('span.error-text').text('');
-                $.post('<?= route("category.edit") ?>',{category_id:category_id}, function(data){
-                    // alert(data.details.name);
+
+                // Fetch category details and all categories using AJAX
+                $.post('<?= route("category.edit") ?>', { category_id: category_id }, function (data) {
+                    console.log('Received data:', data);
+
+                    // Fill form fields with received data
                     $('#editCategoryModel').find('input[name="cid"]').val(data.details.id);
                     $('#editCategoryModel').find('input[name="name"]').val(data.details.name);
                     $('#editCategoryModel').find('input[name="description"]').val(data.details.description);
                     $('#editCategoryModel').find('input[name="status"]').val(data.details.status);
+
+                    // Dynamically add options to the parent_id select element
+                    let parentSelect = $('#editCategoryModel #parent_id');
+                    parentSelect.empty().append('<option value="">Select Parent Category</option>');
+
+                    // Check if allCategories exists and is not null/undefined
+                    if (data.allCategories && Array.isArray(data.allCategories)) {
+                        // Populate the dropdown with fetched category data
+                        $.each(data.allCategories, function (index, value) {
+                            // Check if value.id and value.name exist and are not null/undefined
+                            if (value && value.id && value.name) {
+                                // Check if the current option is the selected parent_id
+                                let isSelected = (value.id === data.details.parent_id);
+
+                                // Append the option to the select element
+                                parentSelect.append('<option value="' + value.id + '"' + (isSelected ? ' selected' : '') + '>' + value.name + '</option>');
+                            }
+                        });
+                    }
+
+                    // Show the modal
                     $('#editCategoryModel').modal('show');
                 }, 'json');
-                });
-
+            });
             $('#update-category-form').on('submit', function (e) {
                 e.preventDefault();
                 let form = this;
@@ -165,7 +214,7 @@
                     }
                 });
             });
-
+            // delete category 
             $(document).on('click','#deleteCategory', function(){
                 var category_id = $(this).data('id');
                 var url = '<?= route("category.deleteCategory") ?>';
@@ -182,16 +231,16 @@
                             width:300,
                             allowOutsideClick:false
                     }).then(function(result){
-                            if(result.value){
-                                $.post(url,{category_id:category_id}, function(data){
-                                    if(data.code == 1){
-                                        $('#category-table').DataTable().ajax.reload(null, false);
-                                        toastr.success(data.msg);
-                                    }else{
-                                        toastr.error(data.msg);
-                                    }
-                                },'json');
+                        if(result.value){
+                            $.post(url,{category_id:category_id}, function(data){
+                            if(data.code == 1){
+                                    $('#category-table').DataTable().ajax.reload(null, false);
+                                toastr.success(data.msg);
+                            }else{
+                                toastr.error(data.msg);
                             }
+                        },'json');
+                    }
                 });
             });
         });

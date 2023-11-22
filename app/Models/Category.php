@@ -11,6 +11,16 @@ class Category extends Model
 
 
     protected $fillable = ['name', 'slug', 'description', 'status'];
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id' , 'id')
+            ->withDefault([ 'name'=> '-']);
+    }
+
+    public function children()
+    {
+        return $this->belongsTo(Category::class, 'parent_id' , 'id')->withDefault('Main Category');
+    }
 
     public function scopeFilter(EloquentBuilder $builder, $filters)
     {
