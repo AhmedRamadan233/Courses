@@ -26,6 +26,12 @@
                         </select>
                         <span class="text-danger error-text parent_id_error"></span>
                     </div>
+
+                    <div class="form-group">
+                        <label for="price">Pricey</label>
+                        <input type="text" class="form-control" id="price" placeholder="Enter Category" name="price">
+                        <span class="text-danger error-text price_error"></span>
+                    </div>
                     
                     <div class="form-group">
                         <label for="CategoryDescription">Description</label>

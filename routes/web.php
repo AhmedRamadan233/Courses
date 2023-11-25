@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,16 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
             Route::post('/edit', [CategoryController::class, 'editCategory'])->name('category.edit');
             Route::post('/update', [CategoryController::class, 'updateCategory'])->name('category.update');            
             Route::post('/delete', [CategoryController::class, 'deleteCategory'])->name('category.deleteCategory');
+
+        });
+        // Route products
+        Route::prefix('products')->group(function () {
+            Route::get ('/', [ProductController::class , 'index'])->name('product.index');
+            Route::get('/create', [ProductController::class, 'create'])->name('product.create');
+            Route::post('/store', [ProductController::class, 'store'])->name('product.store');
+            // Route::post('/edit',   [ProductController::class, 'editCategory'])->name('product.edit');
+            // Route::post('/update', [ProductController::class, 'updateCategory'])->name('product.update');            
+            // Route::post('/delete', [ProductController::class, 'deleteCategory'])->name('product.deleteCategory');
 
         });
 

@@ -23,6 +23,19 @@
                             <option value="">Select Parent Category</option>
                         </select>
                     </div>
+
+                    {{-- <div class="form-group">
+                        <label for="instructor_id">Instructor</label>
+                        <select class="form-control" id="instructor_id" name="instructor_id">
+                            <option value="">Select the Instractor</option>
+                        </select>
+                    </div> --}}
+
+                    <div class="form-group">
+                        <label for="price">Pricey</label>
+                        <input type="text" class="form-control" id="price" placeholder="Enter Category" name="price">
+                        <span class="text-danger error-text price_error"></span>
+                    </div>
                    
                     <div class="form-group">
                         <label for="CategoryDescription">Description</label>

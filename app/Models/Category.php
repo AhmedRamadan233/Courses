@@ -10,18 +10,31 @@ class Category extends Model
     use HasFactory;
 
 
-    protected $fillable = ['name', 'slug', 'description', 'status'];
+    protected $fillable = ['name',
+        'parent_id',
+        'slug',
+        'description',
+        'price',
+        // 'instructor_id',
+        'status',
+    ];
     public function parent()
     {
-        return $this->belongsTo(Category::class, 'parent_id' , 'id')
-            ->withDefault([ 'name'=> '-']);
+        return $this->belongsTo(Category::class, 'parent_id' , 'id');
+            
     }
 
     public function children()
     {
         return $this->belongsTo(Category::class, 'parent_id' , 'id')->withDefault('Main Category');
     }
-
+    public function instructor()
+    {
+        return $this->belongsTo(User::class, 'instructor_id');
+    }
+    public function products(){
+        return $this->hasMany(Product::class , 'category_id' , 'id');
+    }
     public function scopeFilter(EloquentBuilder $builder, $filters)
     {
 

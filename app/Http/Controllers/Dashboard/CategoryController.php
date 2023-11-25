@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -26,7 +28,10 @@ class CategoryController extends Controller
                 ->addIndexColumn()
                 ->addColumn('parent_name', function ($row) {
                     return $row->parent ? $row->parent->name : '-';
-                })
+                }) 
+                // ->addColumn('instractor_name', function ($row) {
+                //     return $row->instructor ? $row->instructor->name : '-';
+                // })
                 ->addColumn('actions', function ($row) {
                     return '<div class="btn-group">
                                 <button class="btn btn-sm btn-primary ml-2" data-id="'.$row['id'].'" id="editCategory">Edit</button>
@@ -42,7 +47,8 @@ class CategoryController extends Controller
     public function create()
     {
         $parentCategories = Category::with('parent')->get();
-        return response()->json(['details' => $parentCategories]);
+        // $instructors = Category::with('instructor')->get();
+        return response()->json(['details' => $parentCategories ]);
     }
     // to save a new category in db
     public function store(Request $request)
@@ -50,7 +56,9 @@ class CategoryController extends Controller
         $validator = \Validator::make($request->all(), [
             'name' => 'required|unique:categories',
             'parent_id' => 'nullable|exists:categories,id',
+            // 'instructor_id' => 'nullable|exists:users,id',
             'description' => 'required',
+            'price' => 'required',
             'status' => 'required|in:active,inactive,archive',
         ]);
         if ($validator->fails()) {
@@ -60,6 +68,7 @@ class CategoryController extends Controller
         $category->name = $request->input('name');
         $category->slug = Str::slug($request->input('name'));
         $category->description = $request->input('description');
+        $category->price = $request->input('price');
         $category->parent_id = $request->input('parent_id');
         $category->status = $request->input('status');
         $query = $category->save();
@@ -93,6 +102,7 @@ class CategoryController extends Controller
         $category->name = $request->input('name');
         $category->slug = Str::slug($request->input('name'));
         $category->description = $request->input('description');
+        $category->price = $request->input('price');
         $category->parent_id = $request->input('parent_id');
         $category->status = $request->input('status');
         $query = $category->save();

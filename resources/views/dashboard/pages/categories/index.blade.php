@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.dashboard')
 
-@section('title', 'Resturant System')
+@section('title', '')
 
 @section('breadcrumb')
     @parent
@@ -42,6 +42,8 @@
                                 <th>Name</th>
                                 <th>Category</th>
                                 <th>Description</th>
+                                <th>price</th>
+                                {{-- <th>instractor</th> --}}
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -82,6 +84,8 @@
                     { data: 'name', name: 'name' },
                     { data: 'parent_name', name: 'parent_name' },
                     { data: 'description', name: 'description' },
+                    { data: 'price', name: 'price' },
+                    // { data: 'instructor_id', name: 'instructor_id' },
                     { data: 'status', name: 'status' },
                     { data: 'actions', name: 'actions', orderable: false, searchable: false }
                 ],
@@ -99,12 +103,19 @@
                         // Clear the existing options and add a default one
                         $('#addCategoryModal #parent_id').empty();
                         $('#addCategoryModal #parent_id').append('<option value="">Select Parent Category</option>');
-
+                        // $('#addCategoryModal #instructor_id').empty();
+                        // $('#addCategoryModal #instructor_id').append('<option value="">Select Instructor</option>');
+                        
                         // Populate the dropdown with fetched data
                         $.each(data.details, function(index, value) {
                             $('#addCategoryModal #parent_id').append('<option value="' + value.id + '">' + value.name + '</option>');
                         });
+                        // $.each(data.details, function(index, value) {
+                        //     $('#addCategoryModal #instructor_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        // });
                         $('#addCategoryModal').modal('show');
+                        
+                       
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -119,6 +130,7 @@
 
                 // Append the selected parent_id to formData
                 formData.append('parent_id', $('#parent_id').val());
+                // formData.append('instructor_id', $('#instructor_id').val());
 
                 // Log form data to console for debugging
                 console.log('FormData content:', formData);
@@ -162,6 +174,7 @@
                     $('#editCategoryModel').find('input[name="cid"]').val(data.details.id);
                     $('#editCategoryModel').find('input[name="name"]').val(data.details.name);
                     $('#editCategoryModel').find('input[name="description"]').val(data.details.description);
+                    $('#editCategoryModel').find('input[name="price"]').val(data.details.price);
                     $('#editCategoryModel').find('input[name="status"]').val(data.details.status);
 
                     // Dynamically add options to the parent_id select element
@@ -214,7 +227,7 @@
                     }
                 });
             });
-            // delete category 
+            // delete category
             $(document).on('click','#deleteCategory', function(){
                 var category_id = $(this).data('id');
                 var url = '<?= route("category.deleteCategory") ?>';
