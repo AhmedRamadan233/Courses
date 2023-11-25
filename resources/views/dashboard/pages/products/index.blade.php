@@ -76,7 +76,7 @@
                                     <td> 
                                         <a href="{{route('product.edit' , ['product' => $product->id])}}" class="btn btn-primary">Edit</a>
                                         |
-                                        <form action="" method="post" style="display: inline;">
+                                        <form action="{{route('product.destroy' , ['product' => $product->id])}}" method="post" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>

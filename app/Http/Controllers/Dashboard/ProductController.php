@@ -12,32 +12,36 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+
+
+
+    public function delete($filename, $directory)
+    {
+        $path = $directory . '/' . $filename;
+    
+        try {
+            // Check if the file exists before attempting to delete it
+            if (Storage::exists($path)) {
+                Storage::delete($path);
+            }
+        } catch (\Exception $e) {
+            // Log or dd the exception message
+            dd($e->getMessage());
+        }
+    }
+  
     public function index(Request $request)
     {
         $products = Product::with('category')->get();
         return view('dashboard.pages.products.index', compact('products'));
     }
-
-
-
-    
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $products = Product::with('category')->get();
         $categories = Category::all();
         return view('dashboard.pages.products.create', compact('products', 'categories'));
     }
-    /**
-     * Store a newly created resource in storage.
-     */
-
     public function store(Request $request)
     {
         $request->validate([
@@ -51,30 +55,21 @@ class ProductController extends Controller
         if ($request->hasFile('video') && $request->file('video')->isValid()) {
             $video = $request->file('video');
             $filename = time() . '_' . $video->getClientOriginalName();
-    
-            // Move the file to the 'upload' directory
+
             $video->move('upload', $filename);
-    
-            // Alternatively, you can use the Storage facade to store the file
-            // $path = $request->file('video')->storeAs('upload', $filename, 'public');
-    
             $product = new Product();
             $product->name = $request->input('name');
-            $product->slug = Str::slug($request->input('slug')); // Make sure to adjust if 'slug' is part of your form
+            $product->slug = Str::slug($request->input('slug')); 
             $product->category_id = $request->input('category_id');
             $product->description = $request->input('description');
-            $product->status = $request->input('status', 'active'); // Set a default value if not provided
+            $product->status = $request->input('status', 'active'); 
             $product->video = $filename;
             $product->save();
     
-            // Debug information
             Debugbar::info($product);
-            // dd($product);
     
-            // Redirect the user after saving the product
             return redirect()->route('product.index')->with('success', 'Product added successfully.');
         } else {
-            // Handle invalid file
             return redirect()->back()->withErrors(['video' => 'Invalid video file.'])->withInput();
         }
     }
@@ -86,23 +81,58 @@ class ProductController extends Controller
         $products = Product::with('category')->get();
         $categories = Category::get();
        
+        Debugbar::info($editedProduct);
 
         return view('dashboard.pages.products.edit', compact('editedProduct', 'products' ,'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'category_id' => 'required',
+            'name' => 'required',
+            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:20480', // Allow video to be nullable
+            'description' => 'required',
+            'status' => 'required|in:active,inactive,archive',
+        ]);
+    
+        $product = Product::findOrFail($id);
+    
+        if ($request->hasFile('video') && $request->file('video')->isValid()) {
+            if ($product->video) {
+                $this->delete($product->video, 'upload');
+            }
+    
+            $video = $request->file('video');
+            $filename = time() . '_' . $video->getClientOriginalName();
+    
+            $video->move('upload', $filename);
+
+            $product->video = $filename;
+        }
+    
+        $product->name = $request->input('name');
+        $product->slug = Str::slug($request->input('slug')); 
+        $product->category_id = $request->input('category_id');
+        $product->description = $request->input('description');
+        $product->status = $request->input('status'); 
+        $product->save();
+    
+        Debugbar::info($product);
+    
+        return redirect()->route('product.index')->with('success', 'Updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+
+    public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        if ($product->video) {
+            $this->delete($product->video, 'upload');
+        }
+        $product->delete();
+
+        return redirect()->route('product.index')->with('success', 'Product deleted successfully.');
     }
 }

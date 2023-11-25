@@ -15,10 +15,10 @@
                     <h2 class="m-0">Edit Products</h2>
                 </div>
                 <div class="card-body">
-                    <form action="" method="post" enctype="multipart/form-data">
-
+                    <form action="{{ route('product.update', ['product' => $editedProduct->id]) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('POST')
+
 
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -32,15 +32,17 @@
                             <label for="category_id">Category</label>
                             <select class="form-control" id="category_id" name="category_id">
                                 <option value="">Select Category</option>
-                                {{-- Load categories from the products variable --}}
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" {{ $category->id == $editedProduct->category_id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('category_id')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+                        
 
 
                     
@@ -57,10 +59,11 @@
                             <label for="status">Status</label>
                             <select class="form-control" id="status" name="status">
                                 <option value="active" {{ $editedProduct->status == 'active' ? 'selected' : '' }}>Active</option>
-                                <option value="draft" {{ $editedProduct->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                                <option value="archived" {{ $editedProduct->status == 'archive' ? 'selected' : '' }}>Archived</option>
+                                <option value="inactive" {{ $editedProduct->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                <option value="archive" {{ $editedProduct->status == 'archive' ? 'selected' : '' }}>Archived</option>
                             </select>
                         </div>
+                        
                     
                         <div class="form-group">
                             <label for="video">Video</label>
@@ -82,7 +85,8 @@
 
                         
                         
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+
                     </form>
                     
                 </div>
