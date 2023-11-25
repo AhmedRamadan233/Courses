@@ -80,20 +80,14 @@ class ProductController extends Controller
     }
     
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
-    }
+        $editedProduct = Product::findOrFail($id);
+        $products = Product::with('category')->get();
+        $categories = Category::get();
+       
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return view('dashboard.pages.products.edit', compact('editedProduct', 'products' ,'categories'));
     }
 
     /**

@@ -74,8 +74,7 @@
                                     <td>{{ $product->description }}</td>
                                     <td>{{ $product->status }}</td>
                                     <td> 
-                                        {{-- {{ route('edit-products', ['product' => $product->id]) }} --}}
-                                        <a href="" class="btn btn-primary">Edit</a>
+                                        <a href="{{route('product.edit' , ['product' => $product->id])}}" class="btn btn-primary">Edit</a>
                                         |
                                         <form action="" method="post" style="display: inline;">
                                             @csrf
