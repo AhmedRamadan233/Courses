@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('parent_id')->nullable()->constrained('categories', 'id')->nullOnDelete();
             $table->string('slug')->unique();
             $table->string('description')->nullable();
+            $table->string('video')->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->foreignId('instructor_id')->nullable()->constrained('users', 'id')->nullOnDelete();
             $table->enum('status' , ['active','inactive','archive'])->default('active');

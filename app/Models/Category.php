@@ -10,23 +10,24 @@ class Category extends Model
     use HasFactory;
 
 
-    protected $fillable = ['name',
+    protected $fillable = [
+        'name',
         'parent_id',
         'slug',
         'description',
         'price',
-        // 'instructor_id',
+        'video',
         'status',
     ];
     public function parent()
     {
-        return $this->belongsTo(Category::class, 'parent_id' , 'id');
+        return $this->belongsTo(Category::class, 'parent_id' , 'id')->withDefault(['name' => 'Main Category']);
             
     }
 
     public function children()
     {
-        return $this->belongsTo(Category::class, 'parent_id' , 'id')->withDefault('Main Category');
+        return $this->belongsTo(Category::class, 'parent_id' , 'id');
     }
     public function instructor()
     {

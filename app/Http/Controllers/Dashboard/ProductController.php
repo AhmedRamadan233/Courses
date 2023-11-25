@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
-use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
+use Barryvdh\Debugbar\Facades\Debugbar;
+
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -91,7 +92,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'category_id' => 'required',
-            'name' => 'required',
+            'name' => 'required|unique',
             'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:20480', // Allow video to be nullable
             'description' => 'required',
             'status' => 'required|in:active,inactive,archive',

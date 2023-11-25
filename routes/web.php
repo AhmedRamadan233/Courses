@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Website\WebsiteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,9 +33,9 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
             Route::get('/',[CategoryController::class , 'index'])->name('category.index');
             Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
             Route::post('/store', [CategoryController::class, 'store'])->name('category.store');
-            Route::post('/edit', [CategoryController::class, 'editCategory'])->name('category.edit');
-            Route::post('/update', [CategoryController::class, 'updateCategory'])->name('category.update');            
-            Route::post('/delete', [CategoryController::class, 'deleteCategory'])->name('category.deleteCategory');
+            // Route::post('/edit', [CategoryController::class, 'editCategory'])->name('category.edit');
+            // Route::post('/update', [CategoryController::class, 'updateCategory'])->name('category.update');            
+            // Route::post('/delete', [CategoryController::class, 'deleteCategory'])->name('category.deleteCategory');
 
         });
         // Route products
@@ -45,8 +46,13 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
             Route::get('/edit/{product}',   [ProductController::class, 'edit'])->name('product.edit');
             Route::post('/update/{product}', [ProductController::class, 'update'])->name('product.update');
             Route::delete('/destroy/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
-
         });
+        Route::prefix('website')->group(function () {
+            Route::get('/', [WebsiteController::class, 'index'])->name('website.index');
+            Route::get('/all-categories', [WebsiteController::class, 'getAllCategories'])->name('all-categories');
+            Route::get('/category/{id}', [WebsiteController::class, 'getCategoryById'])->name('category');
+        });
+        
 
     });
 
