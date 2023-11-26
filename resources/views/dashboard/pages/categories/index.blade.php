@@ -11,13 +11,14 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card card-primary card-outline">
+                
                 <div class="card-header">
-                    <div class="d-flex justify-content-between align-item-center">
-                        <form action="" method="get" class="form-inline">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <form action="{{ route('category.index') }}" method="get" class="form-inline">
                             <div class="form-group mx-2">
                                 <label for="name" class="sr-only">Search by Name</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="name" placeholder="Search by name..." name="name" value="">
+                                    <input type="text" class="form-control" id="name" placeholder="Search by name..." name="name" value="{{ request('name') }}">
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="fa fa-search"></i>
@@ -30,9 +31,9 @@
                                 <label for="status" class="sr-only">Select Status</label>
                                 <select class="form-control" id="status" name="status">
                                     <option value="" selected>Select Status</option>
-                                    <option value="active">Active</option>
-                                    <option value="draft">Draft</option>
-                                    <option value="archived">Archived</option>
+                                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                    <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                    <option value="archive" {{ request('status') == 'archive' ? 'selected' : '' }}>Archive</option>
                                 </select>
                             </div>
                 
@@ -43,7 +44,6 @@
                         </div>
                     </div>
                 </div>
-                
                 
                 <div class="card-body">
                     <table id="product-table" class="table table-bordered table-striped">

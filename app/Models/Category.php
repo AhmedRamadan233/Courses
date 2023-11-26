@@ -19,6 +19,20 @@ class Category extends Model
         'video',
         'status',
     ];
+    public function scopeFilter(EloquentBuilder $builder, $filters)
+    {
+        $name = $filters['name'] ?? null;
+
+        $status = $filters['status'] ?? null;
+
+        if ($name) {
+            $builder->where('name', 'LIKE', "%$name%");
+        }
+        if ($status) {
+            $builder->where('status', '=', $status);
+        }
+
+    }
     public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id' , 'id')->withDefault(['name' => 'Main Category']);
@@ -36,13 +50,5 @@ class Category extends Model
     public function products(){
         return $this->hasMany(Product::class , 'category_id' , 'id');
     }
-    public function scopeFilter(EloquentBuilder $builder, $filters)
-    {
 
-        $status = $filters['status'] ?? null;
-        if ($status) {
-            $builder->where('status', '=', $status);
-        }
-
-    }
 }

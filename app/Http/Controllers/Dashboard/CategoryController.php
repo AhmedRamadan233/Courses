@@ -34,7 +34,8 @@ class CategoryController extends Controller
     }
     public function index(Request $request)
     {
-        $categories = Category::with('parent')->get();
+        $filters = $request->query();
+        $categories = Category::with('parent')->filter($filters)->paginate(10);
         return view('dashboard.pages.categories.index', compact('categories'));
     }
     public function create()
