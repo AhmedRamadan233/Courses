@@ -79,10 +79,8 @@
                                     </td>
                                     <td>{{ $category->status }}</td>
                                     <td>
-                                        {{-- {{ route('category.edit', ['category' => $category->id]) }} --}}
-                                        <a href="" class="btn btn-primary">Edit</a> |
-                                        {{-- {{ route('category.destroy', ['category' => $category->id]) }} --}}
-                                        <form action="" method="post" style="display: inline;">
+                                        <a href="{{ route('category.edit', ['category' => $category->id]) }}" class="btn btn-primary">Edit</a> |
+                                        <form action="{{ route('category.destroy', ['category' => $category->id]) }}" method="post" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>

@@ -13,18 +13,20 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-
-
-
-
     public function delete($filename, $directory)
     {
-        $path = $directory . '/' . $filename;
-    
+        $storagePath = storage_path('app/' . $directory . '/' . $filename);
+        $publicPath = public_path($directory . '/' . $filename);
+
         try {
-            // Check if the file exists before attempting to delete it
-            if (Storage::exists($path)) {
-                Storage::delete($path);
+            // Check if the file exists before attempting to delete it from storage
+            if (Storage::exists($storagePath)) {
+                Storage::delete($storagePath);
+            }
+
+            // Check if the file exists in the public directory and delete it
+            if (file_exists($publicPath)) {
+                unlink($publicPath);
             }
         } catch (\Exception $e) {
             // Log or dd the exception message
@@ -92,8 +94,8 @@ class ProductController extends Controller
     {
         $request->validate([
             'category_id' => 'required',
-            'name' => 'required|unique',
-            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:20480', // Allow video to be nullable
+            'name' => 'required|unique:products,name,' . $id, // Assuming the table name is 'products' and the column name is 'name'
+            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:20480',
             'description' => 'required',
             'status' => 'required|in:active,inactive,archive',
         ]);

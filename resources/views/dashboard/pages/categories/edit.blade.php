@@ -15,15 +15,14 @@
                     <h2 class="m-0">Edit Products</h2>
                 </div>
                 <div class="card-body">
-                    {{-- {{ route('product.update', ['product' => $editedProduct->id]) }} --}}
-                    <form action="" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('category.update', ['category' => $editCategory->id]) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('POST')
 
 
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ $editedProduct->name }}">
+                            <input type="text" class="form-control" id="name" name="name" value="{{ $editCategory->name }}">
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -34,7 +33,7 @@
                             <select class="form-control" id="category_id" name="category_id">
                                 <option value="">Select Category</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}" {{ $category->id == $editedProduct->category_id ? 'selected' : '' }}>
+                                    <option value="{{ $category->id }}" {{ old('category_id', $editCategory->category_id) == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
@@ -44,12 +43,19 @@
                             @enderror
                         </div>
                         
-
+                        
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control" id="price" name="price" value="{{ $editCategory->price }}">
+                            @error('price')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
 
                     
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description">{{ $editedProduct->description }}</textarea>
+                            <textarea class="form-control" id="description" name="description">{{ $editCategory->description }}</textarea>
                             @error('description')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -59,9 +65,9 @@
                         <div class="form-group">
                             <label for="status">Status</label>
                             <select class="form-control" id="status" name="status">
-                                <option value="active" {{ $editedProduct->status == 'active' ? 'selected' : '' }}>Active</option>
-                                <option value="inactive" {{ $editedProduct->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                                <option value="archive" {{ $editedProduct->status == 'archive' ? 'selected' : '' }}>Archived</option>
+                                <option value="active" {{ $editCategory->status == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="inactive" {{ $editCategory->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                <option value="archive" {{ $editCategory->status == 'archive' ? 'selected' : '' }}>Archived</option>
                             </select>
                         </div>
                         
@@ -73,11 +79,11 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
 
-                            @if($editedProduct->video)
+                            @if($editCategory->video)
                                 <div class="mt-2">
                                     <p>Current Video:</p>
                                     <video width="320" height="240" controls>
-                                        <source src="{{ asset('upload/' . $editedProduct->video) }}" type="video/mp4">
+                                        <source src="{{ asset('upload/' . $editCategory->video) }}" type="video/mp4">
                                         Your browser does not support the video tag.
                                     </video>
                                 </div>

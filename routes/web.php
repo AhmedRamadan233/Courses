@@ -33,9 +33,9 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
             Route::get('/',[CategoryController::class , 'index'])->name('category.index');
             Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
             Route::post('/store', [CategoryController::class, 'store'])->name('category.store');
-            // Route::post('/edit', [CategoryController::class, 'editCategory'])->name('category.edit');
-            // Route::post('/update', [CategoryController::class, 'updateCategory'])->name('category.update');            
-            // Route::post('/delete', [CategoryController::class, 'deleteCategory'])->name('category.deleteCategory');
+            Route::get('/edit/{category}', [CategoryController::class, 'edit'])->name('category.edit');
+            Route::post('/update/{category}', [CategoryController::class, 'update'])->name('category.update');            
+            Route::delete('/destroy/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
         });
         // Route products
