@@ -49,8 +49,9 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         });
         Route::prefix('website')->group(function () {
             Route::get('/', [WebsiteController::class, 'index'])->name('website.index');
-            Route::get('/all-categories', [WebsiteController::class, 'getAllCategories'])->name('all-categories');
-            Route::get('/category/{id}', [WebsiteController::class, 'getCategoryById'])->name('category');
+       
+            Route::get('/category/{slug}', [WebsiteController::class, 'getCategoryBySlug'])->name('getCategoryBySlug');
+
         });
         
 

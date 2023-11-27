@@ -23,27 +23,29 @@
     <div class="row">
        
         @foreach ($categoriesWithParent as $categoryWithParent)
-        <div class="col-lg-3 mb-4">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <!-- Header content -->
-                </div>
-                <div class="card-body text-center">
-                    <!-- Video Container -->
-                    <div id="video-container" class="embed-responsive embed-responsive-16by9 video-responsive">
-                        <iframe id="video" class="embed-responsive-item" src="{{ asset('upload/' . $categoryWithParent->video) }}" type="video/mp4" frameborder="0" allowfullscreen></iframe>
+            <div class="col-lg-3 mb-4">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h5 class="mt-2 mb-3">{{$categoryWithParent->parent->name}}</h5>
                     </div>
-                    <p class="mt-2">{{$categoryWithParent->price}}</p>
-                    <h5>{{$categoryWithParent->name}}</h5>
-                    <p>{{$categoryWithParent->description}}</p>
-                </div>
-                <div class="card-footer text-center">
-                    <!-- Button -->
-                    <button class="btn btn-primary">Click Me</button>
+                    <div class="card-body text-center">
+                        <!-- Video Container -->
+                        <div id="video-container" class="embed-responsive embed-responsive-16by9 video-responsive">
+                            <iframe id="video" class="embed-responsive-item" src="{{ asset('upload/' . $categoryWithParent->video) }}" type="video/mp4" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <p class="mt-3 text-muted">Salary: {{$categoryWithParent->price}}</p>
+                        <h5 class="mt-2 mb-3">Name: {{$categoryWithParent->name}}</h5>
+                    </div>
+                    <div class="card-footer text-center">
+                        <!-- Button -->
+                       <a href="{{ route('getCategoryBySlug', ['slug' => $categoryWithParent->slug]) }}" class="btn btn-primary btn-block">Display Category</a>
+
+
+                    </div>
                 </div>
             </div>
-        </div>
         @endforeach
+    
     </div>
 @endsection
 
