@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\CommonQestionsController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\DescriptionController;
 use App\Http\Controllers\Dashboard\ProductController;
@@ -50,6 +51,14 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         });
         Route::prefix('descriptions')->group(function () {
             Route::get ('/', [DescriptionController::class , 'index'])->name('description.index');
+            // Route::get('/create', [ProductController::class, 'create'])->name('product.create');
+            // Route::post('/store', [ProductController::class, 'store'])->name('product.store');
+            // Route::get('/edit/{product}',   [ProductController::class, 'edit'])->name('product.edit');
+            // Route::post('/update/{product}', [ProductController::class, 'update'])->name('product.update');
+            // Route::delete('/destroy/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+        });
+        Route::prefix('common_questions')->group(function () {
+            Route::get ('/', [CommonQestionsController::class , 'index'])->name('common_questions.index');
             // Route::get('/create', [ProductController::class, 'create'])->name('product.create');
             // Route::post('/store', [ProductController::class, 'store'])->name('product.store');
             // Route::get('/edit/{product}',   [ProductController::class, 'edit'])->name('product.edit');

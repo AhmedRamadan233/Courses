@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('common_qestions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete(); 
+            $table->string('question')->nullable()->unique();
+            $table->string('answer')->nullable()->unique();
+
             $table->timestamps();
         });
     }

@@ -23,7 +23,7 @@ class WebsiteController extends Controller
     public function getCategoryBySlug($slug)
     {
         $showCategory = Category::where('slug', $slug)->firstOrFail();
-        $categoryDescriptions = Category::with('description')->where('slug', $slug)->get();
+        $categoryDescriptions = Category::with('description' , 'commonQestions')->where('slug', $slug)->get();
         return view('dashboard.pages.websiteTest.show', compact('showCategory', 'categoryDescriptions'));
     }
 

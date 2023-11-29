@@ -55,4 +55,8 @@ class Category extends Model
     {
         return $this->hasMany(Description::class, 'category_id', 'id');
     }
+    public function commonQestions()
+    {
+        return $this->hasMany(CommonQestions::class, 'category_id', 'id');
+    }
 }

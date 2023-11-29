@@ -275,6 +275,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="{{route('common_questions.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Common Questions 
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
+
 
           <li class="nav-item pt-5">
             <form action="{{ route('logout') }}" style="display:inline" method="post">
