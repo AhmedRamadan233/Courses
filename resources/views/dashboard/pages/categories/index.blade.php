@@ -52,7 +52,7 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Category</th>
-                                <th>Description</th>
+                               
                                 <th>Price</th>
                                 <th>Video</th>
                                 <th>Status</th>
@@ -65,7 +65,6 @@
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->parent->name }}</td>
-                                    <td>{{ $category->description }}</td>
                                     <td>{{ $category->price }}</td>
                                     <td>
                                         @if (  $category->video == null)

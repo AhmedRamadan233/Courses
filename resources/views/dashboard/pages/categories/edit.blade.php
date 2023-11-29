@@ -53,13 +53,7 @@
                         </div>
 
                     
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description">{{ $editCategory->description }}</textarea>
-                            @error('description')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+                       
                     
 
                         <div class="form-group">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Description;
 use Illuminate\Http\Request;
 
 class WebsiteController extends Controller
@@ -17,11 +18,13 @@ class WebsiteController extends Controller
     }
 
 
+
+
     public function getCategoryBySlug($slug)
     {
-        $ShowCategory = Category::where('slug', $slug)->firstOrFail();
-
-        return view('dashboard.pages.websiteTest.show', compact('ShowCategory'));
+        $showCategory = Category::where('slug', $slug)->firstOrFail();
+        $categoryDescriptions = Category::with('description')->where('slug', $slug)->get();
+        return view('dashboard.pages.websiteTest.show', compact('showCategory', 'categoryDescriptions'));
     }
-    
+
 }

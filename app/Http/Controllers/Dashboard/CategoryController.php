@@ -47,7 +47,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'description' => 'required',
+          
             'price' => 'required', // Add validation for 'price' if needed
             'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:20480',
             'status' => 'required',
@@ -68,7 +68,7 @@ class CategoryController extends Controller
         $category->name = $request->input('name');
         $category->slug = Str::slug($request->input('name')); 
         $category->parent_id = $request->input('parent_id');
-        $category->description = $request->input('description');
+       
         $category->price = $request->input('price');
         $category->status = $request->input('status');
         $category->video = $filename;
@@ -117,7 +117,7 @@ class CategoryController extends Controller
         $category->name = $request->input('name');
         $category->slug = Str::slug($request->input('name')); 
         $category->parent_id = $request->input('parent_id');
-        $category->description = $request->input('description');
+       
         $category->price = $request->input('price');
         $category->status = $request->input('status');
         $category->save();
