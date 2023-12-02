@@ -68,14 +68,13 @@ class CategoryController extends Controller
         $categories = Category::whereNull('parent_id')->get();
         Debugbar::info($categories);
 
-        return view('dashboard.pages.categories.edit', compact( 'editCategory','categories'));
+        return view('dashboard.pages.categories.edit', compact( 'categories','editCategory'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
-            'description' => 'required',
             'price' => 'required', 
             'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:20480',
             'status' => 'required',
@@ -108,6 +107,7 @@ class CategoryController extends Controller
     
         return redirect()->route('category.index')->with('success', 'Updated successfully.');
     }
+    
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
