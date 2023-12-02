@@ -20,7 +20,7 @@ class CommonQestionsController extends Controller
     public function create()
     {
         $commonQestions = CommonQestions::with('category')->get();
-        $categories = Category::all();
+        $categories = Category::whereNotNull('parent_id')->get();
         return view('dashboard.pages.commonQestions.create', compact('commonQestions', 'categories'));
     }
     public function store(Request $request)
@@ -46,7 +46,7 @@ class CommonQestionsController extends Controller
     {
         $editedCommonQestions = CommonQestions::findOrFail($id);
         $commonQestions = CommonQestions::with('category')->get();
-        $categories = Category::get();
+        $categories = Category::whereNotNull('parent_id')->get();
        
         Debugbar::info($editedCommonQestions);
 

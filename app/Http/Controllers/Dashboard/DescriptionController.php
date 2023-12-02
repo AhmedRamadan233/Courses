@@ -20,7 +20,7 @@ class DescriptionController extends Controller
     public function create()
     {
         $descriptions = Description::with('category')->get();
-        $categories = Category::all();
+        $categories = Category::whereNotNull('parent_id')->get();
         return view('dashboard.pages.descriptions.create', compact('descriptions', 'categories'));
     }
     public function store(Request $request)
@@ -46,7 +46,7 @@ class DescriptionController extends Controller
     {
         $editedDescription = Description::findOrFail($id);
         $descriptions = Description::with('category')->get();
-        $categories = Category::get();
+        $categories = Category::whereNotNull('parent_id')->get();
        
         Debugbar::info($editedDescription);
 
