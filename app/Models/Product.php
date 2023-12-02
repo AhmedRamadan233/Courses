@@ -33,9 +33,9 @@ class Product extends Model
         }
 
     }
-    public function category()
+    public function section()
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id') ->withDefault([ 'name'=> '-']);
+        return $this->belongsTo(Section::class, 'section_id', 'id');
     }
     
 }

@@ -48,6 +48,27 @@
             </div>
         </div>
         <div class="col-lg-12">
+            <!--sections -->
+            <div id="courses-container-card" class="card card-primary card-outline" style="display: none;">
+                <div class="card-header text-center">
+                    <h5>Courses Sections</h5>
+                </div>
+                <div class="card-body">
+                    @foreach ($categoryDescriptions as $category)
+                        @if ($category->sections)
+                            <div class="btn-group" role="group" aria-label="Categories">
+                                @foreach ($category->sections as $cousesSection)
+                                    <div class="category border border-light p-3 mb-2 bg-dark rounded text-center text-light">
+                                        <a href=""><h2>{{ $cousesSection->name }}</h2></a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
             <!-- Common Question Card -->
             <div id="common-question-card" class="card card-primary card-outline" style="display: none;">
                 <div class="card-header text-center">

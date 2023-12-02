@@ -243,7 +243,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-
+          <li class="nav-item">
+            <a href="{{route('section.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>          
+                Section
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="{{route('product.index')}}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>

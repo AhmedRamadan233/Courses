@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\Section;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -18,19 +18,19 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $filters = $request->query();
-        $products = Product::with('category')->filter($filters)->paginate(10);
+        $products = Product::with('section')->filter($filters)->paginate(10);
         return view('dashboard.pages.products.index', compact('products'));
     }
     public function create()
     {
-        $products = Product::with('category')->get();
-        $categories = Category::all();
-        return view('dashboard.pages.products.create', compact('products', 'categories'));
+        $products = Product::with('section')->get();
+        $sections = Section::all();
+        return view('dashboard.pages.products.create', compact('products', 'sections'));
     }
     public function store(Request $request)
     {
         $request->validate([
-            'category_id' => 'required',
+            'section_id' => 'required',
             'name' => 'required',
             'video' => 'required|mimetypes:video/mp4,video/quicktime|max:20480',
             'description' => 'required',
@@ -45,7 +45,7 @@ class ProductController extends Controller
             $product = new Product();
             $product->name = $request->input('name');
             $product->slug = Str::slug($request->input('slug')); 
-            $product->category_id = $request->input('category_id');
+            $product->section_id = $request->input('section_id');
             $product->description = $request->input('description');
             $product->status = $request->input('status', 'active'); 
             $product->video = $filename;
@@ -63,19 +63,19 @@ class ProductController extends Controller
     public function edit($id)
     {
         $editedProduct = Product::findOrFail($id);
-        $products = Product::with('category')->get();
-        $categories = Category::get();
+        $products = Product::with('section')->get();
+        $sections = Section::get();
        
         Debugbar::info($editedProduct);
 
-        return view('dashboard.pages.products.edit', compact('editedProduct', 'products' ,'categories'));
+        return view('dashboard.pages.products.edit', compact('editedProduct', 'products' ,'sections'));
     }
 
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'category_id' => 'required',
+            'section_id' => 'required',
             'name' => 'required|unique:products,name,' . $id, // Assuming the table name is 'products' and the column name is 'name'
             'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:20480',
             'description' => 'required',
@@ -99,7 +99,7 @@ class ProductController extends Controller
     
         $product->name = $request->input('name');
         $product->slug = Str::slug($request->input('slug')); 
-        $product->category_id = $request->input('category_id');
+        $product->section_id = $request->input('section_id');
         $product->description = $request->input('description');
         $product->status = $request->input('status'); 
         $product->save();

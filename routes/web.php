@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\CommonQestionsController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\DescriptionController;
+use App\Http\Controllers\Dashboard\SectionController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Website\WebsiteController;
@@ -30,7 +31,6 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('/',[DashboardController::class , 'index'])->name('dashboard');
 
-        // Route Categories
         Route::prefix('categories')->group(function () {
             Route::get('/',[CategoryController::class , 'index'])->name('category.index');
             Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
@@ -40,7 +40,15 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
             Route::delete('/destroy/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
         });
-        // Route products
+        Route::prefix('sections')->group(function () {
+            Route::get ('/', [SectionController::class , 'index'])->name('section.index');
+            Route::get('/create', [SectionController::class, 'create'])->name('section.create');
+            Route::post('/store', [SectionController::class, 'store'])->name('section.store');
+            Route::get('/edit/{section}',   [SectionController::class, 'edit'])->name('section.edit');
+            Route::post('/update/{section}', [SectionController::class, 'update'])->name('section.update');
+            Route::delete('/destroy/{section}', [SectionController::class, 'destroy'])->name('section.destroy');
+
+        });
         Route::prefix('products')->group(function () {
             Route::get ('/', [ProductController::class , 'index'])->name('product.index');
             Route::get('/create', [ProductController::class, 'create'])->name('product.create');

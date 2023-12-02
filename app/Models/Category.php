@@ -47,8 +47,8 @@ class Category extends Model
     {
         return $this->belongsTo(User::class, 'instructor_id');
     }
-    public function products(){
-        return $this->hasMany(Product::class , 'category_id' , 'id');
+    public function sections(){
+        return $this->hasMany(Section::class , 'category_id' , 'id');
     }
 
     public function description()

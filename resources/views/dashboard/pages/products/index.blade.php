@@ -50,7 +50,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Category</th>
+                                <th>Section</th>
                                 <th>Name</th>                                
                                 <th>Video</th>
                                 <th>Description</th>
@@ -62,7 +62,7 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td>{{ $product->id }}</td>
-                                    <td>{{ $product->category->name }}</td>
+                                    <td>{{ $product->section->name }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>
                                         <video width="320" height="240" controls>

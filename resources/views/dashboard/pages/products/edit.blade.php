@@ -29,16 +29,16 @@
                         </div>
                     
                         <div class="form-group">
-                            <label for="category_id">Category</label>
-                            <select class="form-control" id="category_id" name="category_id">
-                                <option value="">Select Category</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}" {{ $category->id == $editedProduct->category_id ? 'selected' : '' }}>
-                                        {{ $category->name }}
+                            <label for="section_id">Section</label>
+                            <select class="form-control" id="section_id" name="section_id">
+                                <option value="">Select Section</option>
+                                @foreach ($sections as $section)
+                                    <option value="{{ $section->id }}" {{ $section->id == $editedProduct->section_id ? 'selected' : '' }}>
+                                        {{ $section->name }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('category_id')
+                            @error('section_id')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
