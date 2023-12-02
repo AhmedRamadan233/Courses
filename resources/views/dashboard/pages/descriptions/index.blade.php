@@ -58,7 +58,7 @@
                                     <td> 
                                         <a href="{{ route('description.edit', ['description' => $description->id]) }}" class="btn btn-primary">Edit</a>
                                         |
-                                       
+
                                         <form action=" {{ route('description.destroy', ['description' => $description->id]) }}" method="post" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
