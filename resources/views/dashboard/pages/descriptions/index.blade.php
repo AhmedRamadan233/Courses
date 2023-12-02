@@ -32,7 +32,7 @@
                             <button type="submit" class="btn btn-primary mx-2">Search</button>
                         </form>
                         <div>
-                            <a href="" class="btn btn-primary">Add New Description</a>
+                            <a href="{{route('description.create')}}" class="btn btn-primary">Add New Description</a>
                         </div>
                     </div>
                 </div>
@@ -56,11 +56,10 @@
                                     <td>{{ $description->question }}</td>
                                     <td>{{ $description->answer }}</td>
                                     <td> 
-                                        {{-- {{ route('edit.description', ['id' => $description->id]) }} --}}
-                                        <a href="" class="btn btn-primary">Edit</a>
+                                        <a href="{{ route('description.edit', ['description' => $description->id]) }}" class="btn btn-primary">Edit</a>
                                         |
-                                        {{-- {{ route('delete.description', ['id' => $description->id]) }} --}}
-                                        <form action="" method="post" style="display: inline;">
+                                       
+                                        <form action=" {{ route('description.destroy', ['description' => $description->id]) }}" method="post" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>

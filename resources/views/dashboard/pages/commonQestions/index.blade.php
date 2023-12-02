@@ -32,7 +32,7 @@
                             <button type="submit" class="btn btn-primary mx-2">Search</button>
                         </form>
                         <div>
-                            <a href="" class="btn btn-primary">Add New Common Question</a>
+                            <a href="{{route('common_questions.create')}}" class="btn btn-primary">Add New Common Question</a>
                         </div>
                     </div>
                 </div>
@@ -56,11 +56,9 @@
                                     <td>{{ $commonQestion->question }}</td>
                                     <td>{{ $commonQestion->answer }}</td>
                                     <td> 
-                                        {{-- {{ route('edit.description', ['id' => $description->id]) }} --}}
-                                        <a href="" class="btn btn-primary">Edit</a>
+                                        <a href="{{ route('common_questions.edit', ['common_questions' => $commonQestion->id]) }}" class="btn btn-primary">Edit</a>
                                         |
-                                        {{-- {{ route('delete.description', ['id' => $description->id]) }} --}}
-                                        <form action="" method="post" style="display: inline;">
+                                        <form action="{{ route('common_questions.destroy', ['common_questions' => $commonQestion->id]) }}" method="post" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
