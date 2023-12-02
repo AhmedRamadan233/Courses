@@ -9,29 +9,12 @@ use Illuminate\Http\Request;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-
+use App\Traits\VideoProcessing;
 class CategoryController extends Controller
 {
-    public function delete($filename, $directory)
-    {
-        $storagePath = storage_path('app/' . $directory . '/' . $filename);
-        $publicPath = public_path($directory . '/' . $filename);
+    use VideoProcessing;
 
-        try {
-            // Check if the file exists before attempting to delete it from storage
-            if (Storage::exists($storagePath)) {
-                Storage::delete($storagePath);
-            }
-
-            // Check if the file exists in the public directory and delete it
-            if (file_exists($publicPath)) {
-                unlink($publicPath);
-            }
-        } catch (\Exception $e) {
-            // Log or dd the exception message
-            dd($e->getMessage());
-        }
-    }
+    
     public function index(Request $request)
     {
         $filters = $request->query();
@@ -47,7 +30,6 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-          
             'price' => 'required', // Add validation for 'price' if needed
             'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:20480',
             'status' => 'required',
@@ -103,7 +85,7 @@ class CategoryController extends Controller
     
         if ($request->hasFile('video') && $request->file('video')->isValid()) {
             if ($category->video) {
-                $this->delete($category->video, 'upload');
+                $this->deleteVideo($category->video, 'upload');
             }
     
             $video = $request->file('video');
@@ -130,7 +112,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         if ($category->video) {
-            $this->delete($category->video, 'upload');
+            $this->deleteVideo($category->video, 'upload');
         }
         $category->delete();
 

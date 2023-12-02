@@ -10,30 +10,11 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-
+use App\Traits\VideoProcessing;
 class ProductController extends Controller
 {
-    public function delete($filename, $directory)
-    {
-        $storagePath = storage_path('app/' . $directory . '/' . $filename);
-        $publicPath = public_path($directory . '/' . $filename);
+    use VideoProcessing;
 
-        try {
-            // Check if the file exists before attempting to delete it from storage
-            if (Storage::exists($storagePath)) {
-                Storage::delete($storagePath);
-            }
-
-            // Check if the file exists in the public directory and delete it
-            if (file_exists($publicPath)) {
-                unlink($publicPath);
-            }
-        } catch (\Exception $e) {
-            // Log or dd the exception message
-            dd($e->getMessage());
-        }
-    }
-  
     public function index(Request $request)
     {
         $filters = $request->query();
@@ -105,7 +86,7 @@ class ProductController extends Controller
     
         if ($request->hasFile('video') && $request->file('video')->isValid()) {
             if ($product->video) {
-                $this->delete($product->video, 'upload');
+                $this->deleteVideo($product->video, 'upload');
             }
     
             $video = $request->file('video');
@@ -133,7 +114,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         if ($product->video) {
-            $this->delete($product->video, 'upload');
+            $this->deleteVideo($product->video, 'upload');
         }
         $product->delete();
 
