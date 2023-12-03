@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Section;
+use App\Models\Category;
+
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -24,15 +26,24 @@ class ProductController extends Controller
     public function create()
     {
         $products = Product::with('section')->get();
+        $categories = Category::whereNotNull('parent_id')->with('sections')->get();
         $sections = Section::all();
-        return view('dashboard.pages.products.create', compact('products', 'sections'));
+        return view('dashboard.pages.products.create', compact('products', 'sections' ,'categories'));
     }
+    public function getSections($categoryId)
+    {
+        $products = Product::with('section')->get();
+        $categories = Category::whereNotNull('parent_id')->with('sections')->get();
+        $sections = Section::where('category_id', $categoryId)->get();
+        return view('dashboard.pages.products.getSections', compact('products', 'sections','categories'));
+    }
+    
     public function store(Request $request)
     {
         $request->validate([
             'section_id' => 'required',
             'name' => 'required',
-            'video' => 'required|mimetypes:video/mp4,video/quicktime|max:20480',
+            'video' => 'required|mimetypes:video/mp4,video/quicktime',
             'description' => 'required',
         ]);
     
@@ -63,13 +74,16 @@ class ProductController extends Controller
     public function edit($id)
     {
         $editedProduct = Product::findOrFail($id);
+        // $category = Category::findOrFail($editedProduct->category_id);
+        $categories = Category::whereNotNull('parent_id')->with('sections')->get();
         $products = Product::with('section')->get();
-        $sections = Section::get();
+        $sections = Section::all();
        
         Debugbar::info($editedProduct);
 
-        return view('dashboard.pages.products.edit', compact('editedProduct', 'products' ,'sections'));
+        return view('dashboard.pages.products.edit', compact('editedProduct', 'products' ,'sections' , 'categories'));
     }
+
 
 
     public function update(Request $request, $id)
@@ -77,7 +91,7 @@ class ProductController extends Controller
         $request->validate([
             'section_id' => 'required',
             'name' => 'required|unique:products,name,' . $id, // Assuming the table name is 'products' and the column name is 'name'
-            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:20480',
+            'video' => 'nullable|mimetypes:video/mp4,video/quicktime',
             'description' => 'required',
             'status' => 'required|in:active,inactive,archive',
         ]);

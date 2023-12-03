@@ -52,8 +52,10 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('products')->group(function () {
             Route::get ('/', [ProductController::class , 'index'])->name('product.index');
             Route::get('/create', [ProductController::class, 'create'])->name('product.create');
+            Route::get('/get_sections/{categoryId}', [ProductController::class, 'getSections'])->name('product.get_sections');
             Route::post('/store', [ProductController::class, 'store'])->name('product.store');
-            Route::get('/edit/{product}',   [ProductController::class, 'edit'])->name('product.edit');
+            Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
+
             Route::post('/update/{product}', [ProductController::class, 'update'])->name('product.update');
             Route::delete('/destroy/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
         });

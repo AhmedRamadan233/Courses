@@ -30,8 +30,8 @@
                     
 
                         <div class="form-group">
-                            <label for="category_id">Category</label>
-                            <select class="form-control" id="category_id" name="category_id">
+                            <label for="parent_id">Category</label>
+                            <select class="form-control" id="parent_id" name="parent_id">
                                 <option value="">Select Category</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}" {{ $category->id == $editCategory->category_id ? 'selected' : '' }}>
@@ -39,7 +39,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            @error('category_id')
+                            @error('parent_id')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>

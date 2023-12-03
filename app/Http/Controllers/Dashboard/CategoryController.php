@@ -31,7 +31,7 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required', // Add validation for 'price' if needed
-            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:20480',
+            'video' => 'nullable|mimetypes:video/mp4,video/quicktime',
             'status' => 'required',
         ]);
 
@@ -76,7 +76,7 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required', 
-            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:20480',
+            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:200',
             'status' => 'required',
         ]);
     

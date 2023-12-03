@@ -11,9 +11,34 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card card-primary card-outline">
-                <div class="card-header text-center">
-                    <h2 class="m-0">Edit Products</h2>
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group" role="group" aria-label="Categories">
+                            @foreach ($categories as $category)
+                            @php
+                                // Eager load the sections relationship
+                                $category->load('sections');
+                        
+                                // Check if the category has a section with the specific ID
+                                $hasSection = optional($category->sections)->contains('id', $editedProduct->section->id);
+                            @endphp
+                        
+                            <div class="category border border-light p-3 mb-2 {{ $hasSection ? 'bg-primary' : 'bg-dark' }} rounded text-center text-light">
+                                <a href="">
+                                    <h2>{{ $category->name }}</h2>
+                                </a>
+                            </div>
+                        @endforeach
+                        
+
+
+                        </div>
+                        <div>
+                            <h2 class="m-0">Edit Products</h2>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="card-body">
                     <form action="{{ route('product.update', ['product' => $editedProduct->id]) }}" method="post" enctype="multipart/form-data">
                         @csrf
@@ -28,6 +53,22 @@
                             @enderror
                         </div>
                     
+                        {{-- <div class="form-group">
+                            <label for="section_id">Section</label>
+                            <select class="form-control" id="section_id" name="section_id">
+                                <option value="">Select Section</option>
+                                @foreach ($sections as $section)
+                                    <option value="{{ $section->id }}" {{ $section->id == $editedProduct->section_id ? 'selected' : '' }}>
+                                        {{ $section->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('section_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div> --}}
+                        
+
                         <div class="form-group">
                             <label for="section_id">Section</label>
                             <select class="form-control" id="section_id" name="section_id">
@@ -43,7 +84,6 @@
                             @enderror
                         </div>
                         
-
 
                     
                         <div class="form-group">
