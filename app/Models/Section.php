@@ -22,4 +22,8 @@ class Section extends Model
     public function products(){
         return $this->hasMany(Product::class , 'section_id' , 'id');
     }
+
+    public function quizzes(){
+        return $this->hasMany(Quiz::class , 'section_id' , 'id');
+    }
 }

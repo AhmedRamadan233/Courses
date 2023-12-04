@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\Dashboard\AnswerController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\CommonQestionsController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\DescriptionController;
 use App\Http\Controllers\Dashboard\SectionController;
 use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\QuestionController;
+use App\Http\Controllers\Dashboard\QuizController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Website\WebsiteController;
 use Illuminate\Support\Facades\Route;
@@ -55,7 +58,6 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
             Route::get('/get_sections/{categoryId}', [ProductController::class, 'getSections'])->name('product.get_sections');
             Route::post('/store', [ProductController::class, 'store'])->name('product.store');
             Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
-
             Route::post('/update/{product}', [ProductController::class, 'update'])->name('product.update');
             Route::delete('/destroy/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
         });
@@ -75,6 +77,32 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
             Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');
             Route::delete('/destroy/{common_questions}', [CommonQestionsController::class, 'destroy'])->name('common_questions.destroy');
         });
+
+        Route::prefix('quizzes')->group(function () {
+            Route::get ('/', [QuizController::class , 'index'])->name('quiz.index');
+            // Route::get('/create', [CommonQestionsController::class, 'create'])->name('common_questions.create');
+            // Route::post('/store', [CommonQestionsController::class, 'store'])->name('common_questions.store');
+            // Route::get('/edit/{common_questions}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
+            // Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');
+            // Route::delete('/destroy/{common_questions}', [CommonQestionsController::class, 'destroy'])->name('common_questions.destroy');
+        });
+        Route::prefix('questions')->group(function () {
+            Route::get ('/', [QuestionController::class , 'index'])->name('question.index');
+            // Route::get('/create', [CommonQestionsController::class, 'create'])->name('common_questions.create');
+            // Route::post('/store', [CommonQestionsController::class, 'store'])->name('common_questions.store');
+            // Route::get('/edit/{common_questions}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
+            // Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');
+            // Route::delete('/destroy/{common_questions}', [CommonQestionsController::class, 'destroy'])->name('common_questions.destroy');
+        });
+        Route::prefix('answers')->group(function () {
+            Route::get ('/', [AnswerController::class , 'index'])->name('answer.index');
+            // Route::get('/create', [CommonQestionsController::class, 'create'])->name('common_questions.create');
+            // Route::post('/store', [CommonQestionsController::class, 'store'])->name('common_questions.store');
+            // Route::get('/edit/{common_questions}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
+            // Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');
+            // Route::delete('/destroy/{common_questions}', [CommonQestionsController::class, 'destroy'])->name('common_questions.destroy');
+        });
+
         Route::prefix('website')->group(function () {
             Route::get('/', [WebsiteController::class, 'index'])->name('website.index');
        

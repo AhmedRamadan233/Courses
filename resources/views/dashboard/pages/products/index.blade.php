@@ -50,6 +50,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Category</th>
                                 <th>Section</th>
                                 <th>Name</th>                                
                                 <th>Video</th>
@@ -62,6 +63,7 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td>{{ $product->id }}</td>
+                                    <td>{{ $product->section->category->name }}</td>
                                     <td>{{ $product->section->name }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>
