@@ -40,7 +40,7 @@
                             <button type="submit" class="btn btn-primary mx-2">Search</button>
                         </form>
                         <div>
-                            <a href="" class="btn btn-primary">Add New Quiz</a>
+                            <a href="{{route('quiz.create')}}" class="btn btn-primary">Add New Quiz</a>
                         </div>
                     </div>
                 </div>

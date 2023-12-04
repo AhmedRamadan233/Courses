@@ -80,8 +80,11 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
 
         Route::prefix('quizzes')->group(function () {
             Route::get ('/', [QuizController::class , 'index'])->name('quiz.index');
-            // Route::get('/create', [CommonQestionsController::class, 'create'])->name('common_questions.create');
-            // Route::post('/store', [CommonQestionsController::class, 'store'])->name('common_questions.store');
+            Route::get('/create', [QuizController::class, 'create'])->name('quiz.create');
+            Route::get('/get_sections/{categoryId}', [QuizController::class, 'getSections'])->name('quiz.get_sections');
+            // Route::get('/get_quizzes/{sectionId}', [QuizController::class, 'getQuizzes'])->name('quiz.get_quizzes');
+
+            Route::post('/store', [QuizController::class, 'store'])->name('quiz.store');
             // Route::get('/edit/{common_questions}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
             // Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');
             // Route::delete('/destroy/{common_questions}', [CommonQestionsController::class, 'destroy'])->name('common_questions.destroy');
