@@ -67,14 +67,6 @@ class QuizController extends Controller
         return view('dashboard.pages.quizzes.getSections', compact('sections', 'categories'));
     }
 
-    // public function getQuizzes($sectionId)
-    // {
-    //     // $sections = Section::where('category_id', $categoryId)->get();
-    //     $quizzes = Quiz::where('section_id', $sectionId)->get();
-    //     // $categories = Category::whereNotNull('parent_id')->with('sections')->get();
-    //     return view('dashboard.pages.quizzes.getQuizzes', compact('quizzes'));
-    // }
-
     public function store(Request $request)
     {
         $request->validate([

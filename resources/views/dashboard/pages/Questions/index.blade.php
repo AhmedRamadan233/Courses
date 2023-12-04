@@ -31,7 +31,7 @@
                             <button type="submit" class="btn btn-primary mx-2">Search</button>
                         </form>
                         <div>
-                            <a href="" class="btn btn-primary">Add New Question</a>
+                            <a href="{{route('question.create')}}" class="btn btn-primary">Add New Question</a>
                         </div>
                     </div>
                 </div>
