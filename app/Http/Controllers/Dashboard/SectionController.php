@@ -34,7 +34,7 @@ class SectionController extends Controller
 
         $sections = new Section();
         $sections->name = $request->input('name');
-        $sections->slug = Str::slug($request->input('slug')); 
+        $sections->slug = Str::slug($request->input('name')); 
         $sections->category_id = $request->input('category_id');            
         $sections->save();
 

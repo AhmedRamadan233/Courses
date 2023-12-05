@@ -32,6 +32,8 @@
                         </form>
                         <div>
                             <a href="{{route('question.create')}}" class="btn btn-primary">Add New Question</a>
+
+                            
                         </div>
                     </div>
                 </div>
@@ -79,3 +81,4 @@
         </div>
     </div>
 @endsection
+

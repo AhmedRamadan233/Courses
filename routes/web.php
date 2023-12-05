@@ -100,9 +100,12 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
             // Route::delete('/destroy/{common_questions}', [CommonQestionsController::class, 'destroy'])->name('common_questions.destroy');
         });
         Route::prefix('answers')->group(function () {
-            Route::get ('/', [AnswerController::class , 'index'])->name('answer.index');
-            // Route::get('/create', [CommonQestionsController::class, 'create'])->name('common_questions.create');
-            // Route::post('/store', [CommonQestionsController::class, 'store'])->name('common_questions.store');
+            Route::get('/', [AnswerController::class, 'index'])->name('answer.index');
+            Route::get('/create', [AnswerController::class, 'create'])->name('answer.create');
+            Route::get('/get_sections/{categoryId}', [AnswerController::class, 'getSections'])->name('answer.get_sections');
+            Route::get('/get_quizzes/{sectionId}', [AnswerController::class, 'getQuizzes'])->name('answer.get_quizzes');
+            Route::get('/get_questions/{quizId}', [AnswerController::class, 'getQuestions'])->name('answer.get_questions');
+            Route::post('/store', [AnswerController::class, 'store'])->name('answer.store');
             // Route::get('/edit/{common_questions}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
             // Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');
             // Route::delete('/destroy/{common_questions}', [CommonQestionsController::class, 'destroy'])->name('common_questions.destroy');
@@ -112,6 +115,7 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
             Route::get('/', [WebsiteController::class, 'index'])->name('website.index');
        
             Route::get('/category/{slug}', [WebsiteController::class, 'getCategoryBySlug'])->name('getCategoryBySlug');
+            Route::get('/section/{slug}', [WebsiteController::class, 'getSectionBySlug'])->name('getSectionBySlug');
 
         });
         

@@ -31,7 +31,8 @@
                             <button type="submit" class="btn btn-primary mx-2">Search</button>
                         </form>
                         <div>
-                            <a href="" class="btn btn-primary">Add New Answer</a>
+                            <a href="{{ route('answer.create') }}" class="btn btn-primary">Add New Answer</a>
+
                         </div>
                     </div>
                 </div>
@@ -59,7 +60,14 @@
                                     <td>{{ $answer->question->quiz->name }}</td>
                                     <td>{{ $answer->question->body }}</td>
                                     <td>{{ $answer->answer }}</td>
-                                    <td>{{ $answer->is_correct }}</td>
+                                    <td>
+                                        @if($answer->is_correct)
+                                            <p class="btn btn-success">TRUE</p>
+                                        @else
+                                            <p class="btn btn-warning">FALSE</p>
+                                        @endif
+                                    </td>
+                                    
                                     <td> 
                                         {{-- {{route('product.edit' , ['product' => $product->id])}} --}}
                                         <a href="" class="btn btn-primary">Edit</a>

@@ -91,11 +91,9 @@
                                 <div class="accordion" id="sectionsAccordion">
                                     @foreach ($category->sections as $index => $courseSection)
                                         <div class="category border border-light p-3 mb-2 bg-dark rounded text-center text-light" data-bs-toggle="collapse" data-bs-target="#sectionCollapse{{ $index }}">
-                                            <a href="#"><h2>{{ $courseSection->name }}</h2></a>
+                                            <a href="{{ route('getSectionBySlug', ['slug' => $courseSection->slug]) }}" class="btn btn-block">{{ $courseSection->name }}</a>
                                         </div>
-                                        <div id="sectionCollapse{{ $index }}" class="collapse">
-                                            {{-- git  --}}
-                                        </div>
+                                        
                                     @endforeach
                                 </div>
                             @endif
