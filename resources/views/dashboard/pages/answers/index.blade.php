@@ -71,11 +71,9 @@
                                     </td>
                                     
                                     <td> 
-                                        {{-- {{route('product.edit' , ['product' => $product->id])}} --}}
-                                        <a href="" class="btn btn-primary">Edit</a>
+                                        <a href="{{route('answer.edit' , ['answer' => $answer->id])}}" class="btn btn-primary">Edit</a>
                                         |
-                                        {{-- {{route('product.destroy' , ['product' => $product->id])}} --}}
-                                        <form action="" method="post" style="display: inline;">
+                                        <form action="{{route('answer.destroy' , ['answer' => $answer->id])}}" method="post" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>

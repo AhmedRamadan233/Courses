@@ -48,7 +48,7 @@ class CommonQestionsController extends Controller
     {
         $editedCommonQestions = CommonQestions::findOrFail($id);
         $commonQestions = CommonQestions::with('category')->get();
-        $categories = Category::whereNotNull('parent_id')->get();
+        $categories = Category::with('parent')->get();
        
         Debugbar::info($editedCommonQestions);
 

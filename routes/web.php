@@ -48,7 +48,6 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('sections')->group(function () {
             Route::get ('/', [SectionController::class , 'index'])->name('section.index');
             Route::get('/create', [SectionController::class, 'create'])->name('section.create');
-            Route::get('/get_parents/{parentId}', [SectionController::class, 'getParents'])->name('section.get_parents');
 
             Route::post('/store', [SectionController::class, 'store'])->name('section.store');
             Route::get('/edit/{section}',   [SectionController::class, 'edit'])->name('section.edit');
@@ -59,8 +58,6 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('products')->group(function () {
             Route::get ('/', [ProductController::class , 'index'])->name('product.index');
             Route::get('/create', [ProductController::class, 'create'])->name('product.create');
-            Route::get('/get_parents/{parentId}', [ProductController::class, 'getParents'])->name('product.get_parents');
-            Route::get('/get_sections/{categoryId}', [ProductController::class, 'getSections'])->name('product.get_sections');
             Route::post('/store', [ProductController::class, 'store'])->name('product.store');
             Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
             Route::post('/update/{product}', [ProductController::class, 'update'])->name('product.update');
@@ -69,7 +66,6 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('descriptions')->group(function () {
             Route::get ('/', [DescriptionController::class , 'index'])->name('description.index');
             Route::get('/create', [DescriptionController::class, 'create'])->name('description.create');
-            Route::get('/get_parents/{parentId}', [DescriptionController::class, 'getParents'])->name('description.get_parents');
 
             Route::post('/store', [DescriptionController::class, 'store'])->name('description.store');
             Route::get('/edit/{description}',   [DescriptionController::class, 'edit'])->name('description.edit');
@@ -79,7 +75,6 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('common_questions')->group(function () {
             Route::get ('/', [CommonQestionsController::class , 'index'])->name('common_questions.index');
             Route::get('/create', [CommonQestionsController::class, 'create'])->name('common_questions.create');
-            Route::get('/get_parents/{parentId}', [CommonQestionsController::class, 'getParents'])->name('section.get_parents');
 
             Route::post('/store', [CommonQestionsController::class, 'store'])->name('common_questions.store');
             Route::get('/edit/{common_questions}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
@@ -90,33 +85,27 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('quizzes')->group(function () {
             Route::get ('/', [QuizController::class , 'index'])->name('quiz.index');
             Route::get('/create', [QuizController::class, 'create'])->name('quiz.create');
-            Route::get('/get_parents/{parentId}', [QuizController::class, 'getParents'])->name('quiz.get_parents');
-            Route::get('/get_sections/{categoryId}', [QuizController::class, 'getSections'])->name('quiz.get_sections');
+            
             Route::post('/store', [QuizController::class, 'store'])->name('quiz.store');
-            // Route::get('/edit/{question}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
-            // Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');
-            // Route::delete('/destroy/{common_questions}', [CommonQestionsController::class, 'destroy'])->name('common_questions.destroy');
+            Route::get('/edit/{quiz}',   [QuizController::class, 'edit'])->name('quiz.edit');
+            Route::post('/update/{quiz}', [QuizController::class, 'update'])->name('quiz.update');
+            Route::delete('/destroy/{quiz}', [QuizController::class, 'destroy'])->name('quiz.destroy');
         });
         Route::prefix('questions')->group(function () {
             Route::get ('/', [QuestionController::class , 'index'])->name('question.index');
             Route::get('/create', [QuestionController::class, 'create'])->name('question.create');
-            Route::get('/get_parents/{parentId}', [QuizController::class, 'getParents'])->name('quiz.get_parents');
-            Route::get('/get_sections/{categoryId}', [QuizController::class, 'getSections'])->name('quiz.get_sections');
-            Route::get('/get_quizzes/{sectionId}', [AnswerController::class, 'getQuizzes'])->name('answer.get_quizzes');
-
             Route::post('/store', [QuestionController::class, 'store'])->name('question.store');
-            // Route::get('/edit/{common_questions}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
-            // Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');
-            // Route::delete('/destroy/{common_questions}', [CommonQestionsController::class, 'destroy'])->name('common_questions.destroy');
+            Route::get('/edit/{question}',   [QuestionController::class, 'edit'])->name('question.edit');
+            Route::post('/update/{question}', [QuestionController::class, 'update'])->name('question.update');
+            Route::delete('/destroy/{question}', [QuestionController::class, 'destroy'])->name('question.destroy');
         });
         Route::prefix('answers')->group(function () {
             Route::get('/', [AnswerController::class, 'index'])->name('answer.index');
             Route::get('/create', [AnswerController::class, 'create'])->name('answer.create');
-           
             Route::post('/store', [AnswerController::class, 'store'])->name('answer.store');
-            // Route::get('/edit/{common_questions}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
-            // Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');
-            // Route::delete('/destroy/{common_questions}', [CommonQestionsController::class, 'destroy'])->name('common_questions.destroy');
+            Route::get('/edit/{answer}',   [AnswerController::class, 'edit'])->name('answer.edit');
+            Route::post('/update/{answer}', [AnswerController::class, 'update'])->name('answer.update');
+            Route::delete('/destroy/{answer}', [AnswerController::class, 'destroy'])->name('answer.destroy');
         });
 
         Route::prefix('shared')->group(function () {

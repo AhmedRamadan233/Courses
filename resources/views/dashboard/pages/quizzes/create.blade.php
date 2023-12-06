@@ -20,7 +20,7 @@
                         <div class="form-group">
                             <label for="parent_id">Main Category</label>
                             <select class="form-control" id="parent_id" name="parent_id">
-                                <option value="">Select Category</option>
+                                <option value="">Select Main Category</option>
                                 @foreach ($categories as $category)
                                     @if ($category->parent_id == null)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -35,7 +35,6 @@
                         <div class="form-group">
                             <label for="category_id">Sub Category</label>
                             <select class="form-control" id="category_id" name="category_id">
-                                <option value="">Select Sub Category</option>
                             </select>
                             @error('category_id')
                                 <span class="text-danger">{{ $message }}</span>
@@ -45,7 +44,6 @@
                         <div class="form-group">
                             <label for="section_id">Section</label>
                             <select class="form-control" id="section_id" name="section_id">
-                                <option value="">Select Section</option>
                             </select>
                             @error('section_id')
                                 <span class="text-danger">{{ $message }}</span>

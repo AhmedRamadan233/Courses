@@ -17,51 +17,11 @@ class QuizController extends Controller
         return view('dashboard.pages.quizzes.index', compact('quizzes'));
     }
 
-
-    // public function create()
-    // {
-    //     $quizzes = Quiz::with('section')->get();
-    //     $categories = Category::whereNotNull('parent_id')->with('sections')->get();
-    //     $sections = Section::all();
-    //     return view('dashboard.pages.quizzes.create', compact('quizzes', 'sections' ,'categories'));
-    // }
-    // public function getSections($categoryId)
-    // {
-    //     $quizzes = Quiz::with('section')->get();
-    //     $categories = Category::whereNotNull('parent_id')->with('sections')->get();
-    //     $sections = Section::where('category_id', $categoryId)->get();
-    //     return view('dashboard.pages.quizzes.getSections', compact('quizzes', 'sections','categories'));
-    // }
-
-    // public function getQuizzes($sectionId , $categoryId)
-    // {
-    //     $quizzes = Quiz::with('section')->get();
-    //     $categories = Category::whereNotNull('parent_id')->with('sections')->get();
-    //     $sections = Section::where('category_id', $categoryId)->get();
-    //     $quizzes = Quiz::where('section_id', $sectionId)->get();
-
-    //     return view('dashboard.pages.quizzes.getSections', compact('quizzes', 'sections','categories'));
-    // }
-
-
-
-
-
-
-
-
-
-
-
-
     public function create()
     {
         $categories = Category::with('parent')->get();
         return view('dashboard.pages.quizzes.create', compact('categories'));
     }
-
-
-
 
     public function store(Request $request)
     {
@@ -82,6 +42,45 @@ class QuizController extends Controller
 
         return redirect()->route('quiz.index')->with('success', 'quiz added successfully.');
         
+    }
+
+
+    public function edit($id)
+    {
+        $editQuiz = Quiz::findOrFail($id);
+        $categories = Category::with('parent')->get();
+        $sections = Section::all();
+    
+        return view('dashboard.pages.quizzes.edit', compact('editQuiz', 'sections', 'categories'));
+    }
+    
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'section_id' => 'required',
+            'name' => 'required|unique:products,name,' . $id, 
+            'status' => 'required|in:active,inactive,archive',
+        ]);
+    
+        $quiz = Quiz::findOrFail($id);
+        $quiz->name = $request->input('name');
+        $quiz->section_id = $request->input('section_id');
+
+        $quiz->status = $request->input('status'); 
+        $quiz->save();
+    
+        Debugbar::info($quiz);
+    
+        return redirect()->route('quiz.index')->with('success', 'Updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $quiz = Quiz::findOrFail($id);
+       
+        $quiz->delete();
+
+        return redirect()->route('quiz.index')->with('success', 'quiz deleted successfully.');
     }
     
 }

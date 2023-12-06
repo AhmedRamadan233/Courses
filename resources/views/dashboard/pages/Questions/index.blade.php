@@ -61,11 +61,9 @@
                                     <td>{{ $question->quiz->name }}</td>
                                     <td>{{ $question->body }}</td>
                                     <td> 
-                                        {{-- {{route('product.edit' , ['product' => $product->id])}} --}}
-                                        <a href="" class="btn btn-primary">Edit</a>
+                                        <a href="{{route('question.edit' , ['question' => $question->id])}}" class="btn btn-primary">Edit</a>
                                         |
-                                        {{-- {{route('product.destroy' , ['product' => $product->id])}} --}}
-                                        <form action="" method="post" style="display: inline;">
+                                        <form action="{{route('question.destroy' , ['question' => $question->id])}}" method="post" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>

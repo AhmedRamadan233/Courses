@@ -48,7 +48,7 @@ class DescriptionController extends Controller
     {
         $editedDescription = Description::findOrFail($id);
         $descriptions = Description::with('category')->get();
-        $categories = Category::whereNotNull('parent_id')->get();
+        $categories = Category::with('parent')->get();
        
         Debugbar::info($editedDescription);
 

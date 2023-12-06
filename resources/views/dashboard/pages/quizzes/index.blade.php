@@ -68,11 +68,9 @@
                                     <td>{{ $quiz->name }}</td>
                                     <td>{{ $quiz->status }}</td>
                                     <td> 
-                                        {{-- {{route('product.edit' , ['product' => $product->id])}} --}}
-                                        <a href="" class="btn btn-primary">Edit</a>
+                                        <a href="{{route('quiz.edit' , ['quiz' => $quiz->id])}}" class="btn btn-primary">Edit</a>
                                         |
-                                        {{-- {{route('product.destroy' , ['product' => $product->id])}} --}}
-                                        <form action="" method="post" style="display: inline;">
+                                        <form action="{{route('quiz.destroy' , ['quiz' => $quiz->id])}}" method="post" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
