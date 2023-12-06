@@ -22,8 +22,13 @@ class AnswerController extends Controller
 
     public function create()
     {
-        $categories = Category::whereNotNull('parent_id')->with('sections.quizzes.questions')->get();
+        $categories = Category::with('parent')->get();
         return view('dashboard.pages.answers.create', compact('categories'));
+    }
+    public function getParents($parentId)
+    {
+        $categories = Category::where('parent_id', $parentId)->get();
+        return response()->json(['categories' => $categories]);
     }
     
     public function getSections($categoryId)

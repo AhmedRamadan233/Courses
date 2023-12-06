@@ -81,7 +81,7 @@
             var parentId = $(this).val();
 
             $.ajax({
-                url: '/dashboard/sections/get_parents/' + parentId,
+                url: '/dashboard/description/get_parents/' + parentId,
                 type: 'GET',
                 success: function(data) {
                     $('#category_id').empty();

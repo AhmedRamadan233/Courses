@@ -33,12 +33,26 @@
 
                         @csrf
                         <div class="form-group">
-                            <label for="category_id">Category</label>
-                            <select class="form-control" id="category_id" name="category_id">
+                            <label for="parent_id">Main Category</label>
+                            <select class="form-control" id="parent_id" name="parent_id">
                                 <option value="">Select Category</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @if ($category->parent_id == null)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endif
                                 @endforeach
+                            </select>
+                            @error('parent_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        
+
+
+                        <div class="form-group">
+                            <label for="category_id">Sub Category</label>
+                            <select class="form-control" id="category_id" name="category_id">
+                                <option value="">Select Sub Category</option>
                             </select>
                             @error('category_id')
                                 <span class="text-danger">{{ $message }}</span>
@@ -114,6 +128,25 @@
     @push('createAnswer.scripts')
     <script>
         $(document).ready(function() {
+          
+            $('#parent_id').on('change', function() {
+                var parentId = $(this).val();
+
+                $.ajax({
+                    url: '/dashboard/answers/get_parents/' + parentId,
+                    type: 'GET',
+                    success: function(data) {
+                        $('#category_id').empty();
+                    
+
+                        $('#category_id').append('<option value="">Select Sub Category</option>');
+                        $.each(data.categories, function(index, category) {
+                            $('#category_id').append('<option value="' + category.id + '">' + category.name + '</option>');
+                        });
+                    }
+                });
+            });
+
             $('#category_id').on('change', function() {
                 var categoryId = $(this).val();
     

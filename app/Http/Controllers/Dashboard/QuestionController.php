@@ -21,23 +21,27 @@ class QuestionController extends Controller
     
     public function create()
     {
-        $categories = Category::whereNotNull('parent_id')->with('sections')->get();
+        $categories = Category::with('parent')->get();
         return view('dashboard.pages.questions.create', compact('categories'));
     }
+    public function getParents($parentId)
+    {
+        $categories = Category::where('parent_id', $parentId)->get();
+        return response()->json(['categories' => $categories]);
+    }
+
     public function getSections($categoryId)
     {
         $sections = Section::where('category_id', $categoryId)->get();
-        $categories = Category::whereNotNull('parent_id')->with('sections')->get();
-        return view('dashboard.pages.questions.getSections', compact('sections', 'categories'));
+        return response()->json(['sections' => $sections]);
     }
 
     public function getQuizzes($sectionId)
     {
-        // $sections = Section::where('category_id', $categoryId)->get();
         $quizzes = Quiz::where('section_id', $sectionId)->get();
-        // $categories = Category::whereNotNull('parent_id')->with('sections')->get();
-        return view('dashboard.pages.questions.getQuizzes', compact('quizzes'));
+        return response()->json(['quizzes' => $quizzes]);
     }
+    
     public function store(Request $request)
     {
         $request->validate([

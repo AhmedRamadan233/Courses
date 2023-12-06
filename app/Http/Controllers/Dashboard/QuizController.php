@@ -56,15 +56,20 @@ class QuizController extends Controller
 
     public function create()
     {
-        $categories = Category::whereNotNull('parent_id')->with('sections')->get();
+        $categories = Category::with('parent')->get();
         return view('dashboard.pages.quizzes.create', compact('categories'));
+    }
+
+    public function getParents($parentId)
+    {
+        $categories = Category::where('parent_id', $parentId)->get();
+        return response()->json(['categories' => $categories]);
     }
 
     public function getSections($categoryId)
     {
         $sections = Section::where('category_id', $categoryId)->get();
-        $categories = Category::whereNotNull('parent_id')->with('sections')->get();
-        return view('dashboard.pages.quizzes.getSections', compact('sections', 'categories'));
+        return response()->json(['sections' => $sections]);
     }
 
     public function store(Request $request)

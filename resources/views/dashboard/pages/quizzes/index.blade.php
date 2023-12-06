@@ -50,7 +50,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Category</th>
+                                <th>Main Category</th>
+                                <th>Sub Category</th>
                                 <th>Section</th>
                                 <th>Name</th>                                
                                 <th>Status</th>
@@ -61,6 +62,7 @@
                             @foreach ($quizzes as $quiz)
                                 <tr>
                                     <td>{{ $quiz->id }}</td>
+                                    <td>{{ $quiz->section->category->parent->name }}</td>
                                     <td>{{ $quiz->section->category->name }}</td>
                                     <td>{{ $quiz->section->name }}</td>
                                     <td>{{ $quiz->name }}</td>

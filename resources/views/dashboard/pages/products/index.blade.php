@@ -69,7 +69,7 @@
                                     <td>{{ $product->section->name }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>
-                                        <video width="320" height="240" controls>
+                                        <video width="150" height="150" controls>
                                             <source src="{{ asset('upload/' . $product->video) }}" type="video/mp4">
                                             Your browser does not support the video tag.
                                         </video>
