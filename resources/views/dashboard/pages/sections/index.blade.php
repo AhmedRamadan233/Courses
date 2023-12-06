@@ -42,8 +42,12 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Main Category</th>
+
                                 <th>Category</th>
-                                <th>Name</th>                                
+                                <th>Name</th> 
+                                <th>Status</th>                                
+                               
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -51,8 +55,10 @@
                             @foreach ($sections as $section)
                                 <tr>
                                     <td>{{ $section->id }}</td>
+                                    <td>{{ $section->category->parent->name}}</td>
                                     <td>{{ $section->category->name }}</td>
                                     <td>{{ $section->name }}</td>
+                                    <td>{{ $section->status }}</td>
                                     
                                     <td> 
                                         

@@ -43,6 +43,15 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select class="form-control" id="status" name="status">
+                                <option value="active" {{ $editedSection->status == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="inactive" {{ $editedSection->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                <option value="archive" {{ $editedSection->status == 'archive' ? 'selected' : '' }}>Archived</option>
+                            </select>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Update</button>
 
                     </form>

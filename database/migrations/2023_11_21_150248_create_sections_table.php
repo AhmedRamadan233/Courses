@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete(); 
             $table->string('name')->nullable()->unique();
-            $table->string('slug')->nullable();
+            $table->string('slug')->nullable()->unique();;
+            $table->enum('status' , ['active','inactive','archive'])->default('active');
             $table->timestamps();
         });
     }

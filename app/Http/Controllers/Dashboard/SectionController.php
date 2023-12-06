@@ -30,12 +30,14 @@ class SectionController extends Controller
         $request->validate([
             'category_id' => 'required',
             'name' => 'required',
+            'status' => 'required',
         ]);
 
         $sections = new Section();
         $sections->name = $request->input('name');
         $sections->slug = Str::slug($request->input('name')); 
-        $sections->category_id = $request->input('category_id');            
+        $sections->category_id = $request->input('category_id');  
+        $sections->status = $request->input('status');                    
         $sections->save();
 
         Debugbar::info($sections);
@@ -59,14 +61,17 @@ class SectionController extends Controller
         $request->validate([
             'category_id' => 'required',
             'name' => 'required',
+            'status' => 'required',
         ]);
     
         $sections = Section::findOrFail($id);
     
     
         $sections->name = $request->input('name');
-        $sections->slug = Str::slug($request->input('slug')); 
-        $sections->category_id = $request->input('category_id');            
+        $sections->slug = Str::slug($request->input('name')); 
+        $sections->category_id = $request->input('category_id');     
+        $sections->status = $request->input('status');    
+       
         $sections->save();
     
         Debugbar::info($sections);
