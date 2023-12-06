@@ -23,19 +23,29 @@ class ProductController extends Controller
         $products = Product::with('section')->filter($filters)->paginate(10);
         return view('dashboard.pages.products.index', compact('products'));
     }
+    // public function create()
+    // {
+    //     $products = Product::with('section')->get();
+    //     $categories = Category::whereNotNull('parent_id')->with('sections')->get();
+    //     $sections = Section::all();
+    //     return view('dashboard.pages.products.create', compact('products', 'sections' ,'categories'));
+    // }
     public function create()
     {
         $products = Product::with('section')->get();
-        $categories = Category::whereNotNull('parent_id')->with('sections')->get();
-        $sections = Section::all();
-        return view('dashboard.pages.products.create', compact('products', 'sections' ,'categories'));
+        $categories = Category::with('parent')->get();
+        return view('dashboard.pages.products.create', compact('products' , 'categories'));
     }
+    public function getParents($parentId)
+    {
+        $categories = Category::where('parent_id', $parentId)->get();
+        return response()->json(['categories' => $categories]);
+    }
+
     public function getSections($categoryId)
     {
-        $products = Product::with('section')->get();
-        $categories = Category::whereNotNull('parent_id')->with('sections')->get();
         $sections = Section::where('category_id', $categoryId)->get();
-        return view('dashboard.pages.products.getSections', compact('products', 'sections','categories'));
+        return response()->json(['sections' => $sections]);
     }
     
     public function store(Request $request)

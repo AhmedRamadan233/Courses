@@ -4,7 +4,7 @@
 
 @section('breadcrumb')
     @parent
-    <li class="breadcrumb-item active"> Product Page</li>
+    <li class="breadcrumb-item active"> Lecture Page</li>
 @endsection
 
 @section('content')
@@ -40,7 +40,7 @@
                             <button type="submit" class="btn btn-primary mx-2">Search</button>
                         </form>
                         <div>
-                            <a href="{{route ('product.create')}}" class="btn btn-primary">Add New Product</a>
+                            <a href="{{route ('product.create')}}" class="btn btn-primary">Add New Lecture</a>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Category</th>
+                                <th>Main Category</th>
+                                <th>Sub Category</th>
                                 <th>Section</th>
                                 <th>Name</th>                                
                                 <th>Video</th>
@@ -63,6 +64,7 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td>{{ $product->id }}</td>
+                                    <td>{{ $product->section->category->parent->name }}</td>
                                     <td>{{ $product->section->category->name }}</td>
                                     <td>{{ $product->section->name }}</td>
                                     <td>{{ $product->name }}</td>

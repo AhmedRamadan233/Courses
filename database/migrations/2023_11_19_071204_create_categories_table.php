@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->foreignId('parent_id')->nullable()->constrained('categories', 'id')->nullOnDelete();
-            $table->string('slug')->unique()->unique();
+            $table->string('slug')->unique();
             $table->string('video')->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->foreignId('instructor_id')->nullable()->constrained('users', 'id')->nullOnDelete();

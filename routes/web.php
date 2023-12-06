@@ -37,6 +37,7 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('categories')->group(function () {
             Route::get('/',[CategoryController::class , 'index'])->name('category.index');
             Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
+            
             Route::post('/store', [CategoryController::class, 'store'])->name('category.store');
             Route::get('/edit/{category}', [CategoryController::class, 'edit'])->name('category.edit');
             Route::post('/update/{category}', [CategoryController::class, 'update'])->name('category.update');            
@@ -46,6 +47,8 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('sections')->group(function () {
             Route::get ('/', [SectionController::class , 'index'])->name('section.index');
             Route::get('/create', [SectionController::class, 'create'])->name('section.create');
+            Route::get('/get_parents/{parentId}', [SectionController::class, 'getParents'])->name('section.get_parents');
+
             Route::post('/store', [SectionController::class, 'store'])->name('section.store');
             Route::get('/edit/{section}',   [SectionController::class, 'edit'])->name('section.edit');
             Route::post('/update/{section}', [SectionController::class, 'update'])->name('section.update');
@@ -55,7 +58,11 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('products')->group(function () {
             Route::get ('/', [ProductController::class , 'index'])->name('product.index');
             Route::get('/create', [ProductController::class, 'create'])->name('product.create');
+            Route::get('/get_parents/{parentId}', [ProductController::class, 'getParents'])->name('section.get_parents');
+
             Route::get('/get_sections/{categoryId}', [ProductController::class, 'getSections'])->name('product.get_sections');
+
+
             Route::post('/store', [ProductController::class, 'store'])->name('product.store');
             Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
             Route::post('/update/{product}', [ProductController::class, 'update'])->name('product.update');

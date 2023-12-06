@@ -43,11 +43,9 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Main Category</th>
-
-                                <th>Category</th>
+                                <th>Sub Category</th>
                                 <th>Name</th> 
                                 <th>Status</th>                                
-                               
                                 <th>Action</th>
                             </tr>
                         </thead>

@@ -256,7 +256,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="{{route('product.index')}}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Product
+                Lecture
                 {{-- <span class="right badge badge-danger">New</span> --}}
               </p>
             </a>
@@ -413,8 +413,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('toastr/toastr.min.js') }}"></script>
 @stack('category.scripts')
-@stack('webste.scripts')
+@stack('createSection.scripts')
+@stack('createProducts.scripts')
+
 @stack('createAnswer.scripts')
+@stack('webste.scripts')
 
 </body>
 </html>
