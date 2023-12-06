@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\SectionController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\QuestionController;
 use App\Http\Controllers\Dashboard\QuizController;
+use App\Http\Controllers\Dashboard\Shared\CreateSharedController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Website\WebsiteController;
 use Illuminate\Support\Facades\Route;
@@ -111,16 +112,19 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('answers')->group(function () {
             Route::get('/', [AnswerController::class, 'index'])->name('answer.index');
             Route::get('/create', [AnswerController::class, 'create'])->name('answer.create');
-            Route::get('/get_parents/{parentId}', [AnswerController::class, 'getParents'])->name('section.get_parents');
-            Route::get('/get_sections/{categoryId}', [AnswerController::class, 'getSections'])->name('answer.get_sections');
-            Route::get('/get_quizzes/{sectionId}', [AnswerController::class, 'getQuizzes'])->name('answer.get_quizzes');
-            Route::get('/get_questions/{quizId}', [AnswerController::class, 'getQuestions'])->name('answer.get_questions');
+           
             Route::post('/store', [AnswerController::class, 'store'])->name('answer.store');
             // Route::get('/edit/{common_questions}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
             // Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');
             // Route::delete('/destroy/{common_questions}', [CommonQestionsController::class, 'destroy'])->name('common_questions.destroy');
         });
 
+        Route::prefix('shared')->group(function () {
+            Route::get('/get_parents/{parentId}', [CreateSharedController::class, 'getParents'])->name('shared.get_parents');
+            Route::get('/get_sections/{categoryId}', [CreateSharedController::class, 'getSections'])->name('shared.get_sections');
+            Route::get('/get_quizzes/{sectionId}', [CreateSharedController::class, 'getQuizzes'])->name('shared.get_quizzes');
+            Route::get('/get_questions/{quizId}', [CreateSharedController::class, 'getQuestions'])->name('shared.get_questions');
+        });
         Route::prefix('website')->group(function () {
             Route::get('/', [WebsiteController::class, 'index'])->name('website.index');
        

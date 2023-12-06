@@ -413,10 +413,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('toastr/toastr.min.js') }}"></script>
 @stack('category.scripts')
-@stack('createSection.scripts')
-@stack('createProducts.scripts')
 
-@stack('createAnswer.scripts')
+@stack('createShared.scripts')
+
 @stack('webste.scripts')
 
 </body>

@@ -36,17 +36,7 @@ class ProductController extends Controller
         $categories = Category::with('parent')->get();
         return view('dashboard.pages.products.create', compact('products' , 'categories'));
     }
-    public function getParents($parentId)
-    {
-        $categories = Category::where('parent_id', $parentId)->get();
-        return response()->json(['categories' => $categories]);
-    }
-
-    public function getSections($categoryId)
-    {
-        $sections = Section::where('category_id', $categoryId)->get();
-        return response()->json(['sections' => $sections]);
-    }
+    
     
     public function store(Request $request)
     {

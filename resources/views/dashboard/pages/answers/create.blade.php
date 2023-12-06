@@ -125,7 +125,7 @@
 
 @endsection
 
-    @push('createAnswer.scripts')
+    @push('createShared.scripts')
     <script>
         $(document).ready(function() {
           
@@ -133,7 +133,7 @@
                 var parentId = $(this).val();
 
                 $.ajax({
-                    url: '/dashboard/answers/get_parents/' + parentId,
+                    url: '/dashboard/shared/get_parents/' + parentId,
                     type: 'GET',
                     success: function(data) {
                         $('#category_id').empty();
@@ -152,7 +152,7 @@
     
                 // Make an AJAX request to get sections based on the selected category
                 $.ajax({
-                    url: '/dashboard/answers/get_sections/' + categoryId,
+                    url: '/dashboard/shared/get_sections/' + categoryId,
                     type: 'GET',
                     success: function(data) {
                         $('#section_id').empty();
@@ -172,7 +172,7 @@
     
                 // Make an AJAX request to get quizzes based on the selected section
                 $.ajax({
-                    url: '/dashboard/answers/get_quizzes/' + sectionId,
+                    url: '/dashboard/shared/get_quizzes/' + sectionId,
                     type: 'GET',
                     success: function(data) {
                         $('#quiz_id').empty();
@@ -191,7 +191,7 @@
     
                 // Make an AJAX request to get questions based on the selected quiz
                 $.ajax({
-                    url: '/dashboard/answers/get_questions/' + quizId,
+                    url: '/dashboard/shared/get_questions/' + quizId,
                     type: 'GET',
                     success: function(data) {
                         $('#question_id').empty();

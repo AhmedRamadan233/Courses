@@ -23,11 +23,7 @@ class DescriptionController extends Controller
         $categories = Category::with('parent')->get();
         return view('dashboard.pages.descriptions.create', compact('descriptions', 'categories'));
     }
-    public function getParents($parentId)
-    {
-        $categories = Category::where('parent_id', $parentId)->get();
-        return response()->json(['categories' => $categories]);
-    }
+    
     
     public function store(Request $request)
     {

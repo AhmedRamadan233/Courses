@@ -47,7 +47,16 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->name = $request->input('name');
-        $category->slug = Str::slug($request->input('name')); 
+        // slug
+        $parentId = $request->input('parent_id');
+        $parentCategory = Category::find($parentId);
+        
+        $parentName = $parentCategory ? $parentCategory->name : '';
+        $categoryName = $request->input('name');
+        
+        $slug = Str::slug($parentName . ' ' . $categoryName);
+        $category->slug = $slug;
+        // 
         $category->parent_id = $request->input('parent_id');
         $category->price = $request->input('price');
         $category->status = $request->input('status');

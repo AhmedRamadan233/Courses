@@ -88,7 +88,8 @@
     </div>
 
 @endsection
-@push('webste.scripts')
+@push('createShared.scripts')
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var categoryButtons = document.querySelectorAll('.category');

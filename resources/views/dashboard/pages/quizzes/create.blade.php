@@ -77,14 +77,15 @@
     </div>
 
 @endsection
-@push('createProducts.scripts')
+@push('createShared.scripts')
+
 <script>
     $(document).ready(function() {
         $('#parent_id').on('change', function() {
             var parentId = $(this).val();
 
             $.ajax({
-                url: '/dashboard/quizzes/get_parents/' + parentId,
+                url: '/dashboard/shared/get_parents/' + parentId,
                 type: 'GET',
                 success: function(data) {
                     $('#category_id').empty();
@@ -104,7 +105,7 @@
 
             // Make an AJAX request to get sections based on the selected category
             $.ajax({
-                url: '/dashboard/quizzes/get_sections/' + categoryId,
+                url: '/dashboard/shared/get_sections/' + categoryId,
                 type: 'GET',
                 success: function(data) {
                     $('#section_id').empty();

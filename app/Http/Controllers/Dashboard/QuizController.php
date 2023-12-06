@@ -60,17 +60,8 @@ class QuizController extends Controller
         return view('dashboard.pages.quizzes.create', compact('categories'));
     }
 
-    public function getParents($parentId)
-    {
-        $categories = Category::where('parent_id', $parentId)->get();
-        return response()->json(['categories' => $categories]);
-    }
 
-    public function getSections($categoryId)
-    {
-        $sections = Section::where('category_id', $categoryId)->get();
-        return response()->json(['sections' => $sections]);
-    }
+
 
     public function store(Request $request)
     {

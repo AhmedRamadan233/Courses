@@ -26,12 +26,6 @@ class SectionController extends Controller
         return view('dashboard.pages.sections.create', compact('sections', 'categories'));
     }
 
-    public function getParents($parentId)
-    {
-        $categories = Category::where('parent_id', $parentId)->get();
-        return response()->json(['categories' => $categories]);
-    }
-    
     public function store(Request $request)
     {
         $request->validate([
