@@ -91,7 +91,7 @@
 
                     $('#category_id').append('<option value="">Select Sub Category</option>');
                     $.each(data.categories, function(index, category) {
-                        $('#category_id').append('<option value="' + category.id + '">' + category.name + '</option>');
+                        $('#category_id').append('<option value="' + category.id + '">' + category.slug + '</option>');
                     });
                 }
             });
