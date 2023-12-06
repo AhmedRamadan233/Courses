@@ -30,34 +30,29 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'price' => 'required', // Add validation for 'price' if needed
+            'price' => 'nullable', 
             'video' => 'nullable|mimetypes:video/mp4,video/quicktime',
             'status' => 'required',
         ]);
 
-        // Check if the request has a valid file
         if ($request->hasFile('video') && $request->file('video')->isValid()) {
             $video = $request->file('video');
             $filename = time() . '_' . $video->getClientOriginalName();
 
-            // Move the file to the 'upload' directory
+           
             $video->move('upload', $filename);
         } else {
-            $filename = null; // Set to null if no valid video file is provided
+            $filename = null; 
         }
 
         $category = new Category();
         $category->name = $request->input('name');
         $category->slug = Str::slug($request->input('name')); 
         $category->parent_id = $request->input('parent_id');
-       
         $category->price = $request->input('price');
         $category->status = $request->input('status');
         $category->video = $filename;
         $category->save();
-
-        // Debug information
-        Debugbar::info($category);
 
         return redirect()->route('category.index')->with('success', 'Category added successfully.');
     }
@@ -66,7 +61,6 @@ class CategoryController extends Controller
     {
         $editCategory = Category::findOrFail($id);
         $categories = Category::whereNull('parent_id')->get();
-        Debugbar::info($categories);
 
         return view('dashboard.pages.categories.edit', compact( 'categories','editCategory'));
     }
@@ -75,7 +69,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'price' => 'required', 
+            'price' => 'nullable', 
             'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:200',
             'status' => 'required',
         ]);

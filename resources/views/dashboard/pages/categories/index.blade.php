@@ -51,7 +51,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Category</th>
+                                <th>Main Category</th>
                                
                                 <th>Price</th>
                                 <th>Video</th>
@@ -64,11 +64,24 @@
                                 <tr>
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->name }}</td>
-                                    <td>{{ $category->parent->name }}</td>
-                                    <td>{{ $category->price }}</td>
+                                    <td>
+                                        @if ($category->parent_id == null)
+                                            <p class="btn disabled btn-outline-info text-dark">Main Category</p>
+                                        @else
+                                            <p>{{ $category->parent->name }}</p>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($category->price == null)
+                                            <p class="btn disabled btn-outline-info text-dark">Main Category</p>
+                                        @else
+                                            <p>{{ $category->price }}</p>
+                                        @endif
+                                    </td>
+                                    
                                     <td>
                                         @if (  $category->video == null)
-                                            <h5>Main Category Without Video</h5>
+                                          <p class="btn disabled btn-outline-info text-dark">Main Category</p>
                                         @else
                                         <video width="320" height="240" controls>
                                             <source src="{{ asset('upload/' . $category->video) }}" type="video/mp4">

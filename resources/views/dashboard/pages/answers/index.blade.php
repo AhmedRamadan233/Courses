@@ -62,9 +62,9 @@
                                     <td>{{ $answer->answer }}</td>
                                     <td>
                                         @if($answer->is_correct)
-                                            <p class="btn btn-success">TRUE</p>
+                                            <p class="btn disabled btn-success">TRUE</p>
                                         @else
-                                            <p class="btn btn-warning">FALSE</p>
+                                            <p class="btn disabled btn-warning">FALSE</p>
                                         @endif
                                     </td>
                                     
