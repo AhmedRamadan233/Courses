@@ -71,6 +71,8 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('descriptions')->group(function () {
             Route::get ('/', [DescriptionController::class , 'index'])->name('description.index');
             Route::get('/create', [DescriptionController::class, 'create'])->name('description.create');
+            Route::get('/get_parents/{parentId}', [DescriptionController::class, 'getParents'])->name('description.get_parents');
+
             Route::post('/store', [DescriptionController::class, 'store'])->name('description.store');
             Route::get('/edit/{description}',   [DescriptionController::class, 'edit'])->name('description.edit');
             Route::post('/update/{description}', [DescriptionController::class, 'update'])->name('description.update');
@@ -79,6 +81,8 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('common_questions')->group(function () {
             Route::get ('/', [CommonQestionsController::class , 'index'])->name('common_questions.index');
             Route::get('/create', [CommonQestionsController::class, 'create'])->name('common_questions.create');
+            Route::get('/get_parents/{parentId}', [CommonQestionsController::class, 'common_questions'])->name('section.get_parents');
+
             Route::post('/store', [CommonQestionsController::class, 'store'])->name('common_questions.store');
             Route::get('/edit/{common_questions}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
             Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');

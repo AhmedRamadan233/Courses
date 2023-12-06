@@ -15,7 +15,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <form action="" method="get" class="form-inline">
-                          C  <div class="form-group mx-2">
+                            <div class="form-group mx-2">
                                 <label for="name" class="sr-only">Search by Name</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="name" placeholder="Search by name..." name="name" value="{{ request('name') }}">
@@ -42,7 +42,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Category</th>
+                                <th>Main Category</th>
+                                <th>Sub Category</th>
                                 <th>Question</th>
                                 <th>Answer</th>
                                 <th>Action</th>
@@ -52,6 +53,7 @@
                             @foreach ($commonQestions as $commonQestion)
                                 <tr>
                                     <td>{{ $commonQestion->id }}</td>
+                                    <td>{{ $commonQestion->category->parent->name}}</td>
                                     <td>{{ $commonQestion->category->name }}</td>
                                     <td>{{ $commonQestion->question }}</td>
                                     <td>{{ $commonQestion->answer }}</td>

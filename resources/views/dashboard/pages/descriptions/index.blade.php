@@ -42,7 +42,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Category</th>
+                                <th>Main Category</th>
+                                <th>Sub Category</th>
                                 <th>Question</th>
                                 <th>Answer</th>
                                 <th>Action</th>
@@ -52,6 +53,7 @@
                             @foreach ($descriptions as $description)
                                 <tr>
                                     <td>{{ $description->id }}</td>
+                                    <td>{{ $description->category->parent->name}}</td>
                                     <td>{{ $description->category->name }}</td>
                                     <td>{{ $description->question }}</td>
                                     <td>{{ $description->answer }}</td>
