@@ -12,21 +12,7 @@
         <div class="col-lg-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        {{-- <div class="btn-group" role="group" aria-label="Categories">
-                            @foreach ($categories as $category)
-                            <div class="category border border-light p-3 mb-2 bg-dark rounded text-center text-light">
-                    
-                                <a href="{{ route('question.get_sections', ['categoryId' => $category->id]) }}">
-                                    <h2>{{ $category->name }}</h2>
-                                </a>
-                            </div>
-                            @endforeach
-                        </div> --}}
-                        <div>
-                            <h2 class="m-0">Create answer</h2>
-                        </div>
-                    </div>
+                        <h2 class="m-0">Create answer</h2>
                 </div>
                 <div class="card-body">
                     <form action="{{route('answer.store')}}" method="post" enctype="multipart/form-data">

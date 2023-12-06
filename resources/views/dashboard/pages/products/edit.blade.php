@@ -12,37 +12,70 @@
         <div class="col-lg-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group" role="group" aria-label="Categories">
-                            @foreach ($categories as $category)
-                            @php
-                                // Eager load the sections relationship
-                                $category->load('sections');
-                        
-                                // Check if the category has a section with the specific ID
-                                $hasSection = optional($category->sections)->contains('id', $editedProduct->section->id);
-                            @endphp
-                        
-                            <div class="category border border-light p-3 mb-2 {{ $hasSection ? 'bg-primary' : 'bg-dark' }} rounded text-center text-light">
-                                <a href="">
-                                    <h2>{{ $category->name }}</h2>
-                                </a>
-                            </div>
-                        @endforeach
-                        
-
-
-                        </div>
-                        <div>
+                    
                             <h2 class="m-0">Edit Products</h2>
-                        </div>
-                    </div>
+
                 </div>
                 
                 <div class="card-body">
                     <form action="{{ route('product.update', ['product' => $editedProduct->id]) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('POST')
+
+                        <div class="form-group">
+                            <label for="parent_id">Main Category</label>
+                            <select class="form-control" id="parent_id" name="parent_id">
+                                <option value="">Select Main Category</option>
+                                @foreach ($categories as $category)
+                                    @if ($category->parent_id == null)
+                                        <option value="{{ $category->id }}" {{ $category->id == $editedProduct->section->category->parent_id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            @error('parent_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="category_id">Sub Category</label>
+                            <select class="form-control" id="category_id" name="category_id">
+                                @foreach ($categories as $category)
+                                    @if ($category->parent_id !== null)
+                                        <option value="{{ $category->id }}" {{ $category->id == old('category_id', $editedProduct->section->category_id) ? 'selected' : '' }}>
+                                            {{ $category->slug }}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label for="section_id">Section</label>
+                            <select class="form-control" id="section_id" name="section_id">
+                                <option value="">Select Section</option>
+                                @foreach ($sections as $section)
+                                    <option value="{{ $section->id }}" {{ $section->id == $editedProduct->section_id ? 'selected' : '' }}>
+                                        {{ $section->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('section_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+
+
+                        
+
+
 
 
                         <div class="form-group">
@@ -52,38 +85,6 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                    
-                        {{-- <div class="form-group">
-                            <label for="section_id">Section</label>
-                            <select class="form-control" id="section_id" name="section_id">
-                                <option value="">Select Section</option>
-                                @foreach ($sections as $section)
-                                    <option value="{{ $section->id }}" {{ $section->id == $editedProduct->section_id ? 'selected' : '' }}>
-                                        {{ $section->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('section_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div> --}}
-                        
-
-                        <div class="form-group">
-                            <label for="section_id">Section</label>
-                            <select class="form-control" id="section_id" name="section_id">
-                                <option value="">Select Section</option>
-                                @foreach ($sections as $section)
-                                    <option value="{{ $section->id }}" {{ $section->id == $editedProduct->section_id ? 'selected' : '' }}>
-                                        {{ $section->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('section_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        
 
                     
                         <div class="form-group">
@@ -135,3 +136,49 @@
     </div>
 
 @endsection
+
+@push('createShared.scripts')
+
+<script>
+    $(document).ready(function() {
+        $('#parent_id').on('change', function() {
+            var parentId = $(this).val();
+
+            $.ajax({
+                url: '/dashboard/shared/get_parents/' + parentId,
+                type: 'GET',
+                success: function(data) {
+                    $('#category_id').empty();
+                  
+
+                    $('#category_id').append('<option value="">Select Sub Category</option>');
+                    $.each(data.categories, function(index, category) {
+                        $('#category_id').append('<option value="' + category.id + '" ' + (category.id == {{ $editedProduct->section->category_id }} ? 'selected' : '') + '>' + category.slug + '</option>');
+
+                    });
+                }
+            });
+        });
+        $('#category_id').on('change', function() {
+            var categoryId = $(this).val();
+
+            // Make an AJAX request to get sections based on the selected category
+            $.ajax({
+                url: '/dashboard/shared/get_sections/' + categoryId,
+                type: 'GET',
+                success: function(data) {
+                    $('#section_id').empty();
+                
+                    $('#section_id').append('<option value="">Select Section</option>');
+                    $.each(data.sections, function(index, section) {
+                        $('#section_id').append('<option value="' + section.id + '" ' + (section.id == {{ $editedProduct->section_id }} ? 'selected' : '') + '>' + section.name + '</option>');
+                    });
+                }
+            });
+        });
+    });
+
+</script>
+
+
+@endpush

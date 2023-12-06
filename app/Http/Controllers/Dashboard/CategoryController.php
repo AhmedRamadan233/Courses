@@ -66,14 +66,14 @@ class CategoryController extends Controller
         return redirect()->route('category.index')->with('success', 'Category added successfully.');
     }
 
+
     public function edit($id)
     {
         $editCategory = Category::findOrFail($id);
         $categories = Category::whereNull('parent_id')->get();
-
-        return view('dashboard.pages.categories.edit', compact( 'categories','editCategory'));
+    
+        return view('dashboard.pages.categories.edit', compact('categories', 'editCategory'));
     }
-
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -99,7 +99,16 @@ class CategoryController extends Controller
         }
     
         $category->name = $request->input('name');
-        $category->slug = Str::slug($request->input('name')); 
+        // slug
+        $parentId = $request->input('parent_id');
+        $parentCategory = Category::find($parentId);
+        
+        $parentName = $parentCategory ? $parentCategory->name : '';
+        $categoryName = $request->input('name');
+        
+        $slug = Str::slug($parentName . ' ' . $categoryName);
+        $category->slug = $slug;
+        // 
         $category->parent_id = $request->input('parent_id');
        
         $category->price = $request->input('price');

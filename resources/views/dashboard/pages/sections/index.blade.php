@@ -60,7 +60,7 @@
                                     
                                     <td> 
                                         
-                                        <a href="{{route('section.edit' , ['section' => $section->id])}}" class="btn btn-primary">Edit</a>
+                                        <a id="editButton" href="{{route('section.edit' , ['section' => $section->id])}}" class="btn btn-primary">Edit</a>
                                         |
                                         <form action="{{route('section.destroy' , ['section' => $section->id])}}
                                             " method="post" style="display: inline;">

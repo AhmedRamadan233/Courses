@@ -74,15 +74,14 @@ class ProductController extends Controller
     public function edit($id)
     {
         $editedProduct = Product::findOrFail($id);
-        // $category = Category::findOrFail($editedProduct->category_id);
-        $categories = Category::whereNotNull('parent_id')->with('sections')->get();
-        $products = Product::with('section')->get();
+        $categories = Category::with('parent')->get();
         $sections = Section::all();
-       
+        
         Debugbar::info($editedProduct);
-
-        return view('dashboard.pages.products.edit', compact('editedProduct', 'products' ,'sections' , 'categories'));
+    
+        return view('dashboard.pages.products.edit', compact('editedProduct', 'sections', 'categories'));
     }
+    
 
 
 

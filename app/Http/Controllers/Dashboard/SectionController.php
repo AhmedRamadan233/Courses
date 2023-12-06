@@ -50,12 +50,13 @@ class SectionController extends Controller
     {
         $editedSection = Section::findOrFail($id);
         $sections = Section::with('category')->get();
-        $categories = Category::whereNotNull('parent_id')->get();
-       
+        $categories = Category::with('parent')->get();
+        
         Debugbar::info($editedSection);
-
-        return view('dashboard.pages.sections.edit', compact('editedSection', 'sections' ,'categories'));
+    
+        return view('dashboard.pages.sections.edit', compact('editedSection', 'sections', 'categories'));
     }
+    
 
     public function update(Request $request, $id)
     {
