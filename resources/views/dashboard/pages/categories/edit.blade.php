@@ -89,7 +89,8 @@
                                         </div>
                                     @endif
                                 </div>
-                            </div>   
+                            </div> 
+                              
                         @else
 
                             <div class="form-group">
@@ -106,6 +107,16 @@
                                 @error('parent_id')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
+                            </div>
+
+                            
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select class="form-control" id="status" name="status">
+                                    <option value="active" {{ $editCategory->status == 'active' ? 'selected' : '' }}>Active</option>
+                                    <option value="inactive" {{ $editCategory->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                    <option value="archive" {{ $editCategory->status == 'archive' ? 'selected' : '' }}>Archived</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
@@ -133,6 +144,7 @@
                                     </div>
                                 @endif
                             </div> 
+
                         @endif
                         
                         

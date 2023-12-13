@@ -33,6 +33,12 @@ class Category extends Model
         }
 
     }
+    public function scopeActive(EloquentBuilder $builder, $status = 'active')
+    {
+        if ($status === 'active') {
+            $builder->where('status', '=', $status);
+        }
+    }
     public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id' , 'id')->withDefault(['name' => 'Main Category']);
