@@ -313,11 +313,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-          <li class="nav-item">
+
+          {{-- <li class="nav-item">
             <a href="{{route('website.index')}}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Website
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li> --}}
+
+          <li class="nav-item">
+            <a href="{{route('coursesWebsite.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Go To Website
                 {{-- <span class="right badge badge-danger">New</span> --}}
               </p>
             </a>

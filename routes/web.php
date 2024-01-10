@@ -13,7 +13,8 @@ use App\Http\Controllers\Dashboard\Shared\CreateSharedController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Website\WebsiteController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Website\Pages\CategoryController as WebsiteCategoryController;
+use App\Http\Controllers\Website\Pages\WebsiteController as WebsitePagesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -121,11 +122,21 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
             Route::get('/section/{slug}', [WebsiteController::class, 'getSectionBySlug'])->name('getSectionBySlug');
 
         });
-        
-
     });
-
-
+    Route::get('/web', function(){
+        return view('website.index');
+    });
+    Route::prefix('website')->group(function () {
+        Route::prefix('courses')->group(function () {
+            Route::get('/', [WebsitePagesController::class, 'index'])->name('coursesWebsite.index');
+            // Route::get('/category/{slug}', [WebsitePagesController::class, 'getCategoryBySlug'])->name('getCategoryBySlug');
+            // Route::get('/section/{slug}', [WebsitePagesController::class, 'getSectionBySlug'])->name('getSectionBySlug');
+        });
+        // Route::prefix('categories')->group(function () {
+        //     Route::get('/',[WebsiteCategoryController::class , 'index']);
+        //     Route::get('/{slug}', [WebsiteCategoryController::class, 'getCategoryBySlug']);
+        // });
+    });
 });
 
 

@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.dashboard')
 
-@section('title', 'Resturant System')
+@section('title', 'Course System')
 
 @section('breadcrumb')
     @parent
