@@ -111,7 +111,7 @@
                     <div class="product-image">
                         {{-- <img src="{{ asset('assets/images/products/product-1.jpg')}}" alt="#"> --}}
                         <div id="video-container" class="embed-responsive embed-responsive-16by9 video-responsive">
-                            <iframe id="video" class="embed-responsive-item" src="{{ asset('upload/' . $category->video) }}" type="video/mp4" frameborder="0" allowfullscreen></iframe>
+                            <iframe id="video" class="embed-responsive-item" src="{{ asset('upload/' . $category->video) }}" controls="" type="video/mp4" frameborder="0" allowfullscreen></iframe>
                         </div>
                         <div class="button">
                             <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
 
-<head>
+{{-- <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>@yield('title')</title>
@@ -9,6 +9,26 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.svg')}}" />
+
+
+
+
+    <!-- ========================= CSS here ========================= -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/LineIcons.3.0.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/tiny-slider.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/glightbox.min.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css')}}" />
+
+
+</head> --}}
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>@yield('title')</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
 
     <!-- ========================= CSS here ========================= -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css')}}" />
@@ -266,8 +286,12 @@
                             <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                                 <ul id="nav" class="navbar-nav ms-auto">
                                     <li class="nav-item">
-                                        <a href="index.html" class="active" aria-label="Toggle navigation">Home</a>
+                                        <a href="{{route('coursesWebsite.index')}}" class="active" aria-label="Toggle navigation">Home</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('quizWebsite.index')}}" aria-label="Toggle navigation">Quizes</a>
+                                    </li>
+                                    
                                     <li class="nav-item">
                                         <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
                                             data-bs-target="#submenu-1-2" aria-controls="navbarSupportedContent"
@@ -496,10 +520,23 @@
     </a>
 
     <!-- ========================= JS here ========================= -->
+
     <script src="{{ asset('assets/js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('assets/js/tiny-slider.js')}}"></script>
     <script src="{{ asset('assets/js/glightbox.min.js')}}"></script>
     <script src="{{ asset('assets/js/main.js')}}"></script>
+    <script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
+<!-- Bootstrap 4 -->
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('dist/js/adminlte.min.js')}}"></script>
+    <script src="{{ asset('jquery/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('datatable/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('toastr/toastr.min.js') }}"></script>
     <script type="text/javascript">
         //========= Hero Slider 
         tns({
@@ -540,6 +577,11 @@
             }
         });
     </script>
+    <!-- jQuery -->
+
+    @stack('webste.scripts')
+
 </body>
 
 </html>
+

@@ -1,0 +1,61 @@
+    public function getQuizById($id)
+    {
+        $quiz = Quiz::findOrFail($id);
+        $questions = $quiz->questions()->paginate(1);
+    
+        return view('website.pages.quiz.question', compact('quiz', 'questions'));
+    }
+    -------------------------------------------------------
+    ----------------------
+                                <div class="tab-pane show active fade" id="nav-list" role="tabpanel"
+                                aria-labelledby="nav-list-tab">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-12">
+                                        <!-- Start Single Product -->
+                                        <div class="single-product">
+                                            <div class="row align-items-center">
+                                                @foreach ($questions as $question)
+                                                    <div class="col-lg-12 col-md-12 col-12">
+                                                        <form id="quizForm">
+                                                            <div class="product-info">
+                                                                <div class="single-widget product-sidebar p-2">
+                                                                    <h3 class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
+                                                                </div>
+
+                                                                <ul class="options p-2">
+                                                                    @foreach ($questions->answers as $answer)
+                                                                        <li class="m-3">
+                                                                            <input class="form-check-input" type="radio" name="quizOption" id="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}" value="{{ $answer->answer }}">
+                                                                            <label class="form-check-label font-weight-bold" for="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}">{{ $answer->answer }}</label>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+
+                                                            <div class="p-2">
+                                                                <button class="btn btn-outline-primary flex-grow-1 w-100" style="border-radius: 8px;font-size: 24px;">
+                                                                    FINISHED
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                @endforeach
+
+
+                                            </div>
+                                        </div>
+                                        <!-- End Single Product -->
+                                    </div>     
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <!-- Pagination -->
+                                        {{ $questions->links() }}
+                                        <!--/ End Pagination -->
+                                    </div>
+                                </div>
+                            </div>
+                            --------------------------------------------------------
+                            ----------------------------------------
+                            Undefined property: Illuminate\Pagination\LengthAwarePaginator::$answers
+
