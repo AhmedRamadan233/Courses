@@ -31,7 +31,6 @@
                             </div>
                         </div>
                         <div class="tab-content" id="nav-tabContent">
-
                             <div class="tab-pane show active fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-12">
@@ -63,21 +62,17 @@
                                                             </div>
                                                         </form>
                                                     </div>
+                                                    
                                                 @endforeach
                                             </div>
                                         </div>
                                         <!-- End Single Product -->
                                     </div>
+                                    {{ $questions->links('vendor.pagination.next-previous')}}
+
                                 </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <!-- Pagination -->
-                                        {{ $questions->links() }}
-                                        <!--/ End Pagination -->
-                                    </div>
-                                </div>
+
                             </div>
-                            
                         </div>
                     </div>
                 </div>
@@ -108,7 +103,10 @@
                         <!-- Start Single Widget -->
                         <div class="single-widget">
                             <h3>All Questions</h3>
+                            {{ $questions->links('vendor.pagination.numircal')}}
+
                             {{-- <ul class="list d-flex flex-wrap justify-content-between align-items-center">
+                               
                                 <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
                                     <a href="product-grids.html">1</a>
                                 </li>
@@ -136,7 +134,6 @@
 
 
                             </ul> --}}
-                            {{ $questions->links() }}
                         </div>
                         <!-- End Single Widget -->
 
@@ -147,6 +144,7 @@
             </div>
         </div>
     </section>
+    
     <!-- End Product Grids -->
 @endsection
 @push('webste.scripts')

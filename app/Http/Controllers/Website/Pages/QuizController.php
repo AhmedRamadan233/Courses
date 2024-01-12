@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Website\Pages;
 use App\Http\Controllers\Controller;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 class QuizController extends Controller
 {
