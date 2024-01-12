@@ -41,8 +41,14 @@
                                                     <div class="col-lg-12 col-md-12 col-12">
                                                         <form id="quizForm">
                                                             <div class="product-info">
-                                                                <div class="single-widget product-sidebar p-2">
+                                                                <div class="d-flex justify-content-between align-items-center p-2">
                                                                     <h3 class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
+                                                                    <a href="#">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16">
+                                                                            <path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1z"/>
+                                                                            <path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1"/>
+                                                                          </svg>
+                                                                    </a>
                                                                 </div>
                             
                                                                 <ul class="options p-2">
@@ -85,17 +91,20 @@
                             <!-- Start Single Product -->
                             <div class="single-product">
                                
-                                <div class="product-info">
-                                   
-                                    <span class="category">first quiz</span>
-                                    <h4 class="title">
-                                        <a href="product-grids.html">ahmed ramadan </a>
-                                    </h4>
-                                    
-                                    <div class="price">
-                                        {{-- <span>{{$quiz->price}}</span> --}}
+                                
+                                    <div class="product-info">
+                                        <span class="category">{{ $quiz->name }}</span>
+
+                                        <h4 class="title">
+                                            <a href="#">{{ auth()->user()->name }}</a>
+                                        </h4>
+
+                                        <div class="price">
+                                            {{-- <span>{{ $quiz->price }}</span> --}}
+                                        </div>
                                     </div>
-                                </div>
+                        
+
                             </div>
                             <!-- End Single Product -->
                         </div>
@@ -105,35 +114,6 @@
                             <h3>All Questions</h3>
                             {{ $questions->links('vendor.pagination.numircal')}}
 
-                            {{-- <ul class="list d-flex flex-wrap justify-content-between align-items-center">
-                               
-                                <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
-                                    <a href="product-grids.html">1</a>
-                                </li>
-                                <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
-                                    <a href="product-grids.html">2</a>
-                                </li>
-                                <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
-                                    <a href="product-grids.html">3</a>
-                                </li>
-                                <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
-                                    <a href="product-grids.html">4</a>
-                                </li>
-                                <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
-                                    <a href="product-grids.html">5</a>
-                                </li>
-                                <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
-                                    <a href="product-grids.html">6</a>
-                                </li>
-                                <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
-                                    <a href="product-grids.html">7</a>
-                                </li>
-                                <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
-                                    <a href="product-grids.html">8</a>
-                                </li>
-
-
-                            </ul> --}}
                         </div>
                         <!-- End Single Widget -->
 
