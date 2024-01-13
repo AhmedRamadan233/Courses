@@ -90,21 +90,18 @@
                             <h3>Student Informattion</h3>
                             <!-- Start Single Product -->
                             <div class="single-product">
-                               
-                                
-                                    <div class="product-info">
-                                        <span class="category">{{ $quiz->name }}</span>
+                                <div class="product-info">
+                                    
+                                    <span class="category">{{ $quiz->name }}</span>
 
-                                        <h4 class="title">
-                                            <a href="#">{{ auth()->user()->name }}</a>
-                                        </h4>
+                                    <h4 class="title">
+                                        <a href="#">{{ auth()->user()->name }}</a>
+                                    </h4>
 
-                                        <div class="price">
-                                            {{-- <span>{{ $quiz->price }}</span> --}}
-                                        </div>
+                                    <div  class="price">
+                                        <span id="countdown"></span>
                                     </div>
-                        
-
+                                </div>
                             </div>
                             <!-- End Single Product -->
                         </div>
@@ -130,10 +127,27 @@
 @push('webste.scripts')
 <script>
 $(document).ready(function () {
-    $(".next-button").on("click", function () {
-        
-        alert("Next button clicked for form with ID:");
-    });
+    var quizTimer = {{ $quiz->timer }}; 
+
+    function updateTimer() {
+        var minutes = Math.floor(quizTimer / 60);
+        var seconds = quizTimer % 60;
+        $('#countdown').text(padZero(minutes) + ':' + padZero(seconds));
+        quizTimer--;
+
+        if (quizTimer < 0) {
+            clearInterval(timerInterval);
+            $('#countdown').text('00:00');
+            alert("finshed")
+        }
+    }
+
+    function padZero(value) {
+        return value < 10 ? '0' + value : value;
+    }
+
+    // Update the timer every second
+    var timerInterval = setInterval(updateTimer, 1000);
 });
 
 </script>

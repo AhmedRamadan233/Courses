@@ -95,7 +95,13 @@
                             </select>
                         </div>
                         
-                    
+                        <div class="form-group">
+                            <label for="timer">Timer</label>
+                            <input type="text" class="form-control" id="timer" name="timer" value="{{ $editQuiz->timer }}">
+                            @error('timer')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
 
 
                         

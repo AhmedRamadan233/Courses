@@ -29,6 +29,7 @@ class QuizController extends Controller
             'section_id' => 'required',
             'name' => 'required',
             'status' => 'required',
+            'timer' => 'required|integer|min:0',
         ]);
     
     
@@ -36,6 +37,8 @@ class QuizController extends Controller
         $quiz->name = $request->input('name');
         $quiz->section_id = $request->input('section_id');
         $quiz->status = $request->input('status', 'active'); 
+        $quiz->timer = $request->input('timer') * 60;
+
         $quiz->save();
 
         Debugbar::info($quiz);
@@ -60,6 +63,7 @@ class QuizController extends Controller
             'section_id' => 'required',
             'name' => 'required|unique:products,name,' . $id, 
             'status' => 'required|in:active,inactive,archive',
+            'timer' => 'required|integer|min:0',
         ]);
     
         $quiz = Quiz::findOrFail($id);
@@ -67,6 +71,9 @@ class QuizController extends Controller
         $quiz->section_id = $request->input('section_id');
 
         $quiz->status = $request->input('status'); 
+        $quiz->timer = $request->input('timer') * 60;
+
+
         $quiz->save();
     
         Debugbar::info($quiz);

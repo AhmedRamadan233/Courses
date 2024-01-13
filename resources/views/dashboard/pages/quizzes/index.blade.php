@@ -55,6 +55,7 @@
                                 <th>Section</th>
                                 <th>Name</th>                                
                                 <th>Status</th>
+                                <th>Timer</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -67,6 +68,11 @@
                                     <td>{{ $quiz->section->name }}</td>
                                     <td>{{ $quiz->name }}</td>
                                     <td>{{ $quiz->status }}</td>
+                                    <td>
+                                        {{ sprintf("%02d:%02d:%02d", floor($quiz->timer / 3600), floor(($quiz->timer % 3600) / 60), $quiz->timer % 60) }}
+                                    </td>
+                                    
+
                                     <td> 
                                         <a href="{{route('quiz.edit' , ['quiz' => $quiz->id])}}" class="btn btn-primary">Edit</a>
                                         |
@@ -88,3 +94,5 @@
         </div>
     </div>
 @endsection
+
+
