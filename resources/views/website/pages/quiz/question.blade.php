@@ -39,7 +39,7 @@
                                             <div class="row align-items-center">
                                                 @foreach ($questions as $question)
                                                     <div class="col-lg-12 col-md-12 col-12">
-                                                        <form id="quizForm">
+                                                        <form method="post" action="{{ route('quizWebsite.finished', ['id' => $quiz->id]) }}" id="quizForm">
                                                             <div class="product-info">
                                                                 <div class="d-flex justify-content-between align-items-center p-2">
                                                                     <h3 class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
@@ -62,8 +62,8 @@
                                                             </div>
                             
                                                             <div class="p-2">
-                                                                <button class="btn btn-outline-primary flex-grow-1 w-100" style="border-radius: 8px;font-size: 24px;">
-                                                                    FINISHED
+                                                                <button  class="btn btn-outline-primary flex-grow-1 w-100" style="border-radius: 8px;font-size: 24px;" type="submit">
+                                                                        FINISHED
                                                                 </button>
                                                             </div>
                                                         </form>
