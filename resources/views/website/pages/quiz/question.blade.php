@@ -39,31 +39,36 @@
                                             <div class="row align-items-center">
                                                 @foreach ($questions as $question)
                                                     <div class="col-lg-12 col-md-12 col-12">
-                                                        <form method="post" action="{{ route('quizWebsite.finished', ['id' => $quiz->id]) }}" id="quizForm">
+                                                        <form method="post" action="{{ route('quizWebsite.finishedQuiz', ['id' => $quiz->id]) }}" id="quizForm">
+                                                            @csrf
+                                                        
+                                                            <input type="hidden" name="_method" value="post">
+
                                                             <div class="product-info">
                                                                 <div class="d-flex justify-content-between align-items-center p-2">
-                                                                    <h3 class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
-                                                                    <a href="#">
+                                                                    <h3 name ="question_id" class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
+                                                                    {{-- <a href="#">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16">
                                                                             <path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1z"/>
                                                                             <path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1"/>
                                                                           </svg>
-                                                                    </a>
+                                                                    </a> --}}
                                                                 </div>
                             
                                                                 <ul class="options p-2">
                                                                     @foreach ($question->answers as $answer)
                                                                         <li class="m-3">
-                                                                            <input class="form-check-input" type="radio" name="quizOption" id="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}" value="{{ $answer->answer }}">
-                                                                            <label class="form-check-label font-weight-bold" for="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}">{{ $answer->answer }}</label>
+                                                                            <input  name="answer_id" class="form-check-input" type="radio" name="quizOption" id="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}" value="{{ $answer->answer }}">
+                                                                            <label class=" form-check-label font-weight-bold" for="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}">{{ $answer->answer }}</label>
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
                                                             </div>
-                            
-                                                            <div class="p-2">
-                                                                <button  class="btn btn-outline-primary flex-grow-1 w-100" style="border-radius: 8px;font-size: 24px;" type="submit">
-                                                                        FINISHED
+                                                            <div class="d-flex justify-content-between align-items-center p-2">
+                                                                <label class="form-check-label font-weight-bold">Next to another Question</label>
+                                                            
+                                                                <button class="btn btn-outline-primary" style="border-radius: 8px; font-size: 24px;" type="submit">
+                                                                    Next
                                                                 </button>
                                                             </div>
                                                         </form>
@@ -74,7 +79,7 @@
                                         </div>
                                         <!-- End Single Product -->
                                     </div>
-                                    {{ $questions->links('vendor.pagination.next-previous')}}
+                                    {{-- {{ $questions->links('vendor.pagination.next-previous')}} --}}
 
                                 </div>
 

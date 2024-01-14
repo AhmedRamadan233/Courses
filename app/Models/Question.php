@@ -18,4 +18,9 @@ class Question extends Model
     public function answers() {
         return $this->hasMany(Answer::class);
     }
+
+    public function solutions()
+    {
+        return $this->hasMany(Solution::class);
+    }
 }

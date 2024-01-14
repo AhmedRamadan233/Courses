@@ -152,7 +152,8 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('quizes')->group(function () {
             Route::get('/', [WebsiteQuizController::class, 'index'])->name('quizWebsite.index');
             Route::get('/quiz/{id}', [WebsiteQuizController::class, 'getQuizById'])->name('quizWebsite.getQuizById');
-            Route::post('/finished/{id}', [WebsiteQuizController::class, 'finished'])->name('quizWebsite.finished');
+            Route::post('/finishedquiz/{id}', [WebsiteQuizController::class, 'finishedQuiz'])->name('quizWebsite.finishedQuiz');
+            Route::get('/solutions', [WebsiteQuizController::class, 'getSolutions'])->name('quizWebsite.getSolutions');
 
         });
 

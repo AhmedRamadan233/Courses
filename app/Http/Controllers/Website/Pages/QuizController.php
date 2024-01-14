@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Quiz;
+use App\Models\Solution;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 
@@ -25,32 +27,37 @@ class QuizController extends Controller
     
         return view('website.pages.quiz.question', compact('quiz', 'questions'));
     }
+
+    public function getSolutions()
+    {
+        $solutions = Solution::with( 'quiz','user','question' , 'answer' )->get();
+        return view('website.pages.quiz.solutions', compact('solutions'));
+    }
     
-    // public function finished(Request $request, $id)
-    // {
-    //     // Assuming $id is the quiz ID
+    public function finishedQuiz(Request $request, $id)
+    {
+        $solutions = new Solution();
+        $solutions->user_id = auth()->user()->id;
+        $solutions->quiz_id = $id;
+
+       
+        $selectedAnswerValue = $request->input('answer_id');
+        $selectedAnswer = Answer::where('answer', '=', $selectedAnswerValue)->first();
+        $solutions->answer_id = $selectedAnswer->id;
+        $solutions->question_id = $selectedAnswer->question_id;
+
+        $displayIdOfQuestion= $solutions->question_id = $selectedAnswer->question_id;
+        $selectAllAnswers = Answer::where('question_id',$displayIdOfQuestion)->get();
+        foreach ($selectAllAnswers  as $trueAnswer){
+            if($trueAnswer->is_correct == 1){
+                $solutions->true_answer = $trueAnswer->answer;
+            }
+        }
+        $solutions->save();
     
-    //     // Step 1: Get the selected answers from the form
-    //     $selectedAnswers = $request->input('answers');
+        return redirect()->route('quizWebsite.getSolutions');
+    }
     
-    //     // Step 2: Compare selected answers with correct answers in the database
-    //     $correctAnswers = Answer::where('is_correct', true)
-    //         ->whereIn('id', $selectedAnswers)
-    //         ->get();
-    
-    //     // Step 3: Save the results in the database
-    //     foreach ($correctAnswers as $answer) {
-    //         $questionId = $answer->question_id;
-    
-    //         // Update the is_correct column in the questions table
-    //         Question::where('id', $questionId)->update(['is_correct' => true]);
-    
-    //         // You can also save other information related to the user's quiz attempt, if needed.
-    //     }
-    
-    //     // Redirect or return a response as needed
-    //     return view('website.pages.quiz.result', compact('quiz', 'questions'));
-    // }
     
     
 }
