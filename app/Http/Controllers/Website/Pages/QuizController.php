@@ -8,6 +8,7 @@ use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Solution;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 
@@ -55,9 +56,9 @@ class QuizController extends Controller
         }
         $solutions->save();
     
-        return redirect()->route('quizWebsite.getSolutions');
+        return redirect()->back();
     }
     
-    
+   
     
 }

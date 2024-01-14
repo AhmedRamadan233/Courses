@@ -75,6 +75,7 @@
                 </div>
             @endforeach
         </div>
+        
     </div>
 </section>
 <!-- End Trending Product Area -->
