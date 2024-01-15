@@ -1,0 +1,24 @@
+i want to save as this 
+allDataInCookie{
+      $dataArray = [
+        'user_id' => 1,
+        'quiz_id' => 1,
+        'answer_id' => 2,
+        'question_id' => 2,
+        'true_answer' => 'Sample True Answer',
+    ],
+      $dataArray = [
+        'user_id' => 1,
+        'quiz_id' => 1,
+        'answer_id' => 3,
+        'question_id' => 3,
+        'true_answer' => 'Sample True Answer',
+    ],
+      $dataArray = [
+        'user_id' => 1,
+        'quiz_id' => 1,
+        'answer_id' => 8,
+        'question_id' => 4,
+        'true_answer' => 'Sample True Answer',
+    ]
+}

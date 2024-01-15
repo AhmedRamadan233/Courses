@@ -39,7 +39,7 @@
                                             <div class="row align-items-center">
                                                 @foreach ($questions as $question)
                                                     <div class="col-lg-12 col-md-12 col-12">
-                                                        <form method="post" action="{{ route('quizWebsite.finishedQuiz', ['id' => $quiz->id]) }}" id="quizForm">
+                                                        <form method="post" action="{{ route('quizWebsite.saveInCookieAndDoNext', ['id' => $quiz->id]) }}" id="quizForm">
                                                             @csrf
                                                         
                                                             <input type="hidden" name="_method" value="post">
@@ -115,7 +115,16 @@
                         <!-- Start Single Widget -->
                         <div class="single-widget">
                             <h3>All Questions</h3>
-                            {{ $questions->links('vendor.pagination.numircal')}}
+                            {{-- {{ $questions->links('vendor.pagination.numircal')}} --}}
+                            <ul class="list d-flex flex-wrap justify-content-between align-items-center">
+
+                                @foreach ($questions as $question )
+                                    
+                                <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
+                                    <a href="product-grids.html">{{$question->id}}</a>
+                                </li>
+                                @endforeach
+                            </ul>
 
                         </div>
                         <!-- End Single Widget -->
@@ -154,7 +163,25 @@ $(document).ready(function () {
 
     // Update the timer every second
     var timerInterval = setInterval(updateTimer, 1000);
-});
+    });
+    // Example using jQuery AJAX
+    $.ajax({
+        url: '/save-in-cookie-and-do-next/' + quizId,
+        type: 'POST',
+        data: {
+            answer_id: selectedAnswerId,
+            // Add any other data needed for the request
+        },
+        dataType: 'json',
+        success: function(response) {
+            // Handle the response, e.g., update the UI with the new data
+            console.log(response);
+        },
+        error: function(error) {
+            // Handle errors
+            console.error(error);
+        }
+    });
 
 </script>
 @endpush

@@ -8,74 +8,20 @@
 <!-- Start Trending Product Area -->
 <section class="trending-product section" style="margin-top: 12px;">
     <div class="container">
-        {{-- <div class="row">
-            <div class="col-12">
-                <div class="section-title">
-                    <h2>{{ $quiz->section->name }}</h2>
-                    <div >
-                        @foreach ($quizzes as $quiz)
-                        <a class="btn btn-outline-primary text-dark m-1">{{ $quiz->section->name }}</a>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-        <div class="row">
-            @foreach ($solutions as $solution)
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-                        <div class="product-image">
-                            <img src="{{ asset('assets/images/products/product-1.jpg')}}" alt="#">
-                            
-                            <div class="button">
-                                {{-- <a href="{{ route('quizWebsite.getQuizById', ['id' => $quiz->id]) }}" class="btn">
-                                    <i class="lni lni-cart"></i> Go To Quiz
-                                </a> --}}
-                            </div>
-                        </div>
-                        <div class="product-info">
- 
-                            <h4 class="title">
-                                <a href="product-grids.html">{{$solution->user->name}}</a>
-                            </h4>
-                            <h4 class="title">
-                                <a href="product-grids.html">{{$solution->quiz->name}}</a>
-                            </h4>
-                          
-                            <h4 class="title">
-                                <a href="product-grids.html">{{$solution->question->body}}</a>
-                            </h4> 
-                            <h4 class="title">
-                                <a href="product-grids.html">{{$solution->answer->answer}}</a>
-                            </h4>
-                            @if($solution->answer->is_correct)
-                                <p class="btn disabled btn-success">True</p>
-                            @else
-                                <p class="btn disabled btn-warning">FALSE</p>
-                            @endif
-                            <h4 class="title">
-                                <a href="product-grids.html">{{$solution->true_answer}}</a>
-                            </h4>
-                           
-                            {{-- <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul> --}}
-                            <div class="price">
-                                {{-- <span>{{$quiz->price}}</span> --}}
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-            @endforeach
-        </div>
-        
+        {{-- Retrieve the cookie data from the request --}}
+        @php
+            $cookieData = json_decode(request()->cookie('solutions_cookie'), true);
+        @endphp
+    
+        {{-- Display individual elements from the decoded cookie data --}}
+        <p>User ID: {{ $cookieData['user_id'] }}</p>
+        <p>Quiz ID: {{ $cookieData['quiz_id'] }}</p>
+        <p>Question ID: {{ $cookieData['question_id'] }}</p>
+        <p>Answer ID: {{ $cookieData['answer_id'] }}</p>
+        <p>True Answer: {{ $cookieData['true_answer'] }}</p>
+    
+        {{-- Or, if you want to display the entire array for debugging purposes --}}
+        <pre>{{ print_r($cookieData, true) }}</pre>
     </div>
 </section>
 <!-- End Trending Product Area -->
