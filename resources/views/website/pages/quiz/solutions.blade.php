@@ -27,28 +27,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                           
                             @foreach ($solutions as $solution)
-                            <tr>
-                                <td>{{ $solution->user->name }}</td>
-                                <td>{{ $solution->quiz->name }}</td>
-                                <td class="ai-collapse"> 
-                                    @php
-                                        $totalCorrectAnswerCount = 0;
-                                    @endphp
-                                    @if ($solution->answer->is_correct)
+                                <tr>
+                                    <td>{{ $solution->user->name }}</td>
+                                    <td>{{ $solution->quiz->name }}</td>
+                                    <td class="ai-collapse"> 
                                         @php
-                                            $totalCorrectAnswerCount++;
+                                            $totalCorrectAnswerCount = 0;
                                         @endphp
-                                    @endif
-                                 
-                                    <p>{{ $totalCorrectAnswerCount }}</p>
-                                </td>
-                                    
-                            </tr>
-                        @endforeach
+                    
+                                        {{-- Loop through the user's solutions to calculate total correct answers --}}
+                                        @foreach ($solution->user->solutions->where('quiz_id', $solution->quiz_id) as $userSolution)
+                                            @if ($userSolution->answer->is_correct)
+                                                @php
+                                                    $totalCorrectAnswerCount++;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                    
+                                        <p>{{ $totalCorrectAnswerCount }}</p>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
+                    
                 </div>
                 <div class="card-footer text-center">
                     <h5 class="m-0">Featured</h5>
