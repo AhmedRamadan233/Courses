@@ -86,58 +86,40 @@ class QuizController extends Controller
     
     
 
-    public function saveCookieDataToDatabase()
+    public function getSolutions()
+    {
+        $solutions = Solution::with( 'quiz','user','question' , 'answer' )->get();
+        return view('website.pages.quiz.solutions', compact('solutions'));
+    }
+   
+    public function saveCookieDataToDatabase(Request $request)
     {
         // Retrieve all data from the cookie
         $cookieData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
-
+    
         // Iterate through each set of data in the cookie
         foreach ($cookieData as $data) {
             // Create a new Solution instance
             $solutions = new Solution();
-
+    
             // Set the Solution attributes
             $solutions->user_id = $data['user_id'];
             $solutions->quiz_id = $data['quiz_id'];
             $solutions->answer_id = $data['answer_id'];
             $solutions->question_id = $data['question_id'];
             $solutions->true_answer = $data['true_answer'];
-
+    
             // Save the data to the database
             $solutions->save();
         }
-
+    
         // Clear the cookie after saving data to the database
         $cookie = Cookie::forget('solutions_cookie');
-
-        return response()->json(['message' => 'Data saved to the database.'])->withCookie($cookie);
-    }
     
+        return redirect()->route('quizWebsite.getSolutions')->with('success', 'question added successfully.')->withCookie($cookie);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function getSolutions()
-    {
-        $solutions = Solution::with( 'quiz','user','question' , 'answer' )->get();
-        return view('website.pages.quiz.solutions', compact('solutions'));
     }
+
     
     public function finishedQuiz(Request $request, $id)
     {

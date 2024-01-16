@@ -42,45 +42,76 @@
                                                     $shuffledQuestions = $questions->shuffle();
                                                 @endphp
 
-                                                @foreach ($shuffledQuestions as $question)
-                                                    <div class="col-lg-12 col-md-12 col-12">
-                                                        <form method="post" action="{{ route('quizWebsite.saveInCookieAndDoNext', ['id' => $quiz->id]) }}" id="quizForm">
-                                                            @csrf
-                                                            <input type="hidden" name="_method" value="post">
+                                                @foreach ($questions as $question)
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <form method="post" action="{{ route('quizWebsite.saveInCookieAndDoNext', ['id' => $quiz->id]) }}" id="quizForm">
+                                                        @csrf
+                                                        <input type="hidden" name="_method" value="post">
 
-                                                            <div class="product-info">
-                                                                <div class="d-flex justify-content-between align-items-center p-2">
-                                                                    <h3 name="question_id" class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
-                                                                </div>
-
-                                                                <ul class="options p-2">
-                                                                    @php
-                                                                    // Shuffle the questions array
-                                                                        $shuffledAnswers = $question->answers->shuffle();
-                                                                    @endphp
-                                                                    @foreach ($shuffledAnswers as $answer)
-                                                                        <li class="m-3">
-                                                                            <input name="answer_id" class="form-check-input" type="radio" name="quizOption" id="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}" value="{{ $answer->answer }}">
-                                                                            <label class="form-check-label font-weight-bold" for="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}">{{ $answer->answer }}</label>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-
+                                                        <div class="product-info">
                                                             <div class="d-flex justify-content-between align-items-center p-2">
-                                                                <label class="form-check-label font-weight-bold">Next to another Question</label>
-                                                            
-                                                                <button class="btn btn-outline-primary" style="border-radius: 8px; font-size: 24px;" type="submit">
-                                                                    Next
-                                                                </button>
+                                                                <h3 name="question_id" class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
                                                             </div>
-                                                        </form>
-                                                    </div>
+
+                                                            <ul class="options p-2">
+                                                                @php
+                                                                    // Shuffle the answers array
+                                                                    $shuffledAnswers = $question->answers->shuffle();
+                                                                    // Retrieve existing data from the cookie
+                                                                    $existingData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
+                                                                @endphp
+
+                                                                {{-- <pre>{{ print_r($cookieData, true) }}</pre> --}}
+
+                                                                @foreach ($shuffledAnswers as $answer)
+                                                                    @php
+                                                                        // Find the corresponding data from the cookie based on the answer
+                                                                        $cookieDataForAnswer = collect($existingData)->where('answer_id', $answer->id)->first();
+                                                                    @endphp
+                                                                    <li class="m-3">
+                                                                        {{-- Check if $cookieDataForAnswer is not null and answer is selected --}}
+                                                                        <input 
+                                                                            name="answer_id" 
+                                                                            class="form-check-input" 
+                                                                            type="radio" 
+                                                                            name="quizOption" 
+                                                                            id="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}" 
+                                                                            value="{{ $answer->answer }}" 
+                                                                            @if (!is_null($cookieDataForAnswer) && $answer->id == $cookieDataForAnswer['answer_id']) checked @endif
+                                                                            >
+                                                                        <label class="form-check-label font-weight-bold" for="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}">{{ $answer->answer }}</label>
+                                                                    </li>
+                                                                @endforeach
+
+                                                            </ul>
+                                                        </div>
+                                                        <div class="d-flex justify-content-between align-items-center p-2">
+                                                            <label class="form-check-label font-weight-bold">Next to another Question</label>
+                                                            
+                                                            <button class="btn btn-outline-primary" style="border-radius: 8px; font-size: 24px;" type="submit">
+                                                                Next
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                                 @endforeach
+
 
                                             </div>
                                         </div>
                                         <!-- End Single Product -->
+                                        <div class="d-flex justify-content-between align-items-center p-2">
+                                            <label class="form-check-label font-weight-bold">Finished all Question, save it</label>
+                                            
+                                            <form method="post" action="{{ route('quizWebsite.saveCookieDataToDatabase') }}">
+                                                @csrf
+                                                <input type="hidden" name="_method" value="post">
+                                                <button class="btn btn-outline-primary" style="border-radius: 8px; font-size: 24px;" type="submit">
+                                                    Finished
+                                                </button>
+                                            </form>
+                                            
+                                        </div>
                                     </div>
                                     {{-- {{ $questions->links('vendor.pagination.next-previous')}} --}}
 
@@ -165,25 +196,18 @@ $(document).ready(function () {
 
     // Update the timer every second
     var timerInterval = setInterval(updateTimer, 1000);
+
+    // ---------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
     });
-    // Example using jQuery AJAX
-    $.ajax({
-        url: '/save-in-cookie-and-do-next/' + quizId,
-        type: 'POST',
-        data: {
-            answer_id: selectedAnswerId,
-            // Add any other data needed for the request
-        },
-        dataType: 'json',
-        success: function(response) {
-            // Handle the response, e.g., update the UI with the new data
-            console.log(response);
-        },
-        error: function(error) {
-            // Handle errors
-            console.error(error);
-        }
-    });
+    
 
 </script>
 @endpush

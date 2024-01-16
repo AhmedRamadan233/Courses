@@ -8,26 +8,55 @@
 <!-- Start Trending Product Area -->
 <section class="trending-product section" style="margin-top: 12px;">
     <div class="container">
+        <div class="col-lg-12">
+            <div class="card card-primary card-outline">
+                
+                <div class="card-header">
+                    <div class="d-flex justify-content-center align-items-center">
+                       <h2> Your Result</h2>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <table id="product-table" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Quiz</th>
+                                <th>Final Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                            @foreach ($solutions as $solution)
+                            <tr>
+                                <td>{{ $solution->user->name }}</td>
+                                <td>{{ $solution->quiz->name }}</td>
+                                <td class="ai-collapse"> 
+                                    @php
+                                        $totalCorrectAnswerCount = 0;
+                                    @endphp
+                                    @if ($solution->answer->is_correct)
+                                        @php
+                                            $totalCorrectAnswerCount++;
+                                        @endphp
+                                    @endif
+                                 
+                                    <p>{{ $totalCorrectAnswerCount }}</p>
+                                </td>
+                                    
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer text-center">
+                    <h5 class="m-0">Featured</h5>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    {{-- Retrieve the cookie data from the request --}}
-    @php
-        $cookieData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
-    @endphp
-
-    {{-- Loop through each set of data in the cookie --}}
-    @foreach ($cookieData as $data)
-        <p>User ID: {{ $data['user_id'] }}</p>
-        <p>Quiz ID: {{ $data['quiz_id'] }}</p>
-        <p>Question ID: {{ $data['question_id'] }}</p>
-        <p>Answer ID: {{ $data['answer_id'] }}</p>
-        <p>True Answer: {{ $data['true_answer'] }}</p>
-        <hr> {{-- Add a separator between sets of data --}}
-    @endforeach
-
-    {{-- Or, if you want to display the entire array for debugging purposes --}}
-    <pre>{{ print_r($cookieData, true) }}</pre>
-
-</div>
 
 </section>
 <!-- End Trending Product Area -->
@@ -136,6 +165,8 @@
 </section>
 <!-- End Shipping Info -->
 @endsection
+
+
 
 
 

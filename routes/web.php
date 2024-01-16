@@ -155,8 +155,8 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
             Route::post('/save-in-cookie-and-do-next/{id}', [WebsiteQuizController::class, 'saveInCookieAndDoNext'])->name('quizWebsite.saveInCookieAndDoNext');
             // Route::get('/next-question/{id}', [WebsiteQuizController::class, 'nextQuestion'])->name('quizWebsite.nextQuestion');
 
-            Route::post('/finishedquiz/{id}', [WebsiteQuizController::class, 'finishedQuiz'])->name('quizWebsite.finishedQuiz');
-            Route::get('/solutions', [WebsiteQuizController::class, 'getSolutions'])->name('quizWebsite.getSolutions');
+            Route::post('/save-cookie-data-to-database', [WebsiteQuizController::class, 'saveCookieDataToDatabase'])->name('quizWebsite.saveCookieDataToDatabase');
+            Route::get( '/solutions', [WebsiteQuizController::class, 'getSolutions'])->name('quizWebsite.getSolutions');
 
         });
 
