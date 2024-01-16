@@ -68,22 +68,51 @@ class QuizController extends Controller
             'true_answer' => $solutions->true_answer,
         ];
     
-        $cookie = Cookie::make('solutions_cookie', json_encode($cookieData));
+        $existingData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
 
+        $existingData = array_filter($existingData, function ($data) use ($solutions) {
+            return $data['question_id'] !== $solutions->question_id;
+        });
+    
+        $existingData[] = $cookieData;
+        
+        $cookie = Cookie::make('solutions_cookie', json_encode($existingData));
+    
         // $solutions->save();
     
-
-        return response()->json(['solutions' => $solutions, 'cookie_data' => $cookieData])->withCookie($cookie);
-
+        return redirect()->back()->withCookie($cookie);
     }
     
     
+    
 
-    public function nextQuestion($id)
+    public function saveCookieDataToDatabase()
     {
-        
-    }
+        // Retrieve all data from the cookie
+        $cookieData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
 
+        // Iterate through each set of data in the cookie
+        foreach ($cookieData as $data) {
+            // Create a new Solution instance
+            $solutions = new Solution();
+
+            // Set the Solution attributes
+            $solutions->user_id = $data['user_id'];
+            $solutions->quiz_id = $data['quiz_id'];
+            $solutions->answer_id = $data['answer_id'];
+            $solutions->question_id = $data['question_id'];
+            $solutions->true_answer = $data['true_answer'];
+
+            // Save the data to the database
+            $solutions->save();
+        }
+
+        // Clear the cookie after saving data to the database
+        $cookie = Cookie::forget('solutions_cookie');
+
+        return response()->json(['message' => 'Data saved to the database.'])->withCookie($cookie);
+    }
+    
 
 
 

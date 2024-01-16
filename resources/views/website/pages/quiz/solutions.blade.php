@@ -8,21 +8,27 @@
 <!-- Start Trending Product Area -->
 <section class="trending-product section" style="margin-top: 12px;">
     <div class="container">
-        {{-- Retrieve the cookie data from the request --}}
-        @php
-            $cookieData = json_decode(request()->cookie('solutions_cookie'), true);
-        @endphp
-    
-        {{-- Display individual elements from the decoded cookie data --}}
-        <p>User ID: {{ $cookieData['user_id'] }}</p>
-        <p>Quiz ID: {{ $cookieData['quiz_id'] }}</p>
-        <p>Question ID: {{ $cookieData['question_id'] }}</p>
-        <p>Answer ID: {{ $cookieData['answer_id'] }}</p>
-        <p>True Answer: {{ $cookieData['true_answer'] }}</p>
-    
-        {{-- Or, if you want to display the entire array for debugging purposes --}}
-        <pre>{{ print_r($cookieData, true) }}</pre>
-    </div>
+
+    {{-- Retrieve the cookie data from the request --}}
+    @php
+        $cookieData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
+    @endphp
+
+    {{-- Loop through each set of data in the cookie --}}
+    @foreach ($cookieData as $data)
+        <p>User ID: {{ $data['user_id'] }}</p>
+        <p>Quiz ID: {{ $data['quiz_id'] }}</p>
+        <p>Question ID: {{ $data['question_id'] }}</p>
+        <p>Answer ID: {{ $data['answer_id'] }}</p>
+        <p>True Answer: {{ $data['true_answer'] }}</p>
+        <hr> {{-- Add a separator between sets of data --}}
+    @endforeach
+
+    {{-- Or, if you want to display the entire array for debugging purposes --}}
+    <pre>{{ print_r($cookieData, true) }}</pre>
+
+</div>
+
 </section>
 <!-- End Trending Product Area -->
 
