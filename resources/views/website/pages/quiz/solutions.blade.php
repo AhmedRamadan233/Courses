@@ -22,7 +22,7 @@
                         <thead>
                             <tr>
                                 <th>User</th>
-                                {{-- <th>Quiz</th> --}}
+                                <th>Quiz</th>
                                 <th>Final Result</th>
                             </tr>
                         </thead>
@@ -30,7 +30,7 @@
                             @foreach ($solutions as $solution)
                                 <tr>
                                     <td>{{ $solution->user->name }}</td>
-                                    {{-- <td>{{ $solution->quiz->name }}</td> --}}
+                                    <td>{{ $solution->quiz->name }}</td>
                                     <td class="ai-collapse"> 
                                         @php
                                             $totalCorrectAnswerCount = 0;

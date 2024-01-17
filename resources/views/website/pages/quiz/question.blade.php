@@ -41,58 +41,55 @@
                                                     // Shuffle the questions array
                                                     $shuffledQuestions = $questions->shuffle();
                                                 @endphp
+@foreach ($questions as $index => $question)
+<div class="col-lg-12 col-md-12 col-12 quiz-container" data-quiz-id="{{ $quiz->id }}" @if($index > 0) style="display: none;" @endif>
+    <form method="post" action="{{ route('quizWebsite.saveInCookieAndDoNext', ['id' => $quiz->id]) }}" class="quiz-form">
+        @csrf
+        <input type="hidden" name="_method" value="post">
 
-                                                @foreach ($questions as $question)
-                                                    <div class="col-lg-12 col-md-12 col-12">
-                                                        <form method="post" action="{{ route('quizWebsite.saveInCookieAndDoNext', ['id' => $quiz->id]) }}" class="quiz-form">
-                                                            @csrf
-                                                            <input type="hidden" name="_method" value="post">
+        <div class="product-info">
+            <div class="d-flex justify-content-between align-items-center p-2">
+                <h3 name="question_id" class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
+            </div>
 
-                                                            <div class="product-info">
-                                                                <div class="d-flex justify-content-between align-items-center p-2">
-                                                                    <h3 name="question_id" class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
-                                                                </div>
+            <ul class="options p-2">
+                @php
+                    // Shuffle the answers array
+                    $shuffledAnswers = $question->answers->shuffle();
+                    // Retrieve existing data from the cookie
+                    $existingData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
+                @endphp
 
-                                                                <ul class="options p-2">
-                                                                    @php
-                                                                        // Shuffle the answers array
-                                                                        $shuffledAnswers = $question->answers->shuffle();
-                                                                        // Retrieve existing data from the cookie
-                                                                        $existingData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
-                                                                    @endphp
-
-                                                                    @foreach ($shuffledAnswers as $answer)
-                                                                        @php
-                                                                            // Find the corresponding data from the cookie based on the answer
-                                                                            $cookieDataForAnswer = collect($existingData)->where('answer_id', $answer->id)->first();
-                                                                        @endphp
-                                                                        <li class="m-3">
-                                                                            <input 
-                                                                                name="answer_id" 
-                                                                                class="form-check-input quiz-option" 
-                                                                                type="radio" 
-                                                                                name="quizOption" 
-                                                                                value="{{ $answer->answer }}" 
-                                                                                data-quiz-id="{{ $quiz->id }}" 
-                                                                                @if (!is_null($cookieDataForAnswer) && $answer->id == $cookieDataForAnswer['answer_id']) checked @endif
-                                                                            >
-                                                                            <label class="form-check-label font-weight-bold" for="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}">{{ $answer->answer }}</label>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                            <div class="d-flex justify-content-between align-items-center p-2">
-                                                                <label class="form-check-label font-weight-bold">Next to another Question</label>
-                                                                
-                                                                <button class="btn btn-outline-primary" style="border-radius: 8px; font-size: 24px;" type="button" onclick="submitQuizForm(this)">
-                                                                    Next
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                @endforeach
-
-
+                @foreach ($shuffledAnswers as $answer)
+                    @php
+                        // Find the corresponding data from the cookie based on the answer
+                        $cookieDataForAnswer = collect($existingData)->where('answer_id', $answer->id)->first();
+                    @endphp
+                    <li class="m-3">
+                        <input 
+                            name="answer_id" 
+                            class="form-check-input quiz-option" 
+                            type="radio" 
+                            name="quizOption" 
+                            value="{{ $answer->answer }}" 
+                            data-quiz-id="{{ $quiz->id }}" 
+                            @if (!is_null($cookieDataForAnswer) && $answer->id == $cookieDataForAnswer['answer_id']) checked @endif
+                        >
+                        <label class="form-check-label font-weight-bold" for="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}">{{ $answer->answer }}</label>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+        <div class="d-flex justify-content-between align-items-center p-2">
+            <label class="form-check-label font-weight-bold">Next to another Question</label>
+            
+            <button class="btn btn-outline-primary" style="border-radius: 8px; font-size: 24px;" type="button" onclick="submitQuizForm(this)">
+                Next
+            </button>
+        </div>
+    </form>
+</div>
+@endforeach
                                             </div>
                                         </div>
                                         <!-- End Single Product -->
@@ -204,11 +201,29 @@ $(document).ready(function () {
 
     });
     
-function submitQuizForm(button) {
+    function submitQuizForm(button) {
         var form = $(button).closest('form');
         var quizId = form.find('.quiz-option:checked').data('quiz-id'); 
 
-       
+        // Hide the current quiz container
+        form.closest('.quiz-container').hide();
+
+        // Show the next quiz container
+        var nextQuizContainer = form.closest('.quiz-container').next('.quiz-container');
+        if (nextQuizContainer.length) {
+            nextQuizContainer.show();
+        } else {
+            // If there is no next container, it means we reached the last one
+            // Append a new container with a message
+            var lastindex = $('.quiz-container').length - 1;
+            if (form.closest('.quiz-container').index() === lastindex) {
+                var newContainer = $('<div class="col-lg-12 col-md-12 col-12 quiz-container">' +
+                                       '<p class="alert alert-warning">Don\'t forget to press the End key button to preserve the data</p>' +
+                                   '</div>');
+                $('.quiz-container:last').after(newContainer);
+            }
+        }
+
         $.ajax({
             url: '/website/quizes/save-in-cookie-and-do-next/' + quizId,
             type: 'POST',
