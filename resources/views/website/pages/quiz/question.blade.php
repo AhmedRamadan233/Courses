@@ -81,7 +81,9 @@
             </ul>
         </div>
         <div class="d-flex justify-content-between align-items-center p-2">
-            <label class="form-check-label font-weight-bold">Next to another Question</label>
+            <button class="btn btn-outline-primary mr-2" style="border-radius: 8px; font-size: 24px;" type="button" onclick="navigateQuiz(-1)">
+                Previous
+            </button>
             
             <button class="btn btn-outline-primary" style="border-radius: 8px; font-size: 24px;" type="button" onclick="submitQuizForm(this)">
                 Next
@@ -201,6 +203,30 @@ $(document).ready(function () {
 
     });
     
+
+    function navigateQuiz(direction) {
+        var currentContainer = $('.quiz-container:visible');
+        var targetIndex = currentContainer.index() + direction;
+
+        // Check if the targetIndex is greater than or equal to 0
+        if (targetIndex < 0) {
+            // Stop the function if the targetIndex is less than 0
+            return;
+        }
+
+        // Hide the current quiz container
+        currentContainer.hide();
+
+        // Show the target quiz container
+        var targetQuizContainer = $('.quiz-container:eq(' + targetIndex + ')');
+        targetQuizContainer.show();
+
+        // Update the form action
+        var quizId = targetQuizContainer.data('quiz-id');
+        targetQuizContainer.find('.quiz-form').attr('action', '/website/quizes/save-in-cookie-and-do-next/' + quizId);
+    }
+
+
     function submitQuizForm(button) {
         var form = $(button).closest('form');
         var quizId = form.find('.quiz-option:checked').data('quiz-id'); 
@@ -218,8 +244,14 @@ $(document).ready(function () {
             var lastindex = $('.quiz-container').length - 1;
             if (form.closest('.quiz-container').index() === lastindex) {
                 var newContainer = $('<div class="col-lg-12 col-md-12 col-12 quiz-container">' +
-                                       '<p class="alert alert-warning">Don\'t forget to press the End key button to preserve the data</p>' +
-                                   '</div>');
+                       '<p class="alert alert-warning">Don\'t forget to press the End key button to preserve the data</p>' +
+                       '<div class="d-flex justify-content-between align-items-center p-2">' +
+                           '<button class="btn btn-outline-primary mr-2" style="border-radius: 8px; font-size: 24px;" type="button" onclick="navigateQuiz(-1)">' +
+                               'Previous' +
+                           '</button>' +
+                       '</div>' +
+                    '</div>');
+
                 $('.quiz-container:last').after(newContainer);
             }
         }
