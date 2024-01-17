@@ -16,4 +16,7 @@ class WebsiteController extends Controller
         return view('website.index', compact('categories'));
 
     }
+
+
+
 }

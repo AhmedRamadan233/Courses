@@ -289,7 +289,7 @@
                                         <a href="{{route('coursesWebsite.index')}}" class="active" aria-label="Toggle navigation">Home</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('quizWebsite.index')}}" aria-label="Toggle navigation">Quizes</a>
+                                        <a href="{{route('quizWebsite.index')}}" aria-label="Toggle navigation">Quizzies</a>
                                     </li>
                                     
                                     <li class="nav-item">

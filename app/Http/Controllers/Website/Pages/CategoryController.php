@@ -16,10 +16,14 @@ class CategoryController extends Controller
         return response()->json(['categories' => $categories], 200);
     }
 
-    public function getCategoryBySlug($slug)
+    public function getCategoryBySlug(Request $request , $slug)
     {
-        $category = Category::with('description', 'commonQestions', 'sections')->where('slug', $slug)->firstOrFail();
-        return response()->json(['category' => $category], 200);
+        $showCategory = Category::where('slug', $slug)->firstOrFail();
+        $allRelationsWithCategory = Category::with('description', 'commonQestions', 'sections.quizzes', 'sections.products')->where('slug', $slug)->get();
+
+        
+        return view('website.pages.course-view.course-view', compact('showCategory', 'allRelationsWithCategory'));
+
     }
 
 }

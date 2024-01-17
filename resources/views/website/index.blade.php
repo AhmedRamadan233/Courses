@@ -120,7 +120,7 @@
                     <div class="product-info">
                         <span class="category">{{$category->parent->name}}</span>
                         <h4 class="title">
-                            <a href="product-grids.html">{{$category->name}}</a>
+                            <a href="{{ route('category.getCategoryBySlug' ,['slug' => $category->slug] )}}">{{$category->name}}</a>
                         </h4>
                         <ul class="review">
                             <li><i class="lni lni-star-filled"></i></li>

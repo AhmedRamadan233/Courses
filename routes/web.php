@@ -141,13 +141,13 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         
         Route::prefix('courses')->group(function () {
             Route::get('/', [WebsitePagesController::class, 'index'])->name('coursesWebsite.index');
-            // Route::get('/category/{slug}', [WebsitePagesController::class, 'getCategoryBySlug'])->name('getCategoryBySlug');
             // Route::get('/section/{slug}', [WebsitePagesController::class, 'getSectionBySlug'])->name('getSectionBySlug');
         });
-        // Route::prefix('categories')->group(function () {
-        //     Route::get('/',[WebsiteCategoryController::class , 'index']);
-        //     Route::get('/{slug}', [WebsiteCategoryController::class, 'getCategoryBySlug']);
-        // });
+        Route::prefix('categories')->group(function () {
+            Route::get('/',[WebsiteCategoryController::class , 'index']);
+            Route::get('/category/{slug}', [WebsiteCategoryController::class, 'getCategoryBySlug'])->name('category.getCategoryBySlug');
+
+        });
             // quizWebsite.index
         Route::prefix('quizes')->group(function () {
             Route::get('/', [WebsiteQuizController::class, 'index'])->name('quizWebsite.index');
