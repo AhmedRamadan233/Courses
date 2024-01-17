@@ -43,57 +43,53 @@
                                                 @endphp
 
                                                 @foreach ($questions as $question)
-                                                <div class="col-lg-12 col-md-12 col-12">
-                                                    <form method="post" action="{{ route('quizWebsite.saveInCookieAndDoNext', ['id' => $quiz->id]) }}" id="quizForm">
-                                                        @csrf
-                                                        <input type="hidden" name="_method" value="post">
+                                                    <div class="col-lg-12 col-md-12 col-12">
+                                                        <form method="post" action="{{ route('quizWebsite.saveInCookieAndDoNext', ['id' => $quiz->id]) }}" class="quiz-form">
+                                                            @csrf
+                                                            <input type="hidden" name="_method" value="post">
 
-                                                        <div class="product-info">
-                                                            <div class="d-flex justify-content-between align-items-center p-2">
-                                                                <h3 name="question_id" class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
-                                                            </div>
+                                                            <div class="product-info">
+                                                                <div class="d-flex justify-content-between align-items-center p-2">
+                                                                    <h3 name="question_id" class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
+                                                                </div>
 
-                                                            <ul class="options p-2">
-                                                                @php
-                                                                    // Shuffle the answers array
-                                                                    $shuffledAnswers = $question->answers->shuffle();
-                                                                    // Retrieve existing data from the cookie
-                                                                    $existingData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
-                                                                @endphp
-
-                                                                {{-- <pre>{{ print_r($cookieData, true) }}</pre> --}}
-
-                                                                @foreach ($shuffledAnswers as $answer)
+                                                                <ul class="options p-2">
                                                                     @php
-                                                                        // Find the corresponding data from the cookie based on the answer
-                                                                        $cookieDataForAnswer = collect($existingData)->where('answer_id', $answer->id)->first();
+                                                                        // Shuffle the answers array
+                                                                        $shuffledAnswers = $question->answers->shuffle();
+                                                                        // Retrieve existing data from the cookie
+                                                                        $existingData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
                                                                     @endphp
-                                                                    <li class="m-3">
-                                                                        {{-- Check if $cookieDataForAnswer is not null and answer is selected --}}
-                                                                        <input 
-                                                                            name="answer_id" 
-                                                                            class="form-check-input" 
-                                                                            type="radio" 
-                                                                            name="quizOption" 
-                                                                            id="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}" 
-                                                                            value="{{ $answer->answer }}" 
-                                                                            @if (!is_null($cookieDataForAnswer) && $answer->id == $cookieDataForAnswer['answer_id']) checked @endif
-                                                                            >
-                                                                        <label class="form-check-label font-weight-bold" for="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}">{{ $answer->answer }}</label>
-                                                                    </li>
-                                                                @endforeach
 
-                                                            </ul>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center p-2">
-                                                            <label class="form-check-label font-weight-bold">Next to another Question</label>
-                                                            
-                                                            <button class="btn btn-outline-primary" style="border-radius: 8px; font-size: 24px;" type="submit">
-                                                                Next
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                                                    @foreach ($shuffledAnswers as $answer)
+                                                                        @php
+                                                                            // Find the corresponding data from the cookie based on the answer
+                                                                            $cookieDataForAnswer = collect($existingData)->where('answer_id', $answer->id)->first();
+                                                                        @endphp
+                                                                        <li class="m-3">
+                                                                            <input 
+                                                                                name="answer_id" 
+                                                                                class="form-check-input quiz-option" 
+                                                                                type="radio" 
+                                                                                name="quizOption" 
+                                                                                value="{{ $answer->answer }}" 
+                                                                                data-quiz-id="{{ $quiz->id }}" 
+                                                                                @if (!is_null($cookieDataForAnswer) && $answer->id == $cookieDataForAnswer['answer_id']) checked @endif
+                                                                            >
+                                                                            <label class="form-check-label font-weight-bold" for="option{{ $loop->parent->index + 1 }}{{ $loop->index + 1 }}">{{ $answer->answer }}</label>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between align-items-center p-2">
+                                                                <label class="form-check-label font-weight-bold">Next to another Question</label>
+                                                                
+                                                                <button class="btn btn-outline-primary" style="border-radius: 8px; font-size: 24px;" type="button" onclick="submitQuizForm(this)">
+                                                                    Next
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 @endforeach
 
 
@@ -198,7 +194,7 @@ $(document).ready(function () {
     var timerInterval = setInterval(updateTimer, 1000);
 
     // ---------------------------------------------------------------------------------------------------------
-
+    
 
 
 
@@ -208,7 +204,24 @@ $(document).ready(function () {
 
     });
     
+function submitQuizForm(button) {
+        var form = $(button).closest('form');
+        var quizId = form.find('.quiz-option:checked').data('quiz-id'); 
 
+       
+        $.ajax({
+            url: '/website/quizes/save-in-cookie-and-do-next/' + quizId,
+            type: 'POST',
+            data: form.serialize(),
+            success: function(data) {
+                // Update the UI or handle success as needed
+                $('#category_id').empty();
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
 </script>
 @endpush
 

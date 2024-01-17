@@ -91,33 +91,34 @@ class QuizController extends Controller
         $solutions = Solution::withTotalCorrectAnswers()
         ->with(['user', 'quiz'])
         ->get();
-
-
-        
         return view('website.pages.quiz.solutions', compact('solutions'));
     }
    
     public function saveCookieDataToDatabase(Request $request)
-    {
-        $cookieData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
-    
-        foreach ($cookieData as $data) {
-            $solutions = new Solution();
-    
-            $solutions->user_id = $data['user_id'];
-            $solutions->quiz_id = $data['quiz_id'];
-            $solutions->answer_id = $data['answer_id'];
-            $solutions->question_id = $data['question_id'];
-            $solutions->true_answer = $data['true_answer'];
-    
-            $solutions->save();
-        }
-    
-        $cookie = Cookie::forget('solutions_cookie');
-    
-        return redirect()->route('quizWebsite.getSolutions')->with('success', 'question added successfully.')->withCookie($cookie);
+{
+    $cookieData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
 
+    foreach ($cookieData as $data) {
+        $solutions = new Solution();
+
+        $solutions->user_id = $data['user_id'];
+        $solutions->quiz_id = $data['quiz_id'];
+        $solutions->answer_id = $data['answer_id'];
+        $solutions->question_id = $data['question_id'];
+        $solutions->true_answer = $data['true_answer'];
+
+        try {
+            $solutions->save();
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e]);
+        }
     }
+
+    $cookie = Cookie::forget('solutions_cookie');
+
+    return redirect()->route('quizWebsite.getSolutions')->with('success', 'Questions added successfully.')->withCookie($cookie);
+}
+
 
     
     public function finishedQuiz(Request $request, $id)
