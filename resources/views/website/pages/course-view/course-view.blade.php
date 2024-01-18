@@ -51,50 +51,7 @@
                                     <!-- End Meta Info -->
                                 </div>
                                 <div class="detail-inner">
-                                    {{-- <p>We denounce with righteous indige nation and dislike men who are so beguiled and
-                                        demo
-                                        realized by the charms of pleasure of the moment, so blinded by desire, that
-                                        they
-                                        cannot
-                                        foresee the pain and trouble that are bound to ensue; and equal blame belongs to
-                                        those
-                                        who fail in their duty through weakness of will, which is the same as saying
-                                        through
-                                        shrinking from toil and pain. These cases are perfectly simple and easy to
-                                        distinguish.
-                                        In a free hour, when our power of choice is untrammelled and when nothing
-                                        prevents
-                                        our
-                                        being able to do what we like best, every pleasure is to be welcomed and every
-                                        pain
-                                        avoided.</p>
-                                    <!-- post image -->
-                                    <ul class="list">
-                                        <li><i class="lni lni-checkmark-circle"></i> For those of you who are serious
-                                            about having
-                                            more.</li>
-                                        <li><i class="lni lni-checkmark-circle"></i> There are a million distractions in
-                                            every
-                                            facet of our lives.</li>
-                                        <li><i class="lni lni-checkmark-circle"></i> The sad thing is the majority of
-                                            people have
-                                            no clue about what they truly want.</li>
-                                        <li><i class="lni lni-checkmark-circle"></i> Once you have a clear understanding
-                                            of what you
-                                            want</li>
-                                        <li><i class="lni lni-checkmark-circle"></i> Focus is having the unwavering
-                                            attention to
-                                            complete what you set out to do.</li>
-                                    </ul>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                        irure
-                                        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                        pariatur.
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia. </p>
-                                    <!-- post quote --> --}}
+                                    
                                     <div class="row">
                                         <div class="col-lg-12 pt-3">
                                             <!-- Description Card -->
@@ -332,15 +289,21 @@
                         <div class="widget popular-feeds">
                             <h5 class="widget-title">Featured Posts</h5>
                             <div class="popular-feed-loop form-group">
-                                <div class="btn-group" role="group" aria-label="Categories">
-                                    @foreach ($allRelationsWithCategory as $category)
-                                        @if ($category->sections)
-                                            @foreach ($category->sections as $index => $courseSection)
-                                                <button type="button" class="btn btn-secondary category" data-target="{{ $courseSection->id }}">{{ $courseSection->name }}</button>
-                                            @endforeach
-                                        @endif
-                                    @endforeach
+                                <div class="single-widget">
+                                  
+                                    <ul class="list d-flex flex-wrap justify-content-between align-items-center">
+                                        @foreach ($allRelationsWithCategory as $category)
+                                            @if ($category->sections)
+                                                @foreach ($category->sections as $index => $courseSection)
+                                                    <li class="btn btn-secondary category m-1 flex-grow-1" data-target="{{ $courseSection->id }}">
+                                                        {{ $courseSection->name }}
+                                                    </li>
+                                                @endforeach
+                                            @endif
+                                        @endforeach
+                                    </ul>
                                 </div>
+                
                                     @foreach ($allRelationsWithCategory as $category)
                                         @foreach ($category->sections as $index => $courseSection)
                                             <div class="main-category" id="main-category-{{$courseSection->id }}" style="display: none;">
@@ -379,8 +342,8 @@
                                                 </div>
                                             @endforeach
                                         </div>
+                                        @endforeach
                                     @endforeach
-                                @endforeach
                                 
                                 {{-- <div class="single-popular-feed">
                                     <div class="feed-desc">
@@ -467,12 +430,9 @@
         categoryButtons.click(function () {
             var targetIndex = $(this).data('target');
 
-            // Hide all card containers
 
             cardContainers.hide();
-            // container.style.display = 'none';
 
-            // Show the selected card container based on index
             var targetContainer = $('#main-category-' + targetIndex);
             if (targetContainer.length) {
                 targetContainer.show();
@@ -492,12 +452,10 @@
             button.addEventListener('click', function () {
                 var targetId = button.getAttribute('data-target');
 
-                // Hide all card containers
                 cardContainerss.forEach(function (container) {
                     container.style.display = 'none';
                 });
 
-                // Show the selected card container
                 var targetContainer = document.getElementById(targetId);
                 if (targetContainer) {
                     targetContainer.style.display = 'block';

@@ -41,7 +41,7 @@
                                                     // Shuffle the questions array
                                                     $shuffledQuestions = $questions->shuffle();
                                                 @endphp
-                                                @foreach ($questions as $index => $question)
+                                                @foreach ($shuffledQuestions as $index => $question)
                                                 <div class="col-lg-12 col-md-12 col-12 quiz-container" data-quiz-id="{{ $quiz->id }}" @if($index > 0) style="display: none;" @endif>
                                                     <form method="post" action="{{ route('quizWebsite.saveInCookieAndDoNext', ['id' => $quiz->id]) }}" class="quiz-form">
                                                         @csrf
@@ -95,11 +95,11 @@
                                             </div>
                                         </div>
                                         <!-- End Single Product -->
-                                        <div class="d-flex justify-content-center align-items-center p-2">
-                                            <form method="post" action="{{ route('quizWebsite.saveCookieDataToDatabase') }}">
+                                        <div class="d-flex justify-content-center align-items-center p-2 id="quizFormContainer"">
+                                            <form id="finishedQuizForm" method="post" action="{{ route('quizWebsite.saveCookieDataToDatabase') }}">
                                                 @csrf
                                                 <input type="hidden" name="_method" value="post">
-                                                <button class="btn btn-primary" style="border-radius: 8px; font-size: 24px;" type="submit">
+                                                <button class="btn btn-primary" style="border-radius: 8px; font-size: 24px;" type="button" onclick="finishedQuizForm()">
                                                     Finished
                                                 </button>
                                             </form>
@@ -179,6 +179,9 @@
 $(document).ready(function () {
     var quizTimer = {{ $quiz->timer }}; 
 
+    function padZero(value) {
+        return value < 10 ? '0' + value : value;
+    }
     function updateTimer() {
         var minutes = Math.floor(quizTimer / 60);
         var seconds = quizTimer % 60;
@@ -188,25 +191,11 @@ $(document).ready(function () {
         if (quizTimer < 0) {
             clearInterval(timerInterval);
             $('#countdown').text('00:00');
-            alert("finshed")
+            finishedQuizForm();
+            alert("finshed");
         }
     }
-
-    function padZero(value) {
-        return value < 10 ? '0' + value : value;
-    }
-
-    // Update the timer every second
     var timerInterval = setInterval(updateTimer, 1000);
-
-    // ---------------------------------------------------------------------------------------------------------
-    
-
-
-
-
-
-
 
     });
     
@@ -215,20 +204,15 @@ $(document).ready(function () {
         var currentContainer = $('.quiz-container:visible');
         var targetIndex = currentContainer.index() + direction;
 
-        // Check if the targetIndex is greater than or equal to 0
         if (targetIndex < 0) {
-            // Stop the function if the targetIndex is less than 0
             return;
         }
 
-        // Hide the current quiz container
         currentContainer.hide();
 
-        // Show the target quiz container
         var targetQuizContainer = $('.quiz-container:eq(' + targetIndex + ')');
         targetQuizContainer.show();
 
-        // Update the form action
         var quizId = targetQuizContainer.data('quiz-id');
         targetQuizContainer.find('.quiz-form').attr('action', '/website/quizes/save-in-cookie-and-do-next/' + quizId);
     }
@@ -238,16 +222,12 @@ $(document).ready(function () {
         var form = $(button).closest('form');
         var quizId = form.find('.quiz-option:checked').data('quiz-id'); 
 
-        // Hide the current quiz container
         form.closest('.quiz-container').hide();
 
-        // Show the next quiz container
         var nextQuizContainer = form.closest('.quiz-container').next('.quiz-container');
         if (nextQuizContainer.length) {
             nextQuizContainer.show();
         } else {
-            // If there is no next container, it means we reached the last one
-            // Append a new container with a message
             var lastindex = $('.quiz-container').length - 1;
             if (form.closest('.quiz-container').index() === lastindex) {
                 var newContainer = $('<div class="col-lg-12 col-md-12 col-12 quiz-container">' +
@@ -276,6 +256,25 @@ $(document).ready(function () {
             }
         });
     }
+
+
+
+    function finishedQuizForm() {
+        var form = $('#finishedQuizForm');
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function(response) {
+                window.location.href = '/website/quizes/solutions';
+            },
+            error: function(error) {
+                // Handle the error response
+                console.error(error);
+            }
+        });
+    }
+
 </script>
 @endpush
 

@@ -145,16 +145,32 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         });
         Route::prefix('categories')->group(function () {
             Route::get('/',[WebsiteCategoryController::class , 'index']);
+
+
+
+
+            // 18-01-2023
             Route::get('/category/{slug}', [WebsiteCategoryController::class, 'getCategoryBySlug'])->name('category.getCategoryBySlug');
+
+
+
+
+
 
         });
             // quizWebsite.index
         Route::prefix('quizes')->group(function () {
             Route::get('/', [WebsiteQuizController::class, 'index'])->name('quizWebsite.index');
+
+
+
+
+
+
+
+
             Route::get('/quiz/{id}', [WebsiteQuizController::class, 'getQuizById'])->name('quizWebsite.getQuizById');
             Route::post('/save-in-cookie-and-do-next/{id}', [WebsiteQuizController::class, 'saveInCookieAndDoNext'])->name('quizWebsite.saveInCookieAndDoNext');
-            // Route::get('/next-question/{id}', [WebsiteQuizController::class, 'nextQuestion'])->name('quizWebsite.nextQuestion');
-
             Route::post('/save-cookie-data-to-database', [WebsiteQuizController::class, 'saveCookieDataToDatabase'])->name('quizWebsite.saveCookieDataToDatabase');
             Route::get( '/solutions', [WebsiteQuizController::class, 'getSolutions'])->name('quizWebsite.getSolutions');
 
@@ -164,16 +180,16 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
 
 
 
-        Route::prefix('question')->group(function () {
-            Route::get('/', [WebsiteQuestionController::class, 'index'])->name('questionWebsite.index');
-            // Route::get('/category/{slug}', [WebsitePagesController::class, 'getCategoryBySlug'])->name('getCategoryBySlug');
-            // Route::get('/section/{slug}', [WebsitePagesController::class, 'getSectionBySlug'])->name('getSectionBySlug');
-        });
-        Route::prefix('answer')->group(function () {
-            Route::get('/{id}', [WebsiteQuestionController::class, 'index'])->name('answerWebsite.index');
-            // Route::get('/category/{slug}', [WebsitePagesController::class, 'getCategoryBySlug'])->name('getCategoryBySlug');
-            // Route::get('/section/{slug}', [WebsitePagesController::class, 'getSectionBySlug'])->name('getSectionBySlug');
-        });
+        // Route::prefix('question')->group(function () {
+        //     Route::get('/', [WebsiteQuestionController::class, 'index'])->name('questionWebsite.index');
+        //     // Route::get('/category/{slug}', [WebsitePagesController::class, 'getCategoryBySlug'])->name('getCategoryBySlug');
+        //     // Route::get('/section/{slug}', [WebsitePagesController::class, 'getSectionBySlug'])->name('getSectionBySlug');
+        // });
+        // Route::prefix('answer')->group(function () {
+        //     Route::get('/{id}', [WebsiteQuestionController::class, 'index'])->name('answerWebsite.index');
+        //     // Route::get('/category/{slug}', [WebsitePagesController::class, 'getCategoryBySlug'])->name('getCategoryBySlug');
+        //     // Route::get('/section/{slug}', [WebsitePagesController::class, 'getSectionBySlug'])->name('getSectionBySlug');
+        // });
     });
     
 

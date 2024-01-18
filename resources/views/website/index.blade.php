@@ -109,10 +109,15 @@
                 <!-- Start Single Product -->
                 <div class="single-product">
                     <div class="product-image">
-                        {{-- <img src="{{ asset('assets/images/products/product-1.jpg')}}" alt="#"> --}}
-                        <div id="video-container" class="embed-responsive embed-responsive-16by9 video-responsive">
-                            <iframe id="video" class="embed-responsive-item" src="{{ asset('upload/' . $category->video) }}" controls="" type="video/mp4" frameborder="0" allowfullscreen></iframe>
-                        </div>
+   
+                        <video 
+                            style="width: 300px; height: auto;" 
+                            id="video" 
+                            class="embed-responsive-item" 
+                            controls
+                        >
+                            <source src="{{ asset('upload/' . $category->video) }}" type="video/mp4">
+                        </video>
                         <div class="button">
                             <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
                         </div>
