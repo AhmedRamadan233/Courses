@@ -4,6 +4,74 @@
 
 
 @section('content')
+
+
+<div class="container mt-5">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Question 1</h5>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="answer" id="answer1" value="option1">
+          <label class="form-check-label" for="answer1">
+            Option 1
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="answer" id="answer2" value="option2">
+          <label class="form-check-label" for="answer2">
+            Option 2
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="answer" id="answer3" value="option3">
+          <label class="form-check-label" for="answer3">
+            Option 3
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="answer" id="answer4" value="option4">
+          <label class="form-check-label" for="answer4">
+            Option 4
+          </label>
+        </div>
+        <button type="button" class="btn btn-primary mt-3">Previous</button>
+        <button type="button" class="btn btn-primary mt-3 ms-2">Next</button>
+      </div>
+    </div>
+  </div>
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Start Product Grids -->
     <section class="product-grids section">
         <div class="container">
