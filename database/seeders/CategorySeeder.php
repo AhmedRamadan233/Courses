@@ -14,22 +14,21 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        // DB::table('categories')->insert([
-        //     'name' => 'categories1',
-        //     'slug' => str::slug('categories'),
-        //     'description' => Str::slug('All categories'),
-        //     'status' => 'active',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
-        // DB::table('categories')->insert([
-        //     'name' => 'categories2',
-        //     'slug' => Str::slug('categories2'),
-        //     'description' => Str::slug('All categories'),
-        //     'status' => 'active',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
+        DB::table('categories')->insert([
+            'name' => 'English',
+            'slug' => str::slug('english'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DB::table('level 1')->insert([
+            'name' => 'level 1',
+            'slug' => Str::slug('level'),
+            // 'description' => Str::slug('All categories'),
+            'status' => 'active',
+            'parent_id' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
         // DB::table('categories')->insert([
         //     'name' => 'categories3',
         //     'slug' => Str::slug('categories3'),

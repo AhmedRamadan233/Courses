@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('finishing_quizzes', function (Blueprint $table) {
             $table->id();
+           
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete(); 
             $table->foreignId('quiz_id')->nullable()->constrained('quizzes')->nullOnDelete(); 
-            // $table->uuid('session_id')->change();
             $table->boolean('is_finished');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class QuizController extends Controller
 {
@@ -109,54 +110,45 @@ class QuizController extends Controller
     
    
     public function saveCookieDataToDatabase(Request $request)
-{
-    // Check if any quiz is finished
-    $isAnyQuizFinished = FinishingQuiz::where('is_finished', true)
-        ->where('user_id', auth()->id())
-        ->exists();
+    {
+        try {
+            DB::beginTransaction();
+    
+            $cookieData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
+    
+            foreach ($cookieData as $data) {
+                $solutions = new Solution();
+    
+                $solutions->user_id = $data['user_id'];
+                $solutions->quiz_id = $data['quiz_id'];
+                $solutions->answer_id = $data['answer_id'];
+                $solutions->question_id = $data['question_id'];
+                $solutions->true_answer = $data['true_answer'];
+    
+                $solutions->save();
+    
+                $finishingQuiz = new FinishingQuiz();
+                $finishingQuiz->user_id = $data['user_id'];
+                $finishingQuiz->quiz_id = $data['quiz_id'];
+                $finishingQuiz->is_finished = true;
+                $finishingQuiz->slug = Str::uuid();
+                    $finishingQuiz->save();
 
-    if ($isAnyQuizFinished) {
-        // Don't save data if any quiz is finished
-        return redirect()->route('quizWebsite.getSolutions')->with('error', 'Cannot save data because a quiz is already finished.');
-    }
-
-    try {
-        DB::beginTransaction();
-
-        $cookieData = json_decode(request()->cookie('solutions_cookie'), true) ?: [];
-
-        foreach ($cookieData as $data) {
-            $solutions = new Solution();
-
-            $solutions->user_id = $data['user_id'];
-            $solutions->quiz_id = $data['quiz_id'];
-            $solutions->answer_id = $data['answer_id'];
-            $solutions->question_id = $data['question_id'];
-            $solutions->true_answer = $data['true_answer'];
-
-            $solutions->save();
+                // Save the finishing quiz if the check passes
+            }
+    
+            $cookie = Cookie::forget('solutions_cookie');
+            DB::commit();
+    
+            return redirect()->route('quizWebsite.getSolutions')->with('success', 'Questions added successfully.')->withCookie($cookie);
+        } catch (\Exception $e) {
+            DB::rollBack();
+    
+            // Handle the error as needed (log, display, etc.)
+            return response()->json(['error' => $e->getMessage()]);
         }
-
-        $finishingQuiz = new FinishingQuiz();
-        $finishingQuiz->user_id = auth()->id();
-        $finishingQuiz->quiz_id = $data['quiz_id'];
-        // $finishingQuiz->session_id = $request->session()->getId();
-        $finishingQuiz->is_finished = true;
-        $finishingQuiz->save();
-
-        $cookie = Cookie::forget('solutions_cookie');
-
-        DB::commit();
-
-        return redirect()->route('quizWebsite.getSolutions')->with('success', 'Questions added successfully.')->withCookie($cookie);
-    } catch (\Exception $e) {
-        // An error occurred, rollback the transaction
-        DB::rollBack();
-
-        // Handle the error as needed (log, display, etc.)
-        return response()->json(['error' => $e->getMessage()]);
     }
-}
+    
 
 
     

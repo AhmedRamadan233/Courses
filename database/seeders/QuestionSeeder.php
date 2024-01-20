@@ -27,6 +27,18 @@ class QuestionSeeder extends Seeder
                 'body' => 'Who wrote "Romeo and Juliet"?',
             ],
             // [
+            //     'quiz_id' => 2, // Replace with the actual quiz_id
+            //     'body' => 'What is the capital of France?zzzzzz',
+            // ],
+            // [
+            //     'quiz_id' => 2,
+            //     'body' => 'Which planet is known as the "Red Planet"?zzzzzzzzzzz',
+            // ],
+            // [
+            //     'quiz_id' => 2,
+            //     'body' => 'Who wrote "Romeo and Juliet"?zzzzzzzz',
+            // ],
+            // [
             //     'quiz_id' => 1,
             //     'body' => 'What is the largest mammal on Earth?',
             // ],

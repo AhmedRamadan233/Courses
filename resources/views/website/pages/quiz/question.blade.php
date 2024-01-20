@@ -274,7 +274,12 @@ $(document).ready(function () {
             url: form.attr('action'),
             data: form.serialize(),
             success: function (response) {
-            window.location.href = '/website/quizes/solutions';
+                // if( response.success){
+                    window.location.href = '/website/quizes/solutions';
+                    // console.log(response.success);
+                // }else{
+                // console.log(response.error);
+                // }
         },
             error: function(error) {
                 // Handle the error response
