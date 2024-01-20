@@ -105,7 +105,7 @@
                                                         <i class="lni lni-checkmark-circle"></i> Quiz Completed
                                                     </a>
                                                 @else
-                                                <button class="btn btn-primary" style="border-radius: 8px; font-size: 24px;" type="button" onclick="finishedQuizForm()">
+                                                <button id="finished-button" class="btn btn-primary" style="border-radius: 8px; font-size: 24px;" type="button" onclick="finishedQuizForm()">
                                                     Finished
                                                 </button>
                                                 @endif
@@ -274,6 +274,8 @@ $(document).ready(function () {
             url: form.attr('action'),
             data: form.serialize(),
             success: function (response) {
+                disableButton();
+     
                 // if( response.success){
                     window.location.href = '/website/quizes/solutions';
                     // console.log(response.success);
@@ -286,6 +288,10 @@ $(document).ready(function () {
                 console.error(error);
             }
         });
+    }
+
+    function disableButton() {
+        document.getElementById('finished-button').disabled = true;
     }
 
 </script>

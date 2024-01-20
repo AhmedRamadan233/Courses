@@ -126,16 +126,19 @@ class QuizController extends Controller
                 $solutions->true_answer = $data['true_answer'];
     
                 $solutions->save();
-    
+            }
+
                 $finishingQuiz = new FinishingQuiz();
                 $finishingQuiz->user_id = $data['user_id'];
                 $finishingQuiz->quiz_id = $data['quiz_id'];
                 $finishingQuiz->is_finished = true;
                 $finishingQuiz->slug = Str::uuid();
-                    $finishingQuiz->save();
+                if (FinishingQuiz::where('quiz_id', $data['quiz_id'])->where('is_finished', true)->exists()) {
+                    return response()->json(['error' => 'A finishing quiz with the same quiz_id and is_finished true already exists.']);
+                }
+                
+                $finishingQuiz->save();
 
-                // Save the finishing quiz if the check passes
-            }
     
             $cookie = Cookie::forget('solutions_cookie');
             DB::commit();
