@@ -170,16 +170,19 @@
 @endsection
 
 @push('webste.scripts')
-    @if($isFinished)
+    @if($finishedQuizIds)
         <script>
-            // Disable the back button if is_finished is true
+            // Disable the back button if any quiz is finished
             history.pushState(null, null, location.href);
             window.onpopstate = function () {
-                history.go(1);
+                // Redirect to the specified URL when the back button is pressed
+                window.location.href = '{{ route('quizWebsite.index') }}';
             };
         </script>
     @endif
 @endpush
+
+
 
 
 

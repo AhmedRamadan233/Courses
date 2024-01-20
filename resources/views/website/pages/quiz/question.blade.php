@@ -99,9 +99,16 @@
                                             <form id="finishedQuizForm" method="post" action="{{ route('quizWebsite.saveCookieDataToDatabase') }}">
                                                 @csrf
                                                 <input type="hidden" name="_method" value="post">
+                                                @if (in_array($quiz->id, $finishedQuizIds))
+                                                    <!-- Quiz is finished, display appropriate content -->
+                                                    <a href="#" class="btn disabled">
+                                                        <i class="lni lni-checkmark-circle"></i> Quiz Completed
+                                                    </a>
+                                                @else
                                                 <button class="btn btn-primary" style="border-radius: 8px; font-size: 24px;" type="button" onclick="finishedQuizForm()">
                                                     Finished
                                                 </button>
+                                                @endif
                                             </form>
                                             
                                         </div>
