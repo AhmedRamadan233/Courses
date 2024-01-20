@@ -175,6 +175,7 @@
     <!-- End Product Grids -->
 @endsection
 @push('webste.scripts')
+
 <script>
 $(document).ready(function () {
     var quizTimer = {{ $quiz->timer }}; 
@@ -191,8 +192,8 @@ $(document).ready(function () {
         if (quizTimer < 0) {
             clearInterval(timerInterval);
             $('#countdown').text('00:00');
-            finishedQuizForm();
             alert("finshed");
+            finishedQuizForm();
         }
     }
     var timerInterval = setInterval(updateTimer, 1000);
@@ -265,9 +266,9 @@ $(document).ready(function () {
             type: form.attr('method'),
             url: form.attr('action'),
             data: form.serialize(),
-            success: function(response) {
-                window.location.href = '/website/quizes/solutions';
-            },
+            success: function (response) {
+            window.location.href = '/website/quizes/solutions';
+        },
             error: function(error) {
                 // Handle the error response
                 console.error(error);

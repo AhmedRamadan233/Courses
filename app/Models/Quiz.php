@@ -21,4 +21,9 @@ class Quiz extends Model
     {
         return $this->hasMany(Solution::class);
     }
+
+    public function finishingQuiz()
+    {
+        return $this->hasOne(FinishingQuiz::class);
+    }
 }

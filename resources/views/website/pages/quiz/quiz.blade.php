@@ -29,16 +29,24 @@
                             <img src="{{ asset('assets/images/products/product-1.jpg')}}" alt="#">
                             
                             <div class="button">
-                                <a href="{{ route('quizWebsite.getQuizById', ['id' => $quiz->id]) }}" class="btn">
-                                    <i class="lni lni-cart"></i> Go To Quiz
-                                </a>
+                                @if (in_array($quiz->id, $finishedQuizIds))
+                                    <!-- Quiz is finished, display appropriate content -->
+                                    <a href="#" class="btn disabled">
+                                        <i class="lni lni-checkmark-circle"></i> Quiz Completed
+                                    </a>
+                                @else
+                                    <!-- Quiz is not finished, display link to go to quiz -->
+                                    <a href="{{ route('quizWebsite.getQuizById', ['id' => $quiz->id]) }}" class="btn">
+                                        <i class="lni lni-cart"></i> Go To Quiz
+                                    </a>
+                                @endif
                             </div>
                         </div>
                         <div class="product-info">
-                            <span class="category">{{$quiz->section->category->parent->name}}</span>
-                            <span class="category">{{$quiz->section->category->name}}</span>
+                            <span class="category">{{ $quiz->section->category->parent->name }}</span>
+                            <span class="category">{{ $quiz->section->category->name }}</span>
                             <h4 class="title">
-                                <a href="product-grids.html">{{$quiz->name}}</a>
+                                <a href="product-grids.html">{{ $quiz->name }}</a>
                             </h4>
                             <ul class="review">
                                 <li><i class="lni lni-star-filled"></i></li>
@@ -57,6 +65,7 @@
                 </div>
             @endforeach
         </div>
+        
     </div>
 </section>
 <!-- End Trending Product Area -->

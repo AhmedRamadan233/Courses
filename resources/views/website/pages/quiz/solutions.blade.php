@@ -169,6 +169,17 @@
 <!-- End Shipping Info -->
 @endsection
 
+@push('webste.scripts')
+    @if($isFinished)
+        <script>
+            // Disable the back button if is_finished is true
+            history.pushState(null, null, location.href);
+            window.onpopstate = function () {
+                history.go(1);
+            };
+        </script>
+    @endif
+@endpush
 
 
 
