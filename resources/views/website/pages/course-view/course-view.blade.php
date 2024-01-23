@@ -24,9 +24,13 @@
                                 </div>
                                 
                                 <div class="meta-information">
-                                    <h2 class="post-title">
-                                        <a href="blog-single.html">{{$showCategory->name}}</a>
-                                    </h2>
+                                   
+                                    <div class="d-flex justify-content-between align-items-center  p-3 rounded">
+                                        <h1 class="post-title">
+                                            <a href="blog-single.html">{{$showCategory->name}}</a>
+                                        </h1>
+                                        <button type="button" class="btn btn-danger category" data-target="">X</button>
+                                    </div>
                                     <!-- End Meta Info -->
                                     
                                     <ul class="meta-info">
@@ -47,6 +51,7 @@
                                             <button type="button" class="btn btn-link text-dark category" style="text-decoration: none;" data-target="others-card">Others</button>
 
                                         </li>
+
                                     </ul>
                                     <!-- End Meta Info -->
                                 </div>
@@ -287,7 +292,11 @@
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
                         <div class="widget popular-feeds">
-                            <h5 class="widget-title">Featured Posts</h5>
+                            <div class="d-flex justify-content-between align-items-center  p-3 rounded">
+                                <h5 class="widget-title m-0">Featured Posts</h5>
+                                <button type="button" class="btn btn-danger courseSectionButton" data-target="">X</button>
+                            </div>
+                            
                             <div class="popular-feed-loop form-group">
                                 <div class="single-widget">
                                   
@@ -295,9 +304,10 @@
                                         @foreach ($allRelationsWithCategory as $category)
                                             @if ($category->sections)
                                                 @foreach ($category->sections as $index => $courseSection)
-                                                    <li class="btn btn-secondary category m-1 flex-grow-1" data-target="{{ $courseSection->id }}">
+                                                    <li class="btn btn-secondary courseSectionButton m-1 flex-grow-1" data-target="{{ $courseSection->id }}">
                                                         {{ $courseSection->name }}
                                                     </li>
+
                                                 @endforeach
                                             @endif
                                         @endforeach
@@ -306,7 +316,7 @@
                 
                                     @foreach ($allRelationsWithCategory as $category)
                                         @foreach ($category->sections as $index => $courseSection)
-                                            <div class="main-category" id="main-category-{{$courseSection->id }}" style="display: none;">
+                                            <div class="courseSection" id="courseSection-{{$courseSection->id }}" style="display: none;">
                                             @foreach ($courseSection->quizzes as $courseQuiz)
                                                 <div class="single-popular-feed">
                                                     <div class="feed-desc">
@@ -424,16 +434,16 @@
 @push('webste.scripts')
 <script>
     $(document).ready(function () {
-        var categoryButtons = $('.category');
-        var cardContainers = $('.main-category');
+        var courseSectionButton = $('.courseSectionButton');
+        var courseSection = $('.courseSection');
 
-        categoryButtons.click(function () {
+        courseSectionButton.click(function () {
             var targetIndex = $(this).data('target');
 
 
-            cardContainers.hide();
+            courseSection.hide();
 
-            var targetContainer = $('#main-category-' + targetIndex);
+            var targetContainer = $('#courseSection-' + targetIndex);
             if (targetContainer.length) {
                 targetContainer.show();
             }

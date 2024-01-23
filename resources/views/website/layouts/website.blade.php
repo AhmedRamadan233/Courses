@@ -68,6 +68,16 @@
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-left">
                             <ul class="menu-top-link">
+                                @auth
+                                    @if(Auth::user()->role == 'super_admin')
+                                    <li class="btn btn-outline-light text-danger me-5 flex-grow-1">
+                                        <a class="text-danger d-flex align-items-center" href="{{ route('dashboard') }}">
+                                            <i class="lni lni-dashboard me-2" style="font-size: 24px;"></i>
+                                            <span>Go to dashboard</span>
+                                        </a>
+                                    </li>                                    
+                                    @endif
+                                @endauth
                                 <li>
                                     <div class="select-position">
                                         <select id="select4">
@@ -99,6 +109,7 @@
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-middle">
                             <ul class="useful-links">
+                               
                                 <li><a href="index.html">Home</a></li>
                                 <li><a href="about-us.html">About Us</a></li>
                                 <li><a href="contact.html">Contact Us</a></li>
@@ -109,18 +120,32 @@
                         <div class="top-end">
                             <div class="user">
                                 <i class="lni lni-user"></i>
-                                Hello
+                                @auth
+                                    {{ Auth::user()->name }}
+                                @endauth
                             </div>
                             <ul class="user-login">
-                                <li>
-                                    <a href="login.html">Sign In</a>
-                                </li>
-                                <li>
-                                    <a href="register.html">Register</a>
-                                </li>
+                                @auth
+                                    <li  class="btn flex-grow-1">
+                                        <form action="{{ route('logout') }}" method="post" style="display:inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-link text-danger" style="text-decoration: none;">
+                                               <span>Logout</span> 
+                                            </button>
+                                        </form>
+                                    </li>
+                                @else
+                                    <li>
+                                        <a href="{{ route('login') }}">Sign In</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('register') }}">Register</a>
+                                    </li>
+                                @endauth
                             </ul>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>

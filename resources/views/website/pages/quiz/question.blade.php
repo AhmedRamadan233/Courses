@@ -48,7 +48,11 @@
                                                         <input type="hidden" name="_method" value="post">
 
                                                         <div class="product-info">
+                                                            <div class="d-flex justify-content-center align-items-center p-2">
+                                                                <h3 class="text-danger">QUESTION <span>{{ $loop->index + 1 }}</span> </h3>
+                                                            </div>
                                                             <div class="d-flex justify-content-between align-items-center p-2">
+                                                               
                                                                 <h3 name="question_id" class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
                                                             </div>
 
@@ -105,9 +109,15 @@
                                                         <i class="lni lni-checkmark-circle"></i> Quiz Completed
                                                     </a>
                                                 @else
-                                                <button id="finished-button" class="btn btn-primary" style="border-radius: 8px; font-size: 24px;" type="button" onclick="finishedQuizForm()">
-                                                    Finished
-                                                </button>
+                                                    <button 
+                                                        id="finished-button" 
+                                                        class="btn btn-primary" 
+                                                        style="border-radius: 8px; font-size: 24px; display: none;" type="button"  
+                                                        onclick="finishedQuizForm()" 
+
+                                                        >
+                                                        Finished
+                                                    </button>
                                                 @endif
                                             </form>
                                             
@@ -150,15 +160,13 @@
                             <h3>All Questions</h3>
                             {{-- {{ $questions->links('vendor.pagination.numircal')}} --}}
                             <ul class="list d-flex flex-wrap justify-content-between align-items-center">
-                                @foreach ($questions as $question)
+                                @foreach ($questions as $index => $question)
                                     @php
-                                        // Find the corresponding data from the cookie based on the answer
                                         $cookieDataForAnswer = collect($existingData)->where('answer_id', $question->id)->first();
                                     @endphp
-                                    <li class="btn btn-outline-primary text-dark m-1 flex-grow-1
-                                        @if (!is_null($cookieDataForAnswer) && $question->id == $cookieDataForAnswer['answer_id']) btn-primary @endif">
+                                    <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
                                         <a href="product-grids.html">
-                                            {{$question->id}}
+                                            {{ $loop->index + 1 }}
                                         </a>
                                     </li>
                                 @endforeach
@@ -248,6 +256,7 @@ $(document).ready(function () {
                     '</div>');
 
                 $('.quiz-container:last').after(newContainer);
+                showFinishedButton()
             }
         }
 
@@ -292,6 +301,9 @@ $(document).ready(function () {
 
     function disableButton() {
         document.getElementById('finished-button').disabled = true;
+    }
+    function showFinishedButton() {
+        document.getElementById('finished-button').style.display = 'block';
     }
 
 </script>

@@ -34,8 +34,7 @@ Route::get('/', function () {
 });
 
 
-
-Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
+Route::prefix('/')->middleware(['auth', 'verified', 'checkRole:super_admin'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('/',[DashboardController::class , 'index'])->name('dashboard');
 
@@ -52,7 +51,6 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('sections')->group(function () {
             Route::get ('/', [SectionController::class , 'index'])->name('section.index');
             Route::get('/create', [SectionController::class, 'create'])->name('section.create');
-
             Route::post('/store', [SectionController::class, 'store'])->name('section.store');
             Route::get('/edit/{section}',   [SectionController::class, 'edit'])->name('section.edit');
             Route::post('/update/{section}', [SectionController::class, 'update'])->name('section.update');
@@ -79,7 +77,6 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('common_questions')->group(function () {
             Route::get ('/', [CommonQestionsController::class , 'index'])->name('common_questions.index');
             Route::get('/create', [CommonQestionsController::class, 'create'])->name('common_questions.create');
-
             Route::post('/store', [CommonQestionsController::class, 'store'])->name('common_questions.store');
             Route::get('/edit/{common_questions}',   [CommonQestionsController::class, 'edit'])->name('common_questions.edit');
             Route::post('/update/{common_questions}', [CommonQestionsController::class, 'update'])->name('common_questions.update');
@@ -89,7 +86,6 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         Route::prefix('quizzes')->group(function () {
             Route::get ('/', [QuizController::class , 'index'])->name('quiz.index');
             Route::get('/create', [QuizController::class, 'create'])->name('quiz.create');
-            
             Route::post('/store', [QuizController::class, 'store'])->name('quiz.store');
             Route::get('/edit/{quiz}',   [QuizController::class, 'edit'])->name('quiz.edit');
             Route::post('/update/{quiz}', [QuizController::class, 'update'])->name('quiz.update');
@@ -120,98 +116,57 @@ Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
         });
         Route::prefix('website')->group(function () {
             Route::get('/', [WebsiteController::class, 'index'])->name('website.index');
-       
             Route::get('/category/{slug}', [WebsiteController::class, 'getCategoryBySlug'])->name('getCategoryBySlug');
             Route::get('/section/{slug}', [WebsiteController::class, 'getSectionBySlug'])->name('getSectionBySlug');
 
         });
     });
-    // -----------------------------------------------------------------------
-    Route::get('/web', function(){
-        return view('website.index');
+});
+//----------------------------------------- website -------------------------------------- 
+Route::prefix('website')->group(function () {
+    Route::prefix('courses')->group(function () {
+        Route::get('/', [WebsitePagesController::class, 'index'])->name('coursesWebsite.index');
     });
-   
-    Route::get('/test',function(){
-        return view('website.pages.tests.tests');
+});
+Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_admin,student'])->group(function () {
+    Route::prefix('categories')->group(function () {
+        Route::get('/',[WebsiteCategoryController::class , 'index']);
+        Route::get('/category/{slug}', [WebsiteCategoryController::class, 'getCategoryBySlug'])->name('category.getCategoryBySlug');
     });
-
-
-    // --------------------------------------
-    Route::prefix('website')->group(function () {
-        
-        Route::prefix('courses')->group(function () {
-            Route::get('/', [WebsitePagesController::class, 'index'])->name('coursesWebsite.index');
-            // Route::get('/section/{slug}', [WebsitePagesController::class, 'getSectionBySlug'])->name('getSectionBySlug');
-        });
-        Route::prefix('categories')->group(function () {
-            Route::get('/',[WebsiteCategoryController::class , 'index']);
-
-
-
-
-            // 18-01-2023
-            Route::get('/category/{slug}', [WebsiteCategoryController::class, 'getCategoryBySlug'])->name('category.getCategoryBySlug');
-
-
-
-
-
-
-        });
-            // quizWebsite.index
-        Route::prefix('quizes')->group(function () {
-            Route::get('/', [WebsiteQuizController::class, 'index'])->name('quizWebsite.index');
-
-
-
-
-
-
-
-
-            Route::get('/quiz/{id}', [WebsiteQuizController::class, 'getQuizById'])->name('quizWebsite.getQuizById');
-            Route::post('/save-in-cookie-and-do-next/{id}', [WebsiteQuizController::class, 'saveInCookieAndDoNext'])->name('quizWebsite.saveInCookieAndDoNext');
-            Route::post('/save-cookie-data-to-database', [WebsiteQuizController::class, 'saveCookieDataToDatabase'])->name('quizWebsite.saveCookieDataToDatabase');
-            Route::get( '/solutions', [WebsiteQuizController::class, 'getSolutions'])->name('quizWebsite.getSolutions');
-
-        });
-
-
-
-
-
-        // Route::prefix('question')->group(function () {
-        //     Route::get('/', [WebsiteQuestionController::class, 'index'])->name('questionWebsite.index');
-        //     // Route::get('/category/{slug}', [WebsitePagesController::class, 'getCategoryBySlug'])->name('getCategoryBySlug');
-        //     // Route::get('/section/{slug}', [WebsitePagesController::class, 'getSectionBySlug'])->name('getSectionBySlug');
-        // });
-        // Route::prefix('answer')->group(function () {
-        //     Route::get('/{id}', [WebsiteQuestionController::class, 'index'])->name('answerWebsite.index');
-        //     // Route::get('/category/{slug}', [WebsitePagesController::class, 'getCategoryBySlug'])->name('getCategoryBySlug');
-        //     // Route::get('/section/{slug}', [WebsitePagesController::class, 'getSectionBySlug'])->name('getSectionBySlug');
-        // });
+    Route::prefix('quizes')->group(function () {
+        Route::get('/', [WebsiteQuizController::class, 'index'])->name('quizWebsite.index');
+        Route::get('/quiz/{id}', [WebsiteQuizController::class, 'getQuizById'])->name('quizWebsite.getQuizById');
+        Route::post('/save-in-cookie-and-do-next/{id}', [WebsiteQuizController::class, 'saveInCookieAndDoNext'])->name('quizWebsite.saveInCookieAndDoNext');
+        Route::post('/save-cookie-data-to-database', [WebsiteQuizController::class, 'saveCookieDataToDatabase'])->name('quizWebsite.saveCookieDataToDatabase');
+        Route::get( '/solutions', [WebsiteQuizController::class, 'getSolutions'])->name('quizWebsite.getSolutions');
     });
-    
+});
+//----------------------------------------- user -------------------------------------- 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::get('/web', function(){
+    return view('website.index');
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Route::get('/test',function(){
+    return view('website.pages.tests.tests');
+});
 
 
 
