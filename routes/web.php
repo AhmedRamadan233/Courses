@@ -18,6 +18,8 @@ use App\Http\Controllers\Website\Pages\WebsiteController as WebsitePagesControll
 use App\Http\Controllers\Website\Pages\QuizController as WebsiteQuizController;
 use App\Http\Controllers\Website\Pages\QuestionController as WebsiteQuestionController;
 use App\Http\Controllers\Website\Pages\AnswerController as WebsiteAnswerController;
+use App\Http\Controllers\Website\Pages\CartController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,12 +43,10 @@ Route::prefix('/')->middleware(['auth', 'verified', 'checkRole:super_admin'])->g
         Route::prefix('categories')->group(function () {
             Route::get('/',[CategoryController::class , 'index'])->name('category.index');
             Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
-            
             Route::post('/store', [CategoryController::class, 'store'])->name('category.store');
             Route::get('/edit/{category}', [CategoryController::class, 'edit'])->name('category.edit');
             Route::post('/update/{category}', [CategoryController::class, 'update'])->name('category.update');            
             Route::delete('/destroy/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
-
         });
         Route::prefix('sections')->group(function () {
             Route::get ('/', [SectionController::class , 'index'])->name('section.index');
@@ -55,7 +55,6 @@ Route::prefix('/')->middleware(['auth', 'verified', 'checkRole:super_admin'])->g
             Route::get('/edit/{section}',   [SectionController::class, 'edit'])->name('section.edit');
             Route::post('/update/{section}', [SectionController::class, 'update'])->name('section.update');
             Route::delete('/destroy/{section}', [SectionController::class, 'destroy'])->name('section.destroy');
-
         });
         Route::prefix('products')->group(function () {
             Route::get ('/', [ProductController::class , 'index'])->name('product.index');
@@ -68,7 +67,6 @@ Route::prefix('/')->middleware(['auth', 'verified', 'checkRole:super_admin'])->g
         Route::prefix('descriptions')->group(function () {
             Route::get ('/', [DescriptionController::class , 'index'])->name('description.index');
             Route::get('/create', [DescriptionController::class, 'create'])->name('description.create');
-
             Route::post('/store', [DescriptionController::class, 'store'])->name('description.store');
             Route::get('/edit/{description}',   [DescriptionController::class, 'edit'])->name('description.edit');
             Route::post('/update/{description}', [DescriptionController::class, 'update'])->name('description.update');
@@ -127,6 +125,14 @@ Route::prefix('website')->group(function () {
     Route::prefix('courses')->group(function () {
         Route::get('/', [WebsitePagesController::class, 'index'])->name('coursesWebsite.index');
     });
+    Route::prefix('cart')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('cart.index');
+        Route::post('/store', [CartController::class, 'store'])->name('cart.store');
+        // Route::put('/update', [CartController::class, 'update'])->name('cart.update');
+        Route::delete('/destroy/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+        Route::get('/total', [CartController::class, 'total'])->name('cart.total');
+
+    });
 });
 Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_admin,student'])->group(function () {
     Route::prefix('categories')->group(function () {
@@ -140,6 +146,7 @@ Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_
         Route::post('/save-cookie-data-to-database', [WebsiteQuizController::class, 'saveCookieDataToDatabase'])->name('quizWebsite.saveCookieDataToDatabase');
         Route::get( '/solutions', [WebsiteQuizController::class, 'getSolutions'])->name('quizWebsite.getSolutions');
     });
+    
 });
 //----------------------------------------- user -------------------------------------- 
 

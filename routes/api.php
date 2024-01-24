@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Website\Auth\LoginController;
 use App\Http\Controllers\Website\Auth\RegistrationController;
+use App\Http\Controllers\Website\Pages\CartController;
 use App\Http\Controllers\Website\Pages\CategoryController;
 use App\Http\Controllers\Website\Pages\WebsiteController;
+use App\Http\Controllers\Website\Pages\WebsiteController as WebsitePagesController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -48,4 +50,19 @@ Route::group(['prefix' => '/website','middleware' => 'auth:sanctum'], function (
     });
 
     
+});
+
+
+Route::prefix('website')->group(function () {
+    Route::prefix('courses')->group(function () {
+        Route::get('/', [WebsitePagesController::class, 'index'])->name('coursesWebsite.index');
+    });
+    Route::prefix('cart')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('cart.index');
+        Route::post('/store', [CartController::class, 'store'])->name('cart.store');
+        // Route::put('/update', [CartController::class, 'update'])->name('cart.update');
+        Route::delete('/destroy/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+        Route::get('/total', [CartController::class, 'total'])->name('cart.total');
+
+    });
 });

@@ -170,6 +170,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        App\Providers\CartServiceProvider::class,
+
 
     ])->toArray(),
 
