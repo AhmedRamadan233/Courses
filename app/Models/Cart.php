@@ -13,8 +13,9 @@ class Cart extends Model
 {
     use HasFactory;
 
-
+    public $incrementing = false;
     protected $fillable=[
+        
         'cookie_id',
         'user_id',
         'category_id',
@@ -28,7 +29,8 @@ class Cart extends Model
         ]);
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 

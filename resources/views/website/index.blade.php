@@ -119,8 +119,15 @@
                             <source src="{{ asset('upload/' . $category->video) }}" type="video/mp4">
                         </video>
                         <div class="button">
-                            <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
+                            <form method="post" action="{{ route('cart.store') }}" style="display:inline;">
+                                @csrf
+                                <input type="hidden" name="category_id" value="{{ $category->id }}">
+                                <button type="submit" class="btn">
+                                    <i class="lni lni-cart"></i> Add to Cart
+                                </button>
+                            </form>
                         </div>
+                        
                     </div>
                     <div class="product-info">
                         <span class="category">{{$category->parent->name}}</span>

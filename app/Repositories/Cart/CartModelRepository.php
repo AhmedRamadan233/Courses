@@ -51,7 +51,7 @@ class CartModelRepository implements CartRepository
 
     public function delete($id)
     {
-        Cart::where('id', '=',$id)
+        Cart::where('id','=',$id)
             ->delete();
     }
 

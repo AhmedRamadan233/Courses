@@ -6,11 +6,12 @@ use App\Models\Cart;
 use Illuminate\Support\Str;
 class CartObserver
 {
-    public function creating(Cart $cart): void
+    public function creating(Cart $cart)
     {
         $cart->id = Str::uuid();
         $cart->cookie_id = Cart::getCookieId();
     }
+
 
 
     /**

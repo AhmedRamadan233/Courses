@@ -17,20 +17,20 @@ class CartController extends Controller
         $items =  $cart->get();
         $total = $cart->total();
 
-        return response()->json(['data' => $items , 'total' => $total]);
+        return view('website.pages.cart.cart', compact('items', 'total'));
+
     }
 
     public function store(Request $request, CartRepository $cart)
     {
-        // $request->validate([
-        //     'category_id' => ['required', 'integer', 'exists:categorys,id'],
-        //     'quantity' => ['nullable', 'integer', 'min:1'],
-        // ]);
+        $request->validate([
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
+        ]);
     
         $category = Category::findOrFail($request->post('category_id'));
         $cart->add($category);
         
-        return response()->json(['message' => 'Category added to cart successfully' , ]);
+        return redirect()->route('cart.index');
     }
     
 
@@ -58,7 +58,7 @@ class CartController extends Controller
     public function destroy(CartRepository $cart , $id)
     {
         $cart->delete($id);
-        return response()->json(['message' => 'Category removed from cart successfully']);
+        return redirect()->route('cart.index');
     }
 
     public function total(CartRepository $cart)
