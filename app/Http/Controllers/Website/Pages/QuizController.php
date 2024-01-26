@@ -7,6 +7,7 @@ use App\Models\Answer;
 use App\Models\FinishingQuiz;
 use App\Models\Quiz;
 use App\Models\Solution;
+use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Auth;
@@ -15,36 +16,38 @@ use Illuminate\Support\Str;
 
 class QuizController extends Controller
 {
-    public function index()
+    public function index(CartRepository $cart)
     {
         $quizzes = Quiz::with('section')->get();
-
+        $items =  $cart->get();
+        $total = $cart->total();
         $finishedQuizIds = FinishingQuiz::where('is_finished', true)
             ->where('user_id', auth()->id())
             ->pluck('quiz_id')
             ->toArray();
 
-        return view('website.pages.quiz.quiz', compact('quizzes' , 'finishedQuizIds'));
+        return view('website.pages.quiz.quiz', compact('quizzes' , 'finishedQuizIds' , 'items' ,'total'));
     }
 
 
-    public function getQuizById($id)
+    public function getQuizById(CartRepository $cart,$id)
     {
         $quiz = Quiz::findOrFail($id);
         $questions = $quiz->questions()->get();
-    
+        $items =  $cart->get();
+        $total = $cart->total();
         $finishedQuizIds = FinishingQuiz::where('is_finished', true)
             ->where('user_id', auth()->id())
             ->pluck('quiz_id')
             ->toArray();
-        return view('website.pages.quiz.question', compact('quiz', 'questions' , 'finishedQuizIds'));
+        return view('website.pages.quiz.question', compact('quiz', 'questions' , 'finishedQuizIds' , 'items' , 'total'));
     }
 
     
 
 
 
-    public function saveInCookieAndDoNext(Request $request, $id)
+    public function saveInCookieAndDoNext(CartRepository $cart, Request $request, $id)
     {
         // Create a new Solution instance
         $solutions = new Solution();
@@ -94,7 +97,7 @@ class QuizController extends Controller
     
     
     
-    public function getSolutions()
+    public function getSolutions(CartRepository $cart)
     {
         $solutions = Solution::withTotalCorrectAnswers()
             ->with(['user', 'quiz'])
@@ -103,8 +106,9 @@ class QuizController extends Controller
         $finishedQuizIds = FinishingQuiz::where('is_finished', true)
             ->where('user_id', auth()->id())
             ->exists();
-    
-        return view('website.pages.quiz.solutions', compact('solutions', 'finishedQuizIds'));
+        $items =  $cart->get();
+        $total = $cart->total();
+        return view('website.pages.quiz.solutions', compact('solutions', 'finishedQuizIds' , 'items' , 'total'));
     }
     
     

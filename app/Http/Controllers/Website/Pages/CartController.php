@@ -30,7 +30,7 @@ class CartController extends Controller
         $category = Category::findOrFail($request->post('category_id'));
         $cart->add($category);
         
-        return redirect()->route('cart.index');
+        return redirect()->back();
     }
     
 

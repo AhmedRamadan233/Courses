@@ -35,7 +35,7 @@
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-12">
                                         <!-- Start Single Product -->
-                                        <div class="single-product">
+                                        <div class="single-product" id="quizFormContainer">
                                             <div class="row align-items-center">
                                                 @php
                                                     // Shuffle the questions array
@@ -99,7 +99,7 @@
                                             </div>
                                         </div>
                                         <!-- End Single Product -->
-                                        <div class="d-flex justify-content-center align-items-center p-2 id="quizFormContainer"">
+                                        <div class="d-flex justify-content-center align-items-center p-2" >
                                             <form id="finishedQuizForm" method="post" action="{{ route('quizWebsite.saveCookieDataToDatabase') }}">
                                                 @csrf
                                                 <input type="hidden" name="_method" value="post">
@@ -284,13 +284,9 @@ $(document).ready(function () {
             data: form.serialize(),
             success: function (response) {
                 disableButton();
-     
-                // if( response.success){
-                    window.location.href = '/website/quizes/solutions';
-                    // console.log(response.success);
-                // }else{
-                // console.log(response.error);
-                // }
+                window.location.href = '/website/quizes/solutions';
+                $('#goToQuiz').load(location.href + ' #goToQuiz>*', '');
+
         },
             error: function(error) {
                 // Handle the error response

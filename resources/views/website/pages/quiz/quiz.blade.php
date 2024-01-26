@@ -20,11 +20,11 @@
                 </div>
             </div>
         </div> --}}
-        <div class="row">
+        <div class="row" id="goToQuiz">
             @foreach ($quizzes as $quiz)
                 <div class="col-lg-3 col-md-6 col-12">
                     <!-- Start Single Product -->
-                    <div class="single-product">
+                    <div class="single-product" >
                         <div class="product-image">
                             <img src="{{ asset('assets/images/products/product-1.jpg')}}" alt="#">
                             
