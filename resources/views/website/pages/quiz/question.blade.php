@@ -41,7 +41,7 @@
                                                     // Shuffle the questions array
                                                     $shuffledQuestions = $questions->shuffle();
                                                 @endphp
-                                                @foreach ($shuffledQuestions as $index => $question)
+                                                @foreach ($questions as $index => $question)
                                                 <div class="col-lg-12 col-md-12 col-12 quiz-container" data-quiz-id="{{ $quiz->id }}" @if($index > 0) style="display: none;" @endif>
                                                     <form method="post" action="{{ route('quizWebsite.saveInCookieAndDoNext', ['id' => $quiz->id]) }}" class="quiz-form">
                                                         @csrf
@@ -52,8 +52,11 @@
                                                                 <h3 class="text-danger">QUESTION <span>{{ $loop->index + 1 }}</span> </h3>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center p-2">
-                                                               
                                                                 <h3 name="question_id" class="font-weight-bold p-2 text-primary" style="border-radius: 8px;">{{ $question->body }}</h3>
+                                                                <i id="savingButton_{{ $question->id }}" onclick="saveThisQuestion({{ $question->id }})" class="lni lni-save" style="font-size: 1.5rem; "></i>
+
+
+
                                                             </div>
 
                                                             <ul class="options p-2">
@@ -147,7 +150,7 @@
                                         <a href="#">{{ auth()->user()->name }}</a>
                                     </h4>
 
-                                    <div  class="price">
+                                    <div id="timerOfQuiz" class="price">
                                         <span id="countdown"></span>
                                     </div>
                                 </div>
@@ -158,17 +161,18 @@
                         <!-- Start Single Widget -->
                         <div class="single-widget">
                             <h3>All Questions</h3>
-                            {{-- {{ $questions->links('vendor.pagination.numircal')}} --}}
+                           
                             <ul class="list d-flex flex-wrap justify-content-between align-items-center">
                                 @foreach ($questions as $index => $question)
-                                    @php
-                                        $cookieDataForAnswer = collect($existingData)->where('answer_id', $question->id)->first();
-                                    @endphp
-                                    <li class="btn btn-outline-primary text-dark m-1 flex-grow-1">
-                                        <a href="product-grids.html">
-                                            {{ $loop->index + 1 }}
-                                        </a>
-                                    </li>
+                                <li class="btn btn-outline-primary text-dark m-1 flex-grow-1 position-relative" onclick="showQuestion({{ $index }})">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <span class="text-center text-dark">{{ $loop->iteration }}</span>
+                                        <span id="spanId_{{ $question->id }}" class="border border-5 border-danger rounded-circle" style="display: none; width: 2em; height: 2em; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></span>
+                                            
+                                        </span>
+                                    </div>
+                                </li>
+                                
                                 @endforeach
                             </ul>
                             
@@ -190,10 +194,12 @@
     <!-- End Product Grids -->
 @endsection
 @push('webste.scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 <script>
-$(document).ready(function () {
-    var quizTimer = getCookie("quizTimer") || {{ $quiz->timer }}; 
+    
+    $(document).ready(function () {
+    var quizTimer = getSession("quizTimer") || {{ $quiz->timer }}; 
 
     function padZero(value) {
         return value < 10 ? '0' + value : value;
@@ -205,32 +211,126 @@ $(document).ready(function () {
         $('#countdown').text(padZero(minutes) + ':' + padZero(seconds));
         quizTimer--;
 
-        // Update the cookie with the new timer value
-        document.cookie = "quizTimer=" + quizTimer;
+        // Update the session storage with the new timer value
+        setSession("quizTimer", quizTimer);
 
         if (quizTimer < 0) {
             clearInterval(timerInterval);
             $('#countdown').text('00:00');
             alert("Finished");
+
+            
             finishedQuizForm();
         }
     }
 
-    // Get the value of a cookie by its name
-    function getCookie(name) {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.startsWith(name + '=')) {
-                return parseInt(cookie.substring(name.length + 1));
-            }
-        }
-        return null;
+    // Function to set a session value
+    function setSession(name, value) {
+        sessionStorage.setItem(name, value);
     }
 
+    // Function to get the value of a session by its name
+    function getSession(name) {
+        return parseInt(sessionStorage.getItem(name));
+    }
+
+    // Function to delete a session
+    function deleteSession(name) {
+        sessionStorage.removeItem(name);
+    }
+    function clearSession() {
+    sessionStorage.clear();
+}
     var timerInterval = setInterval(updateTimer, 1000);
 
-    });
+
+
+
+
+    
+
+    
+
+});
+
+// Function to delete a cookie
+function deleteCookie(cookieName) {
+    // Set the cookie to expire in the past
+    document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    // Optionally, remove the cookie from subdomains
+    var domainParts = window.location.hostname.split('.');
+    for (var i = 1; i < domainParts.length; i++) {
+        var domain = domainParts.slice(i).join('.');
+        document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + domain + "; path=/;";
+    }
+}
+
+function saveThisQuestion(questionId) {
+    var existingData = getAllSavedQuestions();
+
+    var spanElement = document.getElementById('spanId_' + questionId);
+    var savingButton = document.getElementById('savingButton_' + questionId);
+
+    if (!existingData.includes(questionId)) {
+        // If not saved, add to the array and update the cookie
+        existingData.push(questionId);
+        saveQuestionsToCookie(existingData);
+        spanElement.style.display = 'block';
+        savingButton.classList.add("text-danger");
+        console.log('Retrieved data from cookie:', existingData);
+    } else {
+        // If already saved, remove from the array, hide the span, and update the cookie
+        existingData = existingData.filter(item => item !== questionId);
+        saveQuestionsToCookie(existingData);
+        spanElement.style.display = 'none';
+        savingButton.classList.remove("text-danger");
+        console.log('Question removed from the array.');
+    }
+}
+
+function getAllSavedQuestions() {
+    var existingData = $.cookie('savedQuestions') ? JSON.parse($.cookie('savedQuestions')) : [];
+    
+    // Filter out NaN values
+    existingData = existingData.filter(id => !isNaN(id));
+    
+    // Convert any remaining string IDs to integers
+    existingData = existingData.map(id => parseInt(id));
+
+    console.log('All saved question IDs:', existingData);
+    return existingData;
+}
+
+function saveQuestionsToCookie(data) {
+    // Convert IDs to strings before saving to the cookie
+    var stringData = data.map(id => id.toString());
+    $.cookie('savedQuestions', JSON.stringify(stringData), { expires: 7 });
+}
+
+// On page load, retrieve existing saved question IDs from the cookie
+var existingData = getAllSavedQuestions();
+
+// Iterate through saved question IDs and update the corresponding spans
+existingData.forEach(function (questionId) {
+    showSpanById(questionId, true);
+});
+
+function showSpanById(questionId, isSaved) {
+    var spanElement = document.getElementById('spanId_' + questionId);
+    var savingButton = document.getElementById('savingButton_' + questionId);
+
+    if (isSaved) {
+        spanElement.style.display = 'block';
+        savingButton.classList.add("text-danger");
+    } else {
+        spanElement.style.display = 'none';
+        savingButton.classList.remove("text-danger");
+    }
+}
+
+
+
     
 
     function navigateQuiz(direction) {
@@ -302,6 +402,15 @@ $(document).ready(function () {
             success: function (response) {
                 disableButton();
                 window.location.href = '/website/quizes/solutions';
+                deleteCookie('savedQuestions');
+              // Delete the session and reset it to the initial value
+                clearSession()
+                deleteSession("quizTimer");
+                quizTimer = {{ $quiz->timer }};
+                setSession("quizTimer", quizTimer);
+
+            // Reload the content with the updated timer
+            $('#timerOfQuiz').load(location.href + ' #timerOfQuiz>*', '');
                 $('#goToQuiz').load(location.href + ' #goToQuiz>*', '');
 
         },
@@ -318,7 +427,12 @@ $(document).ready(function () {
     function showFinishedButton() {
         document.getElementById('finished-button').style.display = 'block';
     }
+    function showQuestion(index) {
+        $('.quiz-container').hide();
+        $('.quiz-container[data-quiz-id="{{ $quiz->id }}"]:eq(' + index + ')').show();  
+    }
 
+    
 </script>
 @endpush
 
