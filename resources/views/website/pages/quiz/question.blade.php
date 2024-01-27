@@ -193,24 +193,41 @@
 
 <script>
 $(document).ready(function () {
-    var quizTimer = {{ $quiz->timer }}; 
+    var quizTimer = getCookie("quizTimer") || {{ $quiz->timer }}; 
 
     function padZero(value) {
         return value < 10 ? '0' + value : value;
     }
+
     function updateTimer() {
         var minutes = Math.floor(quizTimer / 60);
         var seconds = quizTimer % 60;
         $('#countdown').text(padZero(minutes) + ':' + padZero(seconds));
         quizTimer--;
 
+        // Update the cookie with the new timer value
+        document.cookie = "quizTimer=" + quizTimer;
+
         if (quizTimer < 0) {
             clearInterval(timerInterval);
             $('#countdown').text('00:00');
-            alert("finshed");
+            alert("Finished");
             finishedQuizForm();
         }
     }
+
+    // Get the value of a cookie by its name
+    function getCookie(name) {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                return parseInt(cookie.substring(name.length + 1));
+            }
+        }
+        return null;
+    }
+
     var timerInterval = setInterval(updateTimer, 1000);
 
     });

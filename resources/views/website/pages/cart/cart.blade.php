@@ -15,13 +15,13 @@
                         <div class="col-lg-1 col-md-2 col-12">
                             <p>Id</p>
                         </div>
-                        <div class="col-lg-1 col-md-2 col-12">
+                        <div class="col-lg-2 col-md-2 col-12">
                             <p>Product Image</p>
                         </div>
                         <div class="col-lg-4 col-md-2 col-12">
                             <p>Product Name</p>
                         </div>
-                        <div class="col-lg-4 col-md-2 col-12">
+                        <div class="col-lg-3 col-md-2 col-12">
                             <p>Price</p>
                         </div>
                         <div class="col-lg-1 col-md-2 col-12">
@@ -37,19 +37,24 @@
                             <div class="col-lg-1 col-md-2 col-12">
                                 <p> {{ $loop->iteration }}</p>
                             </div>
-                            <div class="col-lg-1 col-md-2 col-12">
-                                <a href="product-details.html"><img src="https://via.placeholder.com/220x200" alt="#"></a>
+                            <div class="col-lg-2 col-md-2 col-12">
+                                <video 
+                                    style="width: 170px; height: auto;" 
+                                    id="video_{{ $item->category->id }}" 
+                                    
+                                >
+                                    <source src="{{ asset('upload/' .  $item->category->video) }}" type="video/mp4">
+                                </video>
                             </div>
                             <div class="col-lg-4 col-md-3 col-12">
                                 <h5 class="product-name"><a href="product-details.html">
                                         {{$item->category->name}}</a></h5>
                                 <p class="product-des">
-                                    <span><em>Type:</em> Mirrorless</span>
-                                    <span><em>Color:</em> Black</span>
+                                    <span><em>Main Category:</em>{{$item->category->parent->name}}</span>
                                 </p>
                             </div>
                             
-                            <div class="col-lg-4 col-md-2 col-12">
+                            <div class="col-lg-3 col-md-2 col-12">
                                 <p> {{$item->category->price}}</p>
                             </div>
 
