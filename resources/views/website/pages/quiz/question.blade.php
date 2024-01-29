@@ -37,10 +37,6 @@
                                         <!-- Start Single Product -->
                                         <div class="single-product" id="quizFormContainer">
                                             <div class="row align-items-center">
-                                                @php
-                                                    // Shuffle the questions array
-                                                    $shuffledQuestions = $questions->shuffle();
-                                                @endphp
                                                 @foreach ($questions as $index => $question)
                                                 <div class="col-lg-12 col-md-12 col-12 quiz-container" data-quiz-id="{{ $quiz->id }}" @if($index > 0) style="display: none;" @endif>
                                                     <form method="post" action="{{ route('quizWebsite.saveInCookieAndDoNext', ['id' => $quiz->id]) }}" class="quiz-form">
@@ -199,139 +195,106 @@
 <script>
     
     $(document).ready(function () {
-    var quizTimer = getSession("quizTimer") || {{ $quiz->timer }}; 
+        var quizTimer = getSession("quizTimer") || {{ $quiz->timer }}; 
 
-    function padZero(value) {
-        return value < 10 ? '0' + value : value;
+        function padZero(value) {
+            return value < 10 ? '0' + value : value;
+        }
+
+        function updateTimer() {
+            var minutes = Math.floor(quizTimer / 60);
+            var seconds = quizTimer % 60;
+            $('#countdown').text(padZero(minutes) + ':' + padZero(seconds));
+            quizTimer--;
+
+            // Update the session storage with the new timer value
+            setSession("quizTimer", quizTimer);
+
+            if (quizTimer < 0) {
+                clearInterval(timerInterval);
+                $('#countdown').text('00:00');
+                alert("Finished");
+
+                
+                finishedQuizForm();
+            }
+        }
+        function setSession(name, value) {
+            sessionStorage.setItem(name, value);
+        }
+        function getSession(name) {
+            return parseInt(sessionStorage.getItem(name));
+        }
+        function deleteSession(name) {
+            sessionStorage.removeItem(name);
+        }
+        function clearSession() {
+        sessionStorage.clear();
     }
+        var timerInterval = setInterval(updateTimer, 1000);
+    });
 
-    function updateTimer() {
-        var minutes = Math.floor(quizTimer / 60);
-        var seconds = quizTimer % 60;
-        $('#countdown').text(padZero(minutes) + ':' + padZero(seconds));
-        quizTimer--;
-
-        // Update the session storage with the new timer value
-        setSession("quizTimer", quizTimer);
-
-        if (quizTimer < 0) {
-            clearInterval(timerInterval);
-            $('#countdown').text('00:00');
-            alert("Finished");
-
-            
-            finishedQuizForm();
+    function deleteCookie(cookieName) {
+        document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        var domainParts = window.location.hostname.split('.');
+        for (var i = 1; i < domainParts.length; i++) {
+            var domain = domainParts.slice(i).join('.');
+            document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + domain + "; path=/;";
         }
     }
 
-    // Function to set a session value
-    function setSession(name, value) {
-        sessionStorage.setItem(name, value);
+    function saveThisQuestion(questionId) {
+        var existingData = getAllSavedQuestions();
+        var spanElement = document.getElementById('spanId_' + questionId);
+        var savingButton = document.getElementById('savingButton_' + questionId);
+
+        if (!existingData.includes(questionId)) {
+            existingData.push(questionId);
+            saveQuestionsToCookie(existingData);
+            spanElement.style.display = 'block';
+            savingButton.classList.add("text-danger");
+            console.log('Retrieved data from cookie:', existingData);
+        } else {
+            existingData = existingData.filter(item => item !== questionId);
+            saveQuestionsToCookie(existingData);
+            spanElement.style.display = 'none';
+            savingButton.classList.remove("text-danger");
+            console.log('Question removed from the array.');
+        }
     }
 
-    // Function to get the value of a session by its name
-    function getSession(name) {
-        return parseInt(sessionStorage.getItem(name));
+    function getAllSavedQuestions() {
+        var existingData = $.cookie('savedQuestions') ? JSON.parse($.cookie('savedQuestions')) : [];
+        existingData = existingData.filter(id => !isNaN(id));
+        existingData = existingData.map(id => parseInt(id));
+        console.log('All saved question IDs:', existingData);
+        return existingData;
     }
 
-    // Function to delete a session
-    function deleteSession(name) {
-        sessionStorage.removeItem(name);
+    function saveQuestionsToCookie(data) {
+        var stringData = data.map(id => id.toString());
+        $.cookie('savedQuestions', JSON.stringify(stringData), { expires: 7 });
     }
-    function clearSession() {
-    sessionStorage.clear();
-}
-    var timerInterval = setInterval(updateTimer, 1000);
 
-
-
-
-
-    
-
-    
-
-});
-
-// Function to delete a cookie
-function deleteCookie(cookieName) {
-    // Set the cookie to expire in the past
-    document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-    // Optionally, remove the cookie from subdomains
-    var domainParts = window.location.hostname.split('.');
-    for (var i = 1; i < domainParts.length; i++) {
-        var domain = domainParts.slice(i).join('.');
-        document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + domain + "; path=/;";
-    }
-}
-
-function saveThisQuestion(questionId) {
     var existingData = getAllSavedQuestions();
 
-    var spanElement = document.getElementById('spanId_' + questionId);
-    var savingButton = document.getElementById('savingButton_' + questionId);
+    existingData.forEach(function (questionId) {
+        showSpanById(questionId, true);
+    });
 
-    if (!existingData.includes(questionId)) {
-        // If not saved, add to the array and update the cookie
-        existingData.push(questionId);
-        saveQuestionsToCookie(existingData);
-        spanElement.style.display = 'block';
-        savingButton.classList.add("text-danger");
-        console.log('Retrieved data from cookie:', existingData);
-    } else {
-        // If already saved, remove from the array, hide the span, and update the cookie
-        existingData = existingData.filter(item => item !== questionId);
-        saveQuestionsToCookie(existingData);
-        spanElement.style.display = 'none';
-        savingButton.classList.remove("text-danger");
-        console.log('Question removed from the array.');
+    function showSpanById(questionId, isSaved) {
+        var spanElement = document.getElementById('spanId_' + questionId);
+        var savingButton = document.getElementById('savingButton_' + questionId);
+
+        if (isSaved) {
+            spanElement.style.display = 'block';
+            savingButton.classList.add("text-danger");
+        } else {
+            spanElement.style.display = 'none';
+            savingButton.classList.remove("text-danger");
+        }
     }
-}
 
-function getAllSavedQuestions() {
-    var existingData = $.cookie('savedQuestions') ? JSON.parse($.cookie('savedQuestions')) : [];
-    
-    // Filter out NaN values
-    existingData = existingData.filter(id => !isNaN(id));
-    
-    // Convert any remaining string IDs to integers
-    existingData = existingData.map(id => parseInt(id));
-
-    console.log('All saved question IDs:', existingData);
-    return existingData;
-}
-
-function saveQuestionsToCookie(data) {
-    // Convert IDs to strings before saving to the cookie
-    var stringData = data.map(id => id.toString());
-    $.cookie('savedQuestions', JSON.stringify(stringData), { expires: 7 });
-}
-
-// On page load, retrieve existing saved question IDs from the cookie
-var existingData = getAllSavedQuestions();
-
-// Iterate through saved question IDs and update the corresponding spans
-existingData.forEach(function (questionId) {
-    showSpanById(questionId, true);
-});
-
-function showSpanById(questionId, isSaved) {
-    var spanElement = document.getElementById('spanId_' + questionId);
-    var savingButton = document.getElementById('savingButton_' + questionId);
-
-    if (isSaved) {
-        spanElement.style.display = 'block';
-        savingButton.classList.add("text-danger");
-    } else {
-        spanElement.style.display = 'none';
-        savingButton.classList.remove("text-danger");
-    }
-}
-
-
-
-    
 
     function navigateQuiz(direction) {
         var currentContainer = $('.quiz-container:visible');

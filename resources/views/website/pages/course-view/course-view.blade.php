@@ -293,100 +293,73 @@
                         <!-- Start Single Widget -->
                         <div class="widget popular-feeds">
                             <div class="d-flex justify-content-between align-items-center  p-3 rounded">
-                                <h5 class="widget-title m-0">Featured Posts</h5>
-                                <button type="button" class="btn btn-danger courseSectionButton" data-target="">X</button>
+                                <h5 class="widget-title m-0">All Sections</h5>
                             </div>
-                            
                             <div class="popular-feed-loop form-group">
-                                <div class="single-widget">
-                                  
-                                    <ul class="list d-flex flex-wrap justify-content-between align-items-center">
+                                <div class="checkout-steps-form-style-1">
+                                    <ul id="accordionExample">
                                         @foreach ($allRelationsWithCategory as $category)
                                             @if ($category->sections)
                                                 @foreach ($category->sections as $index => $courseSection)
-                                                    <li class="btn btn-secondary courseSectionButton m-1 flex-grow-1" data-target="{{ $courseSection->id }}">
-                                                        {{ $courseSection->name }}
-                                                    </li>
+                                                    <li>
+                                                        <h6 class="title" data-bs-toggle="collapse" data-bs-target="#collapseThree_{{$index}}"
+                                                            aria-expanded="true" aria-controls="collapseThree_{{$index}}">
+                                                            {{ $courseSection->name }}
+                                                        </h6>
+                                                        <section class="checkout-steps-form-content collapse show" id="collapseThree_{{$index}}"
+                                                            aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="single-form form-default">
+                                                                        @foreach ($courseSection->products as $courseProduct)
+                                                                                <div class="single-popular-feed">
+                                                                                    <div class="feed-desc">
+                                                                                        <a class="feed-img" href="blog-single-sidebar.html">
+                                                                                            {{-- <video 
+                                                                                                style="width:auto; height:60px;" 
+                                                                                                id="video" 
+                                                                                        
+                                                                                                <source src="{{ asset('upload/' . $courseProduct->video) }}" type="video/mp4">
+                                                                                            </video> --}}
+                                                                                        </a>
+                                                                                        <h2 class="post-title">
+                                                                                            <a href="">{{ $courseProduct->name }}</a>
+                                                                                        </h2>
+                                                                                        <span class="time">{{ $courseProduct->description }}</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            @endforeach
 
+                                                                            @foreach ($courseSection->quizzes as $courseQuiz)
+                                                                            <div class="single-popular-feed">
+                                                                                <div class="feed-desc">
+                                                                                    {{-- <a class="feed-img" href="blog-single-sidebar.html">
+                                                                                        <video 
+                                                                                            style="width:200px; height: 200px;" 
+                                                                                            id="video" 
+                                                                                            class="embed-responsive-item" 
+                                                                                            controls
+                                                                                        >
+                                                                                            <source src="{{ asset('upload/' . $showCategory->video) }}" type="video/mp4">
+                                                                                        </video>
+                                                                                    </a> --}}
+                                                                                    <h2 class="post-title">
+                                                                                        <a href="">{{ $courseQuiz->name }}</a>
+                                                                                    </h2>
+                                                                                    <span class="time">{{ $courseQuiz->description }}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </section>
+                                                    </li>
                                                 @endforeach
                                             @endif
                                         @endforeach
                                     </ul>
                                 </div>
-                
-                                    @foreach ($allRelationsWithCategory as $category)
-                                        @foreach ($category->sections as $index => $courseSection)
-                                            <div class="courseSection" id="courseSection-{{$courseSection->id }}" style="display: none;">
-                                            @foreach ($courseSection->quizzes as $courseQuiz)
-                                                <div class="single-popular-feed">
-                                                    <div class="feed-desc">
-                                                        {{-- <a class="feed-img" href="blog-single-sidebar.html">
-                                                            <img src="https://via.placeholder.com/200x200" alt="#">
-                                                        </a> --}}
-                                                        <h2 class="post-title">
-                                                            <a href="{{route('quizWebsite.index')}}">{{ $courseQuiz->name }}</a>
-                                                        </h2>
-                                                        {{-- <span class="time"><i class="lni lni-calendar"></i> 30th Jan 2023</span> --}}
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                
-                                            @foreach ($courseSection->products as $courseProduct)
-                                                <div class="single-popular-feed">
-                                                    <div class="feed-desc">
-                                                        {{-- <a class="feed-img" href="blog-single-sidebar.html">
-                                                            <video 
-                                                                style="width:200px; height: 200px;" 
-                                                                id="video" 
-                                                                class="embed-responsive-item" 
-                                                                controls
-                                                            >
-                                                                <source src="{{ asset('upload/' . $showCategory->video) }}" type="video/mp4">
-                                                            </video>
-                                                        </a> --}}
-                                                        <h2 class="post-title">
-                                                            <a href="">{{ $courseProduct->name }}</a>
-                                                        </h2>
-                                                        <span class="time"><i class="lni lni-calendar"></i>{{ $courseProduct->description}}</span>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        @endforeach
-                                    @endforeach
-                                
-                                {{-- <div class="single-popular-feed">
-                                    <div class="feed-desc">
-                                        <a class="feed-img" href="blog-single-sidebar.html">
-                                            <img src="https://via.placeholder.com/200x200" alt="#">
-                                        </a>
-                                        <h6 class="post-title"><a href="blog-single-sidebar.html">What information is
-                                                needed for shipping?</a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> 05th Nov 2023</span>
-                                    </div>
-                                </div>
-                                <div class="single-popular-feed">
-                                    <div class="feed-desc">
-                                        <a class="feed-img" href="blog-single-sidebar.html">
-                                            <img src="https://via.placeholder.com/200x200" alt="#">
-                                        </a>
-                                        <h6 class="post-title"><a href="blog-single-sidebar.html">Interesting fact about
-                                                gaming consoles</a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> 24th March 2023</span>
-                                    </div>
-                                </div>
-                                <div class="single-popular-feed">
-                                    <div class="feed-desc">
-                                        <a class="feed-img" href="blog-single-sidebar.html">
-                                            <img src="https://via.placeholder.com/200x200" alt="#">
-                                        </a>
-                                        <h6 class="post-title"><a href="blog-single-sidebar.html">Electronics,
-                                                instrumentation & control engineering </a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> 30th Jan 2023</span>
-                                    </div>
-                                </div> --}}
-                                  
-                                
                             </div>
                         </div>
                         <!-- End Single Widget -->
@@ -433,46 +406,25 @@
 @endsection
 @push('webste.scripts')
 <script>
-    $(document).ready(function () {
-        var courseSectionButton = $('.courseSectionButton');
-        var courseSection = $('.courseSection');
+document.addEventListener('DOMContentLoaded', function () {
+    var categoryButtonss = document.querySelectorAll('.category');
+    var cardContainerss = document.querySelectorAll('.col-lg-12 .card');
 
-        courseSectionButton.click(function () {
-            var targetIndex = $(this).data('target');
+    categoryButtonss.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var targetId = button.getAttribute('data-target');
 
+            cardContainerss.forEach(function (container) {
+                container.style.display = 'none';
+            });
 
-            courseSection.hide();
-
-            var targetContainer = $('#courseSection-' + targetIndex);
-            if (targetContainer.length) {
-                targetContainer.show();
+            var targetContainer = document.getElementById(targetId);
+            if (targetContainer) {
+                targetContainer.style.display = 'block';
             }
         });
-
-        console.log('after addEventListener');
     });
-
-
-  // ------------------------------------- 
-  document.addEventListener('DOMContentLoaded', function () {
-        var categoryButtonss = document.querySelectorAll('.category');
-        var cardContainerss = document.querySelectorAll('.col-lg-12 .card');
-
-        categoryButtonss.forEach(function (button) {
-            button.addEventListener('click', function () {
-                var targetId = button.getAttribute('data-target');
-
-                cardContainerss.forEach(function (container) {
-                    container.style.display = 'none';
-                });
-
-                var targetContainer = document.getElementById(targetId);
-                if (targetContainer) {
-                    targetContainer.style.display = 'block';
-                }
-            });
-        });
-    });
+});
 </script>
 
 @endpush
