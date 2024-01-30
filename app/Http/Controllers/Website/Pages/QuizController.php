@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Website\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\FinishingQuiz;
 use App\Models\Quiz;
+use App\Models\Section;
 use App\Models\Solution;
 use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
@@ -16,9 +18,27 @@ use Illuminate\Support\Str;
 
 class QuizController extends Controller
 {
-    public function index(CartRepository $cart)
+    public function index(CartRepository $cart , $id)
     {
-        $quizzes = Quiz::with('section')->get();
+        // $quiz = Quiz::findOrFail($id);
+        // $quizzes = $quiz->get();
+        // // dd($quizzes);
+        // $categoryId = Section::with('category')->where('category_id', 2)->get();
+        // dd($categoryId);
+        $quizzes = Quiz::with('section')->where('section_id', $id)->get();
+        // dd($quizzes);
+
+
+
+
+
+
+
+
+
+
+
+
         $items =  $cart->get();
         $total = $cart->total();
         $finishedQuizIds = FinishingQuiz::where('is_finished', true)
@@ -97,20 +117,7 @@ class QuizController extends Controller
     
     
     
-    public function getSolutions(CartRepository $cart)
-    {
-        $solutions = Solution::withTotalCorrectAnswers()
-            ->with(['user', 'quiz'])
-            ->get();
-    
-        $finishedQuizIds = FinishingQuiz::where('is_finished', true)
-            ->where('user_id', auth()->id())
-            ->exists();
-        $items =  $cart->get();
-        $total = $cart->total();
-        return view('website.pages.quiz.solutions', compact('solutions', 'finishedQuizIds' , 'items' , 'total'));
-    }
-    
+
     
    
     public function saveCookieDataToDatabase(Request $request)

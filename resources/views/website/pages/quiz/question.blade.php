@@ -364,7 +364,7 @@
             data: form.serialize(),
             success: function (response) {
                 disableButton();
-                window.location.href = '/website/quizes/solutions';
+                window.location.href = '/website/solutions';
                 deleteCookie('savedQuestions');
               // Delete the session and reset it to the initial value
                 clearSession()

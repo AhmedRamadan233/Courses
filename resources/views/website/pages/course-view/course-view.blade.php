@@ -325,7 +325,6 @@
                                                                                         <h2 class="post-title">
                                                                                             <a href="">{{ $courseProduct->name }}</a>
                                                                                         </h2>
-                                                                                        <span class="time">{{ $courseProduct->description }}</span>
                                                                                     </div>
                                                                                 </div>
                                                                             @endforeach
@@ -344,9 +343,9 @@
                                                                                         </video>
                                                                                     </a> --}}
                                                                                     <h2 class="post-title">
-                                                                                        <a href="">{{ $courseQuiz->name }}</a>
+                                                                                        <a href="{{ route('quizWebsite.index', ['id' => $courseQuiz->section->id]) }}">{{ $courseQuiz->name }}</a>
+
                                                                                     </h2>
-                                                                                    <span class="time">{{ $courseQuiz->description }}</span>
                                                                                 </div>
                                                                             </div>
                                                                         @endforeach

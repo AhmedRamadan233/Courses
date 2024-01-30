@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\CategoryScope;
+use App\Models\Scopes\QuizScope;
+use App\Models\Scopes\SectionScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Quiz extends Model
 {
     use HasFactory;
+
+
 
     public function section()
     {

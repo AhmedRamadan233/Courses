@@ -19,7 +19,7 @@ use App\Http\Controllers\Website\Pages\QuizController as WebsiteQuizController;
 use App\Http\Controllers\Website\Pages\QuestionController as WebsiteQuestionController;
 use App\Http\Controllers\Website\Pages\AnswerController as WebsiteAnswerController;
 use App\Http\Controllers\Website\Pages\CartController;
-
+use App\Http\Controllers\Website\Pages\SolutionController as WebsiteSolutionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -136,17 +136,17 @@ Route::prefix('website')->group(function () {
 });
 Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_admin,student'])->group(function () {
     Route::prefix('categories')->group(function () {
-        Route::get('/',[WebsiteCategoryController::class , 'index']);
+        Route::get('/',[WebsiteCategoryController::class , 'index'])->name('categoryWebsite.index');
         Route::get('/category/{slug}', [WebsiteCategoryController::class, 'getCategoryBySlug'])->name('category.getCategoryBySlug');
     });
     Route::prefix('quizes')->group(function () {
-        Route::get('/', [WebsiteQuizController::class, 'index'])->name('quizWebsite.index');
+        Route::get('/{id}', [WebsiteQuizController::class, 'index'])->name('quizWebsite.index');
         Route::get('/quiz/{id}', [WebsiteQuizController::class, 'getQuizById'])->name('quizWebsite.getQuizById');
         Route::post('/save-in-cookie-and-do-next/{id}', [WebsiteQuizController::class, 'saveInCookieAndDoNext'])->name('quizWebsite.saveInCookieAndDoNext');
         Route::post('/save-cookie-data-to-database', [WebsiteQuizController::class, 'saveCookieDataToDatabase'])->name('quizWebsite.saveCookieDataToDatabase');
-        Route::get( '/solutions', [WebsiteQuizController::class, 'getSolutions'])->name('quizWebsite.getSolutions');
     });
-    
+    Route::get( '/solutions', [WebsiteSolutionController::class, 'getSolutions'])->name('quizWebsite.getSolutions');
+
 });
 //----------------------------------------- user -------------------------------------- 
 

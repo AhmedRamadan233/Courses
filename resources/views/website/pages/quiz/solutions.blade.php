@@ -176,7 +176,7 @@
             history.pushState(null, null, location.href);
             window.onpopstate = function () {
                 // Redirect to the specified URL when the back button is pressed
-                window.location.href = '{{ route('quizWebsite.index') }}';
+                window.location.href = '{{ route('categoryWebsite.index') }}';
             };
         </script>
     @endif
