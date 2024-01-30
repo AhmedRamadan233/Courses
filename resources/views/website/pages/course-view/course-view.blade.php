@@ -429,21 +429,15 @@ $(document).ready(function() {
         e.preventDefault();
         var href = $(this).attr('href');
         var lectureId = href.substring(href.lastIndexOf('/') + 1);
-        
         $.ajax({
             url: '/website/lecture/' + lectureId,
             type: 'GET',
-            success: function(data) {
-                console.log('AJAX success:', data);
-                console.log('Lecture ID:', lectureId);
-                console.log('video :', data.lecture.video);
-
-                // Update the video source with the new lecture video
+            success: function(data) {             
                 $('#video source').attr('src', "{{ asset('upload/') }}/" + data.lecture.video);
-                $('#video')[0].load();  // Reload the video player
+                $('#video')[0].load();  
             },
             error: function(xhr, status, error) {
-                console.error(error);  // Log any errors
+                console.error(error); 
             }
         });
     });
