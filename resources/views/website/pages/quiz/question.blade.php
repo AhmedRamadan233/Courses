@@ -384,6 +384,7 @@
         });
     }
 
+    
     function disableButton() {
         document.getElementById('finished-button').disabled = true;
     }
