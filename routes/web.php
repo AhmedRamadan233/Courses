@@ -161,7 +161,7 @@ Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_
     });
 
     Route::prefix('comments')->group(function () {
-        Route::get('/', [WebsiteCommentController::class, 'index'])->name('commentsWebsite.index');
+        Route::post('/store/{categorySlug}', [WebsiteCommentController::class, 'store'])->name('commentsWebsite.store');
     });
     
     

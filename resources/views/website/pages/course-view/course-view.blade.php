@@ -177,7 +177,7 @@
                                 </div>
                             </div>
                             <!-- Comments -->
-                            <div class="post-comments">
+                            <div class="post-comments" id="displayComments">
                                 <h3 class="comment-title"><span>Post comments</span></h3>
                                 <ul class="comments-list">
                                     @foreach ($allRelationsWithCategory as $category)
@@ -194,7 +194,7 @@
                                                                 <h6>{{ $comment->user->name ?? 'Unknown User' }}</h6>
                                                                 {{-- Add your date display logic here --}}
                                                                 <span class="date">Date Placeholder</span>
-                                                                <a href="javascript:void(0)" class="reply-link"><i class="lni lni-reply"></i>Reply</a>
+                                                                {{-- <a href="javascript:void(0)" class="reply-link"><i class="lni lni-reply"></i>Reply</a> --}}
                                                             </div>
                                                             <p>{{ $comment->comment }}</p>
                                                         </div>
@@ -213,7 +213,7 @@
                                                                                 <h6>{{ $childComment->user->name ?? 'Unknown User' }}</h6>
                                                                                 {{-- Add your date display logic here --}}
                                                                                 <span class="date">Date Placeholder</span>
-                                                                                <a href="javascript:void(0)" class="reply-link"><i class="lni lni-reply"></i>Reply</a>
+                                                                                {{-- <a href="javascript:void(0)" class="reply-link"><i class="lni lni-reply"></i>Reply</a> --}}
                                                                             </div>
                                                                             <p>{{ $childComment->comment }}</p>
                                                                         </div>
@@ -229,46 +229,24 @@
                             </div>
                             <div class="comment-form">
                                 <h3 class="comment-reply-title">Leave a comment</h3>
-                                <form action="#" method="POST">
+                                <form id="commentForm" method="POST" action="{{ route('commentsWebsite.store', ['categorySlug' => $showCategory->slug]) }}">
+                                    @csrf
                                     <div class="row">
-                                        <div class="col-lg-6 col-12">
-                                            <div class="form-box form-group">
-                                                <input type="text" name="name" class="form-control form-control-custom"
-                                                    placeholder="Website URL" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-12">
-                                            <div class="form-box form-group">
-                                                <input type="text" name="email" class="form-control form-control-custom"
-                                                    placeholder="Your Name" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-12">
-                                            <div class="form-box form-group">
-                                                <input type="email" name="email"
-                                                    class="form-control form-control-custom" placeholder="Your Email" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-12">
-                                            <div class="form-box form-group">
-                                                <input type="text" name="name" class="form-control form-control-custom"
-                                                    placeholder="Phone Number" />
-                                            </div>
-                                        </div>
                                         <div class="col-12">
                                             <div class="form-box form-group">
-                                                <textarea name="#" class="form-control form-control-custom"
-                                                    placeholder="Your Comments"></textarea>
+                                                <textarea id="commentTextID" name="comment" class="form-control form-control-custom" placeholder="Your Comments"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="button">
-                                                <button type="submit" class="btn">Post Comment</button>
+                                                <button type="button" id="postComment" class="btn" onclick="addComment()">Post Comment</button>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
+                                
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -434,6 +412,22 @@ $(document).ready(function() {
     });
 });
 
+function addComment() {
+    var form = $('#commentForm');
+    $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function (response) {
+            $('#commentTextID').val('');
+            $('#displayComments').load(location.href + ' #displayComments>*', '');
+        },
+        error: function(error) {
+            // Handle the error response
+            console.error(error);
+        }
+    });
+}
 
 
 
