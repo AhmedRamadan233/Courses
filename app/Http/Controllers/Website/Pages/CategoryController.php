@@ -26,7 +26,6 @@ class CategoryController extends Controller
         $total = $cart->total();
         
         return view('website.pages.course-view.course-view', compact('showCategory', 'allRelationsWithCategory' , 'items','total'));
-
     }
 
 }

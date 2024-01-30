@@ -12,12 +12,14 @@
                     <div class="single-inner">
                         <div class="post-details">
                             <div class="main-content-head">
-                                <div class="post-thumbnils">
+                                <div class="post-thumbnils" id="lecture" >
                                     <video 
+                                    
                                         style="width: 850px; height: 460px;" 
                                         id="video" 
                                         class="embed-responsive-item" 
                                         controls
+                                        
                                     >
                                         <source src="{{ asset('upload/' . $showCategory->video) }}" type="video/mp4">
                                     </video>
@@ -312,22 +314,19 @@
                                                                 <div class="col-md-12">
                                                                     <div class="single-form form-default">
                                                                         @foreach ($courseSection->products as $courseProduct)
-                                                                                <div class="single-popular-feed">
-                                                                                    <div class="feed-desc">
-                                                                                        <a class="feed-img" href="blog-single-sidebar.html">
-                                                                                            {{-- <video 
-                                                                                                style="width:auto; height:60px;" 
-                                                                                                id="video" 
-                                                                                        
-                                                                                                <source src="{{ asset('upload/' . $courseProduct->video) }}" type="video/mp4">
-                                                                                            </video> --}}
-                                                                                        </a>
-                                                                                        <h2 class="post-title">
-                                                                                            <a href="">{{ $courseProduct->name }}</a>
-                                                                                        </h2>
-                                                                                    </div>
-                                                                                </div>
-                                                                            @endforeach
+                                                                        <div class="single-popular-feed">
+                                                                            <div class="feed-desc">
+                                                                                <a class="feed-img" href="{{ route('lectureWebsite.getLectureByID', ['lectureId' => $courseProduct->id]) }}">
+                                                                                    {{-- Add your video thumbnail or other content here --}}
+                                                                                </a>
+                                                                                <h2 class="post-title">
+                                                                                    <a class="lecture-link" href="{{ route('lectureWebsite.getLectureByID', ['lectureId' => $courseProduct->id]) }}">{{ $courseProduct->name }}</a>
+                                                                                </h2>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                    
+                                                                            
 
                                                                             @foreach ($courseSection->quizzes as $courseQuiz)
                                                                             <div class="single-popular-feed">
@@ -424,6 +423,37 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+$(document).ready(function() {
+    $('.lecture-link').on('click', function(e) {
+        e.preventDefault();
+        var href = $(this).attr('href');
+        var lectureId = href.substring(href.lastIndexOf('/') + 1);
+        
+        $.ajax({
+            url: '/website/lecture/' + lectureId,
+            type: 'GET',
+            success: function(data) {
+                console.log('AJAX success:', data);
+                console.log('Lecture ID:', lectureId);
+                console.log('video :', data.lecture.video);
+
+                // Update the video source with the new lecture video
+                $('#video source').attr('src', "{{ asset('upload/') }}/" + data.lecture.video);
+                $('#video')[0].load();  // Reload the video player
+            },
+            error: function(xhr, status, error) {
+                console.error(error);  // Log any errors
+            }
+        });
+    });
+});
+
+
+
+
+
+
 </script>
 
 @endpush

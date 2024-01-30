@@ -20,6 +20,11 @@ use App\Http\Controllers\Website\Pages\QuestionController as WebsiteQuestionCont
 use App\Http\Controllers\Website\Pages\AnswerController as WebsiteAnswerController;
 use App\Http\Controllers\Website\Pages\CartController;
 use App\Http\Controllers\Website\Pages\SolutionController as WebsiteSolutionController;
+use App\Http\Controllers\Website\Pages\LectureController as WebsiteLectureController;
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -139,13 +144,24 @@ Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_
         Route::get('/',[WebsiteCategoryController::class , 'index'])->name('categoryWebsite.index');
         Route::get('/category/{slug}', [WebsiteCategoryController::class, 'getCategoryBySlug'])->name('category.getCategoryBySlug');
     });
+
     Route::prefix('quizes')->group(function () {
         Route::get('/{id}', [WebsiteQuizController::class, 'index'])->name('quizWebsite.index');
         Route::get('/quiz/{id}', [WebsiteQuizController::class, 'getQuizById'])->name('quizWebsite.getQuizById');
         Route::post('/save-in-cookie-and-do-next/{id}', [WebsiteQuizController::class, 'saveInCookieAndDoNext'])->name('quizWebsite.saveInCookieAndDoNext');
         Route::post('/save-cookie-data-to-database', [WebsiteQuizController::class, 'saveCookieDataToDatabase'])->name('quizWebsite.saveCookieDataToDatabase');
     });
-    Route::get( '/solutions', [WebsiteSolutionController::class, 'getSolutions'])->name('quizWebsite.getSolutions');
+
+    Route::prefix('solutions')->group(function () {
+        Route::get( '/', [WebsiteSolutionController::class, 'getSolutions'])->name('quizWebsite.getSolutions');
+    });
+
+    Route::prefix('lecture')->group(function () {
+        Route::get('/{lectureId}', [WebsiteLectureController::class, 'getLectureByID'])->name('lectureWebsite.getLectureByID');
+    });
+    
+    
+
 
 });
 //----------------------------------------- user -------------------------------------- 
