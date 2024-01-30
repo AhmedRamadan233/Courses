@@ -21,7 +21,7 @@ class CategoryController extends Controller
     public function getCategoryBySlug(Request $request , $slug , CartRepository $cart)
     {
         $showCategory = Category::where('slug', $slug)->firstOrFail();
-        $allRelationsWithCategory = Category::with('description', 'commonQestions', 'sections.quizzes', 'sections.products')->where('slug', $slug)->get();
+        $allRelationsWithCategory = Category::with('comments' ,'description', 'commonQestions', 'sections.quizzes', 'sections.products')->where('slug', $slug)->get();
         $items =  $cart->get();
         $total = $cart->total();
         

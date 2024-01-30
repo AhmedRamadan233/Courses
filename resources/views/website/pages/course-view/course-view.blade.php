@@ -94,7 +94,7 @@
                                         </div>
                                     </div>
                                     
-                                    <blockquote>
+                                    {{-- <blockquote>
                                         <div class="icon">
                                             <i class="lni lni-quotation"></i>
                                         </div>
@@ -124,7 +124,8 @@
                                         nostrud
                                         exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
                                         irure
-                                        dolor in reprehenderit. </p>
+                                        dolor in reprehenderit.
+                                    </p> --}}
                                     <div class="post-bottom-area">
                                         <!-- Start Post Tag -->
                                         <div class="post-tag">
@@ -179,61 +180,51 @@
                             <div class="post-comments">
                                 <h3 class="comment-title"><span>Post comments</span></h3>
                                 <ul class="comments-list">
-                                    <li>
-                                        <div class="comment-img">
-                                            <img src="https://via.placeholder.com/150x150" alt="img">
-                                        </div>
-                                        <div class="comment-desc">
-                                            <div class="desc-top">
-                                                <h6>Arista Williamson</h6>
-                                                <span class="date">19th May 2023</span>
-                                                <a href="javascript:void(0)" class="reply-link"><i
-                                                        class="lni lni-reply"></i>Reply</a>
-                                            </div>
-                                            <p>
-                                                Donec aliquam ex ut odio dictum, ut consequat leo interdum. Aenean nunc
-                                                ipsum, blandit eu enim sed, facilisis convallis orci. Etiam commodo
-                                                lectus
-                                                quis vulputate tincidunt. Mauris tristique velit eu magna maximus
-                                                condimentum.
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="children">
-                                        <div class="comment-img">
-                                            <img src="https://via.placeholder.com/150x150" alt="img">
-                                        </div>
-                                        <div class="comment-desc">
-                                            <div class="desc-top">
-                                                <h6>Rosalina Kelian</h6>
-                                                <span class="date">15th May 2023</span>
-                                                <a href="javascript:void(0)" class="reply-link"><i
-                                                        class="lni lni-reply"></i>Reply</a>
-                                            </div>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua. Ut enim.
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="comment-img">
-                                            <img src="https://via.placeholder.com/150x150" alt="img">
-                                        </div>
-                                        <div class="comment-desc">
-                                            <div class="desc-top">
-                                                <h6>Alex Jemmi</h6>
-                                                <span class="date">12th May 2023</span>
-                                                <a href="javascript:void(0)" class="reply-link"><i
-                                                        class="lni lni-reply"></i>Reply</a>
-                                            </div>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                veniam.
-                                            </p>
-                                        </div>
-                                    </li>
+                                    @foreach ($allRelationsWithCategory as $category)
+                                        @if ($category->comments)
+                                            @foreach ($category->comments as $comment)
+                                                @if ($comment->parent_id === null)
+                                                    {{-- Parent Comment --}}
+                                                    <li>
+                                                        <div class="comment-img">
+                                                            <img src="{{ $comment->user->profile_image ?? 'https://via.placeholder.com/150x150' }}" alt="img">
+                                                        </div>
+                                                        <div class="comment-desc">
+                                                            <div class="desc-top">
+                                                                <h6>{{ $comment->user->name ?? 'Unknown User' }}</h6>
+                                                                {{-- Add your date display logic here --}}
+                                                                <span class="date">Date Placeholder</span>
+                                                                <a href="javascript:void(0)" class="reply-link"><i class="lni lni-reply"></i>Reply</a>
+                                                            </div>
+                                                            <p>{{ $comment->comment }}</p>
+                                                        </div>
+                                
+                                                        {{-- Check if the comment has children --}}
+                                                        @if ($comment->children->count() > 0)
+                                                            {{-- Display children comments --}}
+                                                                @foreach ($comment->children as $childComment)
+                                                                    {{-- Child Comment --}}
+                                                                    <li  class="children">
+                                                                        <div class="comment-img">
+                                                                            <img src="{{ $childComment->user->profile_image ?? 'https://via.placeholder.com/150x150' }}" alt="img">
+                                                                        </div>
+                                                                        <div class="comment-desc">
+                                                                            <div class="desc-top">
+                                                                                <h6>{{ $childComment->user->name ?? 'Unknown User' }}</h6>
+                                                                                {{-- Add your date display logic here --}}
+                                                                                <span class="date">Date Placeholder</span>
+                                                                                <a href="javascript:void(0)" class="reply-link"><i class="lni lni-reply"></i>Reply</a>
+                                                                            </div>
+                                                                            <p>{{ $childComment->comment }}</p>
+                                                                        </div>
+                                                                    </li>
+                                                                @endforeach
+                                                        @endif
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    @endforeach
                                 </ul>
                             </div>
                             <div class="comment-form">

@@ -21,7 +21,7 @@ use App\Http\Controllers\Website\Pages\AnswerController as WebsiteAnswerControll
 use App\Http\Controllers\Website\Pages\CartController;
 use App\Http\Controllers\Website\Pages\SolutionController as WebsiteSolutionController;
 use App\Http\Controllers\Website\Pages\LectureController as WebsiteLectureController;
-
+use App\Http\Controllers\Website\Pages\CommentController as WebsiteCommentController;
 
 
 
@@ -158,6 +158,10 @@ Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_
 
     Route::prefix('lecture')->group(function () {
         Route::get('/{lectureId}', [WebsiteLectureController::class, 'getLectureByID'])->name('lectureWebsite.getLectureByID');
+    });
+
+    Route::prefix('comments')->group(function () {
+        Route::get('/', [WebsiteCommentController::class, 'index'])->name('commentsWebsite.index');
     });
     
     

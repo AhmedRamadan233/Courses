@@ -44,9 +44,7 @@ class Category extends Model
     public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id' , 'id')->withDefault(['name' => 'Main Category']);
-            
     }
-
     public function children()
     {
         return $this->belongsTo(Category::class, 'parent_id' , 'id');
@@ -67,4 +65,9 @@ class Category extends Model
     {
         return $this->hasMany(CommonQestions::class, 'category_id', 'id');
     }
+
+    public function comments(){
+        return $this->hasMany(Comment::class , 'category_id' , 'id');
+    }
+
 }
