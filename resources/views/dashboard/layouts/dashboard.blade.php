@@ -325,6 +325,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li> --}}
 
           <li class="nav-item">
+            <a href="{{route('general_settings.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                General Setting
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a href="{{route('slides_show.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Slide Show
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('images.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Images
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
+         
+          <li class="nav-item">
+            <a href="{{route('coursesWebsite.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Go To Website
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{route('coursesWebsite.index')}}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>

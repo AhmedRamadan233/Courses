@@ -1,0 +1,30 @@
+class SlideShowController extends Controller
+{
+    use ImageProcessing;
+public function store(Request $request)
+    {
+        // Validate the form data
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    
+        // Create a new SlideShow instance with the validated data
+        $slideShow = SlideShow::create($validatedData);
+    
+        // Handle image upload and association
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->storeAs('public/storage/images', $image->hashName()); // Store the image in the public/images directory
+                $slideShow->images()->create([
+                    'src' => $imagePath,
+                    'type' => Str::slug($slideShow->title),
+                ]);
+            }
+        }
+    
+        return redirect()->route('slides_show.index')->with('success', 'Slide Show created successfully!');
+    }
+}

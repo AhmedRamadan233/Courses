@@ -12,39 +12,20 @@
                 <div class="slider-head">
                     <!-- Start Hero Slider -->
                     <div class="hero-slider">
-                        <!-- Start Single Slider -->
-                        <div class="single-slider"
-                            style="background-image: url({{ asset('assets/images/hero/slider-bg1.jpg')}});">
-                            <div class="content">
-                                <h2><span>No restocking fee ($35 savings)</span>
-                                    M75 Sport Watch
-                                </h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.</p>
-                                <h3><span>Now Only</span> $320.99</h3>
-                                <div class="button">
-                                    <a href="product-grids.html" class="btn">Shop Now</a>
+                        @foreach ($slideShows as $slideShow)
+                            <div class="single-slider" style="background-image: url('{{ asset("slideShowImages/{$slideShow->images->first()->src}") }}');">
+                                <div class="content">
+                                    <h2><span>No restocking fee (${{ $slideShow->price }})</span>{{ $slideShow->title }}</h2>
+                                    <p>{{ $slideShow->description }}</p>
+                                    <h3><span>Now Only</span> ${{ $slideShow->price }}</h3>
+                                    <div class="button">
+                                        <a href="product-grids.html" class="btn">Shop Now</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- End Single Slider -->
-                        <!-- Start Single Slider -->
-                        <div class="single-slider"
-                            style="background-image: url({{ asset('assets/images/hero/slider-bg2.jpg')}});">
-                            <div class="content">
-                                <h2><span>Big Sale Offer</span>
-                                    Get the Best Deal on CCTV Camera
-                                </h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.</p>
-                                <h3><span>Combo Only:</span> $590.00</h3>
-                                <div class="button">
-                                    <a href="product-grids.html" class="btn">Shop Now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Single Slider -->
+                        @endforeach
                     </div>
+                    
                     <!-- End Hero Slider -->
                 </div>
             </div>

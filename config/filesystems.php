@@ -36,12 +36,28 @@ return [
             'throw' => false,
         ],
 
+
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
+        ],
+
+        'logoImages' => [
+            'driver' => 'local',
+            'root' => public_path('logoImages'),
+            'url' => env('APP_URL').'/logoImages',
+            'visibility' => 'public',
+        ],
+        
+        'slideShowImages' => [
+            'driver' => 'local',
+            'root' => public_path('slideShowImages'),
+            'url' => env('APP_URL').'/slideShowImages',
+            'visibility' => 'public',
         ],
 
         's3' => [
@@ -71,6 +87,8 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('logoImages') => storage_path('app/logoImages'),
+        public_path('slideShowImages') => storage_path('app/slideShowImages'),
     ],
 
 ];

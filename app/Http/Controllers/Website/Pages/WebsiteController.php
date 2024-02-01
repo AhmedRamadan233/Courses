@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Website\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\SlideShow;
 use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,8 @@ class WebsiteController extends Controller
         $total = $cart->total();
 
 
-
+        $slideShows = SlideShow::with('images')->get();
+    
 
     foreach ($categories as $category) {
         $itemInCart = false;
@@ -31,7 +33,7 @@ class WebsiteController extends Controller
 
         $category->inCart = $itemInCart;
     }
-        return view('website.index', compact('categories','items', 'total' ));
+        return view('website.index', compact('categories','items', 'total' ,'slideShows'));
 
     }
 

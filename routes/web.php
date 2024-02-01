@@ -5,11 +5,14 @@ use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\CommonQestionsController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\DescriptionController;
+use App\Http\Controllers\Dashboard\GeneralSettingController;
+use App\Http\Controllers\Dashboard\ImageController;
 use App\Http\Controllers\Dashboard\SectionController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\QuestionController;
 use App\Http\Controllers\Dashboard\QuizController;
 use App\Http\Controllers\Dashboard\Shared\CreateSharedController;
+use App\Http\Controllers\Dashboard\SlideShowController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Website\WebsiteController;
 use Illuminate\Support\Facades\Route;
@@ -109,6 +112,32 @@ Route::prefix('/')->middleware(['auth', 'verified', 'checkRole:super_admin'])->g
             Route::get('/edit/{answer}',   [AnswerController::class, 'edit'])->name('answer.edit');
             Route::post('/update/{answer}', [AnswerController::class, 'update'])->name('answer.update');
             Route::delete('/destroy/{answer}', [AnswerController::class, 'destroy'])->name('answer.destroy');
+        });
+
+        Route::prefix('general_settings')->group(function () {
+            Route::get('/', [GeneralSettingController::class, 'index'])->name('general_settings.index');
+            Route::get('/create', [GeneralSettingController::class, 'create'])->name('general_settings.create');
+            Route::post('/store', [GeneralSettingController::class, 'store'])->name('general_settings.store');
+            // Route::get('/edit/{answer}',   [GeneralSettingController::class, 'edit'])->name('general_settings.edit');
+            // Route::post('/update/{answer}', [GeneralSettingController::class, 'update'])->name('general_settings.update');
+            // Route::delete('/destroy/{answer}', [GeneralSettingController::class, 'destroy'])->name('general_settings.destroy');
+        });
+
+        Route::prefix('slides_show')->group(function () {
+            Route::get('/', [SlideShowController::class, 'index'])->name('slides_show.index');
+            Route::get('/create', [SlideShowController::class, 'create'])->name('slides_show.create');
+            Route::post('/store', [SlideShowController::class, 'store'])->name('slides_show.store');
+            // Route::get('/edit/{answer}',   [SlideShowController::class, 'edit'])->name('slides_show.edit');
+            // Route::post('/update/{answer}', [SlideShowController::class, 'update'])->name('slides_show.update');
+            // Route::delete('/destroy/{answer}', [SlideShowController::class, 'destroy'])->name('slides_show.destroy');
+        });
+        Route::prefix('images')->group(function () {
+            Route::get('/', [ImageController::class, 'index'])->name('images.index');
+            Route::get('/create', [ImageController::class, 'create'])->name('images.create');
+            Route::post('/store', [ImageController::class, 'store'])->name('images.store');
+            // Route::get('/edit/{answer}',   [SlideShowController::class, 'edit'])->name('slides_show.edit');
+            // Route::post('/update/{answer}', [SlideShowController::class, 'update'])->name('slides_show.update');
+            // Route::delete('/destroy/{answer}', [SlideShowController::class, 'destroy'])->name('slides_show.destroy');
         });
 
         Route::prefix('shared')->group(function () {

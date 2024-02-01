@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(FinishingQuiz::class);
     }
+
+    public function generalSettings()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
