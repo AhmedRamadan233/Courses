@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('slide_shows', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->decimal('price', 8, 2);
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
             $table->timestamps();
         });
     }

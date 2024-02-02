@@ -13,16 +13,19 @@
                     <!-- Start Hero Slider -->
                     <div class="hero-slider">
                         @foreach ($slideShows as $slideShow)
+                            @foreach ($slideShow->images as $image )
+                            @if($image->type == 'slideShow')
                             <div class="single-slider" style="background-image: url('{{ asset("slideShowImages/{$slideShow->images->first()->src}") }}');">
-                                <div class="content">
-                                    <h2><span>No restocking fee (${{ $slideShow->price }})</span>{{ $slideShow->title }}</h2>
-                                    <p>{{ $slideShow->description }}</p>
-                                    <h3><span>Now Only</span> ${{ $slideShow->price }}</h3>
-                                    <div class="button">
-                                        <a href="product-grids.html" class="btn">Shop Now</a>
-                                    </div>
+                                @if ($slideShow->title !== null)
+                                <div class="content bg-light">
+                                    <h2 class="text-secondary"><span></span>{{ $slideShow->title }}</h2>
+                                    <p class="text-secondary">{{ $slideShow->description }}</p>
                                 </div>
+                                @endif
+                                
                             </div>
+                            @endif
+                            @endforeach
                         @endforeach
                     </div>
                     
@@ -31,33 +34,27 @@
             </div>
             <div class="col-lg-4 col-12">
                 <div class="row">
-                    <div class="col-lg-12 col-md-6 col-12 md-custom-padding">
+                    @foreach ($slideShows as $slideShow)
+                    @foreach ($slideShow->images as $image )
+                    @if($image->type == 'Pressent')
+                    <div class="col-lg-12 col-md-6 col-12 md-custom-padding mb-3">
                         <!-- Start Small Banner -->
-                        <div class="hero-small-banner"
-                            style="background-image: url({{ asset('assets/images/hero/slider-bnr.jpg')}});">
+                       
+                        <div class="hero-small-banner" style="background-image: url('{{ asset("slideShowImages/{$slideShow->images->first()->src}") }}'); background-size: cover;">
                             <div class="content">
                                 <h2>
-                                    <span>New line required</span>
-                                    iPhone 12 Pro Max
+                                    {{$slideShow->title}}
                                 </h2>
-                                <h3>$259.99</h3>
+                                <h3>{{ $slideShow->price }}</h3>
                             </div>
                         </div>
+                      
                         <!-- End Small Banner -->
                     </div>
-                    <div class="col-lg-12 col-md-6 col-12">
-                        <!-- Start Small Banner -->
-                        <div class="hero-small-banner style2">
-                            <div class="content">
-                                <h2>Weekly Sale!</h2>
-                                <p>Saving up to 50% off all online store items this week.</p>
-                                <div class="button">
-                                    <a class="btn" href="product-grids.html">Shop Now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Start Small Banner -->
-                    </div>
+                    @endif
+                    @endforeach
+                    @endforeach
+                    
                 </div>
             </div>
         </div>
@@ -71,7 +68,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <h2>Trending Product</h2>
+                    <h2>All Category</h2>
                     <div >
                         <a class="btn btn-outline-primary text-dark m-1">ALL</a>
                         @foreach ($categories as $category)
@@ -115,17 +112,6 @@
                                         </form>
                                     </div>
                                 @endif
-                            
-                                {{-- <div class="button">
-                                    <form class="addToCartForm" id="addToCartForm_{{ $index }}" method="post" action="{{ route('cart.store') }}" style="display:inline;">
-                                        @csrf
-                                        <input type="hidden" name="category_id" value="{{ $category->id }}">
-                                        <button id="addToCartButton" type="button" class="btn" onclick="addToCart('{{ $index }}', '{{ $category->id }}')">
-                                            <i class="lni lni-cart"></i> Add to Cart
-                                        </button>
-                                    </form>
-                                    
-                                </div> --}}
                             </div>
                     <div class="product-info">
                         <span class="category">{{$category->parent->name}}</span>
@@ -156,29 +142,35 @@
 <!-- End Trending Product Area -->
 
 <!-- Start Call Action Area -->
-<section class="call-action section">
-    <div class="container">
-        <div class="row ">
-            <div class="col-lg-8 offset-lg-2 col-12">
-                <div class="inner">
-                    <div class="content">
-                        <h2 class="wow fadeInUp" data-wow-delay=".4s">Currently You are using free<br>
-                            Lite version of ShopGrids</h2>
-                        <p class="wow fadeInUp" data-wow-delay=".6s">Please, purchase full version of the template
-                            to get all pages,<br> features and commercial license.</p>
-                        <div class="button wow fadeInUp" data-wow-delay=".8s">
-                            <a href="javascript:void(0)" class="btn">Purchase Now</a>
-                        </div>
+    <!-- Start About Area -->
+    <section class="about-us section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="content-left">
+                        <img src="https://via.placeholder.com/540x420" alt="#">
+                        {{-- <a href="https://www.youtube.com/watch?v=r44RKWyfcFw&fbclid=IwAR21beSJORalzmzokxDRcGfkZA1AtRTE__l5N4r09HcGS5Y6vOluyouM9EM"
+                            class="glightbox video"><i class="lni lni-play"></i></a> --}}
                     </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-12">
+                    <!-- content-1 start -->
+                    <div class="content-right">
+                        <h2>{{$user}}</h2>
+                        <p>
+                            {{$discriptions}}
+                        </p>
+                    </div>
+                    
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    <!-- End About Area -->
 <!-- End Call Action Area -->
 
 <!-- Start Banner Area -->
-<section class="banner section">
+{{-- <section class="banner section">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-12">
@@ -207,51 +199,62 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!-- End Banner Area -->
 
 <!-- Start Shipping Info -->
 <section class="shipping-info">
     <div class="container">
         <ul>
-            <!-- Free Shipping -->
+            @foreach($generalSettings as $settings)
+                
+            @endforeach
             <li>
                 <div class="media-icon">
-                    <i class="lni lni-delivery"></i>
+                    <a href="{{$settings->facebook_link}}">
+                        <i class="lni lni-facebook-original"></i>
+                    </a>
                 </div>
                 <div class="media-body">
-                    <h5>Free Shipping</h5>
-                    <span>On order over $99</span>
+                    <h5>FaceBook</h5>
+                    {{-- <span>On order over $99</span> --}}
                 </div>
             </li>
             <!-- Money Return -->
-            <li>
-                <div class="media-icon">
-                    <i class="lni lni-support"></i>
-                </div>
-                <div class="media-body">
-                    <h5>24/7 Support.</h5>
-                    <span>Live Chat Or Call.</span>
-                </div>
-            </li>
             <!-- Support 24/7 -->
             <li>
                 <div class="media-icon">
-                    <i class="lni lni-credit-cards"></i>
+                    <a href="{{$settings->whatsapp_link}}">
+                        <i class="lni lni-whatsapp"></i>
+                    </a>
                 </div>
                 <div class="media-body">
-                    <h5>Online Payment.</h5>
-                    <span>Secure Payment Services.</span>
+                    <h5>whats app</h5>
+                    {{-- <span>Secure Payment Services.</span> --}}
                 </div>
             </li>
             <!-- Safe Payment -->
             <li>
                 <div class="media-icon">
-                    <i class="lni lni-reload"></i>
+                    <a href="{{$settings->tiktok_link}}">
+                        <i class="lni lni-tiktok"></i>
+                    </a>
                 </div>
                 <div class="media-body">
-                    <h5>Easy Return.</h5>
-                    <span>Hassle Free Shopping.</span>
+                    
+                    <h5>tiktok</h5>
+                    {{-- <span>Hassle Free Shopping.</span> --}}
+                </div>
+            </li>
+            <li>
+                <div class="media-icon">
+                    <a href="{{$settings->gmail_link}}">
+                        <i class="lni lni-envelope"></i>
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h5>gmail</h5>
+                    {{-- <span>Hassle Free Shopping.</span> --}}
                 </div>
             </li>
         </ul>
@@ -262,22 +265,7 @@
 
 @push('webste.scripts')
 <script>
-// function addToCart(index, categoryId) {
-//     var form = $('#addToCartForm_' + index);
-//     $.ajax({
-//         type: form.attr('method'),
-//         url: form.attr('action'),
-//         data: form.serialize(),
-//         success: function (response) {
-//             $('#shopping-item').load(location.href + ' #shopping-item>*', '');
 
-//             // console.log(categoryId + ' added to cart successfully.');
-//         },
-//         error: function (error) {
-//             console.log('Error adding ' + categoryId + ' to cart.');
-//         }
-//     });
-// }
 
 function addToCart(index, categoryId) {
     var form = $('#addToCartForm_' + index);

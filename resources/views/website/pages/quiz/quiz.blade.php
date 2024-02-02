@@ -8,39 +8,25 @@
 <!-- Start Trending Product Area -->
 <section class="trending-product section" style="margin-top: 12px;">
     <div class="container">
-        {{-- <div class="row">
-            <div class="col-12">
-                <div class="section-title">
-                    <h2>{{ $quiz->section->name }}</h2>
-                    <div >
-                        @foreach ($quizzes as $quiz)
-                        <a class="btn btn-outline-primary text-dark m-1">{{ $quiz->section->name }}</a>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div> --}}
+
         <div class="row" id="goToQuiz">
             @foreach ($quizzes as $quiz)
                 <div class="col-lg-3 col-md-6 col-12">
                     <!-- Start Single Product -->
                     <div class="single-product" >
-                        <div class="product-image">
-                            <img src="{{ asset('assets/images/products/product-1.jpg')}}" alt="#">
-                            
-                            <div class="button">
-                                @if (in_array($quiz->id, $finishedQuizIds))
-                                    <!-- Quiz is finished, display appropriate content -->
-                                    <a href="#" class="btn disabled">
-                                        <i class="lni lni-checkmark-circle"></i> Quiz Completed
-                                    </a>
-                                @else
-                                    <!-- Quiz is not finished, display link to go to quiz -->
-                                    <a href="{{ route('quizWebsite.getQuizById', ['id' => $quiz->id]) }}" class="btn">
-                                        <i class="lni lni-cart"></i> Go To Quiz
-                                    </a>
-                                @endif
-                            </div>
+                        
+                        <div class="btn btn-primary col-lg-12 col-md-12 col-12">
+                            @if (in_array($quiz->id, $finishedQuizIds))
+                                <!-- Quiz is finished, display appropriate content -->
+                                <a href="#" class="btn disabled">
+                                    <i class="lni lni-checkmark-circle"></i> Quiz Completed
+                                </a>
+                            @else
+                                <!-- Quiz is not finished, display link to go to quiz -->
+                                <a href="{{ route('quizWebsite.getQuizById', ['id' => $quiz->id]) }}" class="btn text-light">
+                                    <i class="lni lni-bolt"></i> Start Quiz
+                                </a>
+                            @endif
                         </div>
                         <div class="product-info">
                             <span class="category">{{ $quiz->section->category->parent->name }}</span>
@@ -70,7 +56,7 @@
 </section>
 <!-- End Trending Product Area -->
 
-<!-- Start Call Action Area -->
+{{-- <!-- Start Call Action Area -->
 <section class="call-action section">
     <div class="container">
         <div class="row ">
@@ -172,7 +158,7 @@
         </ul>
     </div>
 </section>
-<!-- End Shipping Info -->
+<!-- End Shipping Info --> --}}
 @endsection
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Website\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\GeneralSettings;
 use App\Models\SlideShow;
 use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
@@ -19,21 +20,26 @@ class WebsiteController extends Controller
 
 
         $slideShows = SlideShow::with('images')->get();
-    
+        $generalSettings = GeneralSettings::with('images' , 'user')->get();
+        foreach ($generalSettings as $setting) {
+            $discriptions = $setting->discriptions; 
+            $user = $setting->user->name;
+        }
+        foreach ($categories as $category) {
+            $itemInCart = false;
 
-    foreach ($categories as $category) {
-        $itemInCart = false;
-
-        foreach ($items as $item) {
-            if ($item->category_id == $category->id) {
-                $itemInCart = true;
-                break;
+            foreach ($items as $item) {
+                if ($item->category_id == $category->id) {
+                    $itemInCart = true;
+                    break;
+                }
             }
+
+            $category->inCart = $itemInCart;
         }
 
-        $category->inCart = $itemInCart;
-    }
-        return view('website.index', compact('categories','items', 'total' ,'slideShows'));
+     
+        return view('website.index', compact('categories','items', 'total' ,'slideShows' , 'discriptions' , 'user' , 'generalSettings'));
 
     }
 

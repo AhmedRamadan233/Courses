@@ -46,24 +46,26 @@ class SlideShowController extends Controller
     {
         // Validate the form data
         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'nullable',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
         // Create a new SlideShow instance with the validated data
         $slideShow = SlideShow::create($validatedData);
     
+        
         // Handle image upload and association
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 // Use the saveImage method from the ImageProcessing trait
+                $imageType = $request->input('ImageType'); // Corrected input name
                 $imagePath = $this->saveImage($image, 'slideShowImages');
 
                 $slideShow->images()->create([
                     'src' => $imagePath,
-                    'type' => Str::slug($slideShow->title),
+                    'type' => $imageType
                 ]);
             }
         }

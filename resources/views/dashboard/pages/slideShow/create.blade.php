@@ -51,6 +51,14 @@
                             @enderror
                         </div>
                     
+                        <div class="form-group">
+                            <label for="ImageType">ImageType</label>
+                            <select class="form-control" id="ImageType" name="ImageType">
+                                <option value="slideShow">Slide Show</option>
+                                <option value="Pressent">Pressent</option>
+                            </select>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                     

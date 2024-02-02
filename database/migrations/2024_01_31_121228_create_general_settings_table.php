@@ -23,13 +23,11 @@ return new class extends Migration
             $table->string('whatsapp_link');
             $table->string('youtube_link');
             $table->string('tiktok_link');
-            $table->string('skype_link');
+            $table->text('discriptions');
             $table->string('app_store_iphone_link');
             $table->string('app_store_android_link');
             $table->string('phone_number');
-            $table->string('logo');
             $table->string('address');
-            $table->string('Instractor_image');
             $table->timestamps();
         });
     }
