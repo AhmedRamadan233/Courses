@@ -17,17 +17,17 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
-            $table->string('facebook_link');
-            $table->string('twitter_link');
-            $table->string('gmail_link');
-            $table->string('whatsapp_link');
-            $table->string('youtube_link');
-            $table->string('tiktok_link');
-            $table->text('discriptions');
-            $table->string('app_store_iphone_link');
-            $table->string('app_store_android_link');
-            $table->string('phone_number');
-            $table->string('address');
+            $table->string('facebook_link')->nullable();
+            $table->string('twitter_link')->nullable();
+            $table->string('gmail_link')->nullable();
+            $table->string('whatsapp_link')->nullable();
+            $table->string('youtube_link')->nullable();
+            $table->string('tiktok_link')->nullable();
+            $table->text('descriptions')->nullable();
+            $table->string('app_store_iphone_link')->nullable();
+            $table->string('app_store_android_link')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
         });
     }

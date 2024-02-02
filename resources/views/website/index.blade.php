@@ -158,7 +158,7 @@
                     <div class="content-right">
                         <h2>{{$user}}</h2>
                         <p>
-                            {{$discriptions}}
+                            {{$descriptions}}
                         </p>
                     </div>
                     

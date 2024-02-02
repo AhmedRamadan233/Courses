@@ -13,7 +13,7 @@ class GeneralSettings extends Model
 
     protected $fillable = [
         'user_id','facebook_link', 'twitter_link', 'gmail_link', 'whatsapp_link', 'youtube_link',
-        'tiktok_link', 'skype_link', 'app_store_iphone_link', 'app_store_android_link',
+        'tiktok_link', 'descriptions', 'app_store_iphone_link', 'app_store_android_link',
         'phone_number', 'address',
     ];
 

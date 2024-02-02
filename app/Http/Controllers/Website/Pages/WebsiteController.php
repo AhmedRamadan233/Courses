@@ -22,7 +22,7 @@ class WebsiteController extends Controller
         $slideShows = SlideShow::with('images')->get();
         $generalSettings = GeneralSettings::with('images' , 'user')->get();
         foreach ($generalSettings as $setting) {
-            $discriptions = $setting->discriptions; 
+            $descriptions = $setting->descriptions; 
             $user = $setting->user->name;
         }
         foreach ($categories as $category) {
@@ -39,7 +39,7 @@ class WebsiteController extends Controller
         }
 
      
-        return view('website.index', compact('categories','items', 'total' ,'slideShows' , 'discriptions' , 'user' , 'generalSettings'));
+        return view('website.index', compact('categories','items', 'total' ,'slideShows' , 'descriptions' , 'user' , 'generalSettings'));
 
     }
 
