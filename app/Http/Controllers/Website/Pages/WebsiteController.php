@@ -22,8 +22,13 @@ class WebsiteController extends Controller
         $slideShows = SlideShow::with('images')->get();
         $generalSettings = GeneralSettings::with('images' , 'user')->get();
         foreach ($generalSettings as $setting) {
-            $descriptions = $setting->descriptions; 
-            $user = $setting->user->name;
+            if ($setting->user == null) {
+                $descriptions = $setting->descriptions;
+                $user = null;  // Set $user to null when $setting->user is null
+            } else {
+                $descriptions = $setting->descriptions;
+                $user = $setting->user->name;  // Accessing $setting->user->name only when $setting->user is not null
+            }
         }
         foreach ($categories as $category) {
             $itemInCart = false;
@@ -39,7 +44,7 @@ class WebsiteController extends Controller
         }
 
      
-        return view('website.index', compact('categories','items', 'total' ,'slideShows' , 'descriptions' , 'user' , 'generalSettings'));
+        return view('website.index', compact('categories','items', 'total' ,'slideShows' , 'generalSettings' , 'user' , 'descriptions'));
 
     }
 

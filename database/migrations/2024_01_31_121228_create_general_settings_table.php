@@ -18,10 +18,10 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->string('facebook_link')->nullable();
-            $table->string('twitter_link')->nullable();
+            $table->string('github_link')->nullable();
             $table->string('gmail_link')->nullable();
             $table->string('whatsapp_link')->nullable();
-            $table->string('youtube_link')->nullable();
+            $table->string('linkedin_link')->nullable();
             $table->string('tiktok_link')->nullable();
             $table->text('descriptions')->nullable();
             $table->string('app_store_iphone_link')->nullable();

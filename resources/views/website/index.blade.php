@@ -148,7 +148,13 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-12 col-12">
                     <div class="content-left">
-                        <img src="https://via.placeholder.com/540x420" alt="#">
+                        @foreach ($generalSettings as $generalSettings)
+                            @foreach ($generalSettings->images as $image )
+                                @if($image->type == 'logoPic')
+                                    <img src="{{asset('logoImages/' . $image->src) }}" alt="{{ $image->type }}" width="auto" height="700">
+                                @endif
+                            @endforeach
+                        @endforeach
                         {{-- <a href="https://www.youtube.com/watch?v=r44RKWyfcFw&fbclid=IwAR21beSJORalzmzokxDRcGfkZA1AtRTE__l5N4r09HcGS5Y6vOluyouM9EM"
                             class="glightbox video"><i class="lni lni-play"></i></a> --}}
                     </div>
@@ -156,9 +162,9 @@
                 <div class="col-lg-6 col-md-12 col-12">
                     <!-- content-1 start -->
                     <div class="content-right">
-                        <h2>{{$user}}</h2>
+                        <h2>{{$generalSettings->user->name}}</h2>
                         <p>
-                            {{$descriptions}}
+                            {{$generalSettings->descriptions}}
                         </p>
                     </div>
                     
@@ -206,58 +212,55 @@
 <section class="shipping-info">
     <div class="container">
         <ul>
-            @foreach($generalSettings as $settings)
-                
-            @endforeach
-            <li>
-                <div class="media-icon">
-                    <a href="{{$settings->facebook_link}}">
-                        <i class="lni lni-facebook-original"></i>
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h5>FaceBook</h5>
-                    {{-- <span>On order over $99</span> --}}
-                </div>
-            </li>
+        
+          
+                <li>
+                    <div class="media-icon">
+                        <a href="{{$generalSettings->github_link}}">
+                            <i class="lni lni-github-original"></i>
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5>Github</h5>
+                    </div>
+                </li>
+                <!-- Repeat similar code for other links -->
+           
             <!-- Money Return -->
             <!-- Support 24/7 -->
             <li>
                 <div class="media-icon">
-                    <a href="{{$settings->whatsapp_link}}">
+                    <a href="{{$generalSettings->whatsapp_link}}">
                         <i class="lni lni-whatsapp"></i>
                     </a>
                 </div>
                 <div class="media-body">
-                    <h5>whats app</h5>
-                    {{-- <span>Secure Payment Services.</span> --}}
+                    <h5>WhatsApp</h5>
                 </div>
             </li>
             <!-- Safe Payment -->
             <li>
                 <div class="media-icon">
-                    <a href="{{$settings->tiktok_link}}">
-                        <i class="lni lni-tiktok"></i>
+                    <a href="{{$generalSettings->linkedin_link	}}">
+                        <i class="lni lni-linkedin-original"></i>
                     </a>
                 </div>
                 <div class="media-body">
-                    
-                    <h5>tiktok</h5>
-                    {{-- <span>Hassle Free Shopping.</span> --}}
+                    <h5>Linked in</h5>
                 </div>
             </li>
             <li>
                 <div class="media-icon">
-                    <a href="{{$settings->gmail_link}}">
+                    <a href="{{$generalSettings->gmail_link}}">
                         <i class="lni lni-envelope"></i>
                     </a>
                 </div>
                 <div class="media-body">
-                    <h5>gmail</h5>
-                    {{-- <span>Hassle Free Shopping.</span> --}}
+                    <h5>Gmail</h5>
                 </div>
             </li>
         </ul>
+        
     </div>
 </section>
 <!-- End Shipping Info -->

@@ -50,62 +50,45 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                
-                                {{-- <th>Facebook Link</th> --}}
-                                {{-- <th>Twitter Link</th> --}}
-                                {{-- <th>Gmail Link</th> --}}
-                                <th>WhatsApp Link</th>
-                                {{-- <th>YouTube Link</th> --}}
-                                {{-- <th>TikTok Link</th> --}}
-                                <th>discriptions</th>
-                                {{-- <th>App Store (iPhone) Link</th> --}}
-                                {{-- <th>App Store (Android) Link</th> --}}
                                 <th>Phone Number</th>
-                             
                                 <th>Address</th>
                                 <th>logo</th>
-
+                                <th>discriptions</th>
+                                {{-- <th><i class="lni lni-facebook-original"></i></th> --}}
+                                {{-- <th><i class="lni lni-twitter-original"></i></th> --}}
+                                {{-- <th><i class="lni lni-envelope">x</i></th> --}}
+                                {{-- <th><i class="lni lni-whatsapp">x</i></th> --}}
+                                {{-- <th><i class="lni lni-github"></i></th> --}}
+                                {{-- <th><i class="lni lni-linkedin-original">x</i></th> --}}
+                                {{-- <th><i class="lni lni-ios"></i></th> --}}
+                                {{-- <th><i class="lni lni-android-original"></i></th> --}}
                                 <th>Actions</th>
-
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($generalSettings as $generalSetting)
                             <tr>
                                 <td>{{ $generalSetting->id }}</td>
-                                {{-- <td>{{ $generalSetting->facebook_link }}</td> --}}
-                                {{-- <td>{{ $generalSetting->twitter_link }}</td> --}}
-                                {{-- <td>{{ $generalSetting->gmail_link }}</td> --}}
-                                <td>
-                                    <a href="{{ $generalSetting->whatsapp_link }}"> whatsapp_link</a> 
-                                
-                                </td>
-                                {{-- <td>{{ $generalSetting->youtube_link }}</td> --}}
-                                {{-- <td>{{ $generalSetting->tiktok_link }}</td> --}}
-                                <td>{{ $generalSetting->discriptions }}</td>
-                                {{-- <td>{{ $generalSetting->app_store_iphone_link }}</td> --}}
-                                {{-- <td>{{ $generalSetting->app_store_android_link }}</td> --}}
                                 <td>{{ $generalSetting->phone_number }}</td>
                                 <td>{{ $generalSetting->address }}</td>
                                 <td>
                                     @foreach ($generalSetting->images as $image)
-                                        {{-- <img src="{{ asset($image->src) }}" alt="{{ $image->type }}"> --}}
                                         <img src="{{asset('logoImages/' . $image->src) }}" alt="{{ $image->type }}" width="100" height="100">
-
-                                        @endforeach
+                                    @endforeach
                                 </td>
-                                <td> <!-- Add your action button or link here if needed --> </td>
+                               
+                                <td>{{ $generalSetting->descriptions }}</td>
+                                {{-- <td><a href="{{ $generalSetting->facebook_link }}"><i class="lni lni-facebook-original"></i></a></td> --}}
+                                {{-- <td><a href="{{ $generalSetting->twitter_link }}"><i class="lni lni-twitter-original"></i></a></td> --}}
+                                {{-- <td><a href="{{ $generalSetting->gmail_link }}"><i class="lni lni-envelope"></i></a></td> --}}
+                                {{-- <td><a href="{{ $generalSetting->whatsapp_link }}"><i class="lni lni-whatsapp"></i></a></td> --}}
+                                {{-- <td><a href="{{ $generalSetting->youtube_link }}"><i class="lni lni-gitdub"></i></a></td> --}}
+                                {{-- <td><a href="{{ $generalSetting->tiktok_link }}"><i class="lni lni-linkedin-original"></a></i></td> --}}
+                                {{-- <td><a href="{{ $generalSetting->app_store_iphone_link }}"><i class="lni lni-ios"></i></a></td> --}}
+                                {{-- <td><a href="{{ $generalSetting->app_store_android_link }}"><i class="lni lni-android-original"></i></a></td> --}}
+                                <td>Actions</td>
                             </tr>
                             @endforeach
-                            {{-- <td>  --}}
-                                {{-- <a href="{{route('quiz.edit' , ['quiz' => $quiz->id])}}" class="btn btn-primary">Edit</a>
-                                |
-                                <form action="{{route('quiz.destroy' , ['quiz' => $quiz->id])}}" method="post" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form> --}}
-                            {{-- </td> --}}
                         </tbody>
                     </table>
                 </div>
