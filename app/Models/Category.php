@@ -69,5 +69,8 @@ class Category extends Model
     public function comments(){
         return $this->hasMany(Comment::class , 'category_id' , 'id');
     }
-
+    public function orderItems()
+    {
+        return $this->hasMany(Order_item::class);
+    }
 }

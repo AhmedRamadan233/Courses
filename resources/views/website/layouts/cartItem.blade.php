@@ -51,7 +51,7 @@
                 <span class="total-amount">${{$total}}</span>
             </div>
             <div class="button">
-                <a href="checkout.html" class="btn animate">Checkout</a>
+                <a href="{{ route('checkout.create') }}" class="btn" onclick="checkout({{ $items->count() }})">Checkout</a>
             </div>
         </div>
     </div>

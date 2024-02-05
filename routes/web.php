@@ -25,7 +25,7 @@ use App\Http\Controllers\Website\Pages\CartController;
 use App\Http\Controllers\Website\Pages\SolutionController as WebsiteSolutionController;
 use App\Http\Controllers\Website\Pages\LectureController as WebsiteLectureController;
 use App\Http\Controllers\Website\Pages\CommentController as WebsiteCommentController;
-
+use App\Http\Controllers\Website\Pages\CheckoutController as WebsiteCheckoutController;
 
 
 /*
@@ -193,6 +193,10 @@ Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_
         Route::post('/store/{categorySlug}', [WebsiteCommentController::class, 'store'])->name('commentsWebsite.store');
     });
     
+    Route::prefix('checkout')->group(function () {
+        Route::get('/create', [WebsiteCheckoutController::class, 'create'])->name('checkout.create');
+        Route::post('/store', [WebsiteCheckoutController::class, 'store'])->name('checkout.store');
+    });
     
 
 

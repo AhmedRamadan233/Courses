@@ -95,7 +95,11 @@
                 <div class="col-lg-3 col-md-3 col-7">
                     <!-- Start Header Logo -->
                     <a class="navbar-brand" href="index.html">
-                        <img src="assets/images/logo/logo.svg" alt="Logo">
+                        {{-- @foreach ($generalSettings->images as $image )
+                                @if($image->type == 'logo')
+                                    <img src="{{asset('logoImages/' . $image->src) }}" alt="{{ $image->type }}" width="auto" height="100px">
+                                @endif
+                        @endforeach --}}
                     </a>
                     <!-- End Header Logo -->
                 </div>
@@ -229,7 +233,7 @@
                                         <li class="nav-item"><a href="product-list.html">Shop List</a></li>
                                         <li class="nav-item"><a href="product-details.html">shop Single</a></li>
                                         <li class="nav-item"><a href="cart.html">Cart</a></li>
-                                        <li class="nav-item"><a href="checkout.html">Checkout</a></li>
+                                        <a href="{{ route('checkout.create') }}" class="btn" onclick="checkout({{ $items->count() }})">Checkout</a>
                                     </ul>
                                 </li>
                                 <li class="nav-item">

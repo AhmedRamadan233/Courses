@@ -98,7 +98,7 @@
                                         <li class="last">You Pay<span>${{$total}}</span></li>
                                     </ul>
                                     <div class="button">
-                                        <a href="checkout.html" class="btn">Checkout</a>
+                                        <a href="{{ route('checkout.create') }}" class="btn" onclick="checkout({{ $items->count() }})">Checkout</a>
                                         <a href="product-grids.html" class="btn btn-alt">Continue shopping</a>
                                     </div>
                                 </div>
@@ -178,7 +178,16 @@ function deleteForm(index, itemId) {
         });
     }
 
-
+    function checkout(itemCount) {
+        if (itemCount === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Please add items to your cart before checking out.',
+                confirmButtonText: 'OK',
+            });
+        }
+    }
 </script>
 @endpush
 

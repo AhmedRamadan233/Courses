@@ -36,7 +36,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/tiny-slider.css')}}" />
     <link rel="stylesheet" href="{{ asset('assets/css/glightbox.min.css')}}" />
     <link rel="stylesheet" href="{{ asset('assets/css/main.css')}}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/dist/toastr.min.css">
 
+    
 </head>
 
 <body>
@@ -218,6 +220,7 @@
     </a>
 
     <!-- ========================= JS here ========================= -->
+    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/dist/toastr.min.js"></script>
 
     <script src="{{ asset('assets/js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('assets/js/tiny-slider.js')}}"></script>
@@ -322,7 +325,16 @@
             }
         });
     }
-
+    function checkout(itemCount) {
+        if (itemCount === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Please add items to your cart before checking out.',
+                confirmButtonText: 'OK',
+            });
+        }
+    }
 </script>
 </body>
 
