@@ -14,7 +14,9 @@ class Finshing_Order extends Model
     protected $fillable = [
         'order_id',
         'user_id',
+        'category_id',
         'is_finishing_order',
+
     ];
 
     public function order()
@@ -25,5 +27,10 @@ class Finshing_Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

@@ -73,4 +73,8 @@ class Category extends Model
     {
         return $this->hasMany(Order_item::class);
     }
+    public function finishingOrder()
+    {
+        return $this->hasMany(Finshing_Order::class);
+    }
 }

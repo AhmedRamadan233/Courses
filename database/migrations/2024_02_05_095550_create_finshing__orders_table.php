@@ -19,6 +19,8 @@ return new class extends Migration
             ->nullable()
             ->constrained('users')
             ->nullOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
+
             $table->boolean('is_finishing_order')->default(false);
         });
     }

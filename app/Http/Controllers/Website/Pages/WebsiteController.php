@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Website\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Finshing_Order;
 use App\Models\GeneralSettings;
 use App\Models\SlideShow;
 use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WebsiteController extends Controller
 {
@@ -17,7 +19,13 @@ class WebsiteController extends Controller
         $categories = Category::with('parent')->active()->filter($filters)->get();
         $items =  $cart->get();
         $total = $cart->total();
-
+        $isBought = Finshing_Order::with('user')->get();
+        $isBoughtCategories = Finshing_Order::where('is_finishing_order', true)
+            ->where('user_id', auth()->id())
+            ->pluck('category_id')
+            ->toArray();
+        
+        // dd($isBoughtCategories);
 
         $slideShows = SlideShow::with('images')->get();
         $generalSettings = GeneralSettings::with('images' , 'user')->get();
@@ -44,7 +52,7 @@ class WebsiteController extends Controller
         }
 
      
-        return view('website.index', compact('categories','items', 'total' ,'slideShows' , 'generalSettings' , 'user' , 'descriptions'));
+        return view('website.index', compact('categories','items', 'total' ,'slideShows' , 'generalSettings' , 'user' , 'descriptions' , 'isBoughtCategories'));
 
     }
 

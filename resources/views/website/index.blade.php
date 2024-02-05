@@ -82,7 +82,9 @@
         </div>
         <div class="row" id="addedToCart">
             @foreach ($categories as $index=>$category )  
-                @if ($category->parent_id !== null)             
+                @if ($category->parent_id !== null)
+                    
+                    
                     <div class="col-lg-3 col-md-6 col-12">
                         <!-- Start Single Product -->
                         <div class="single-product">
@@ -95,45 +97,56 @@
                                 >
                                     <source src="{{ asset('upload/' . $category->video) }}" type="video/mp4">
                                 </video>
-                                @if ($category->inCart)
-                                    <div class="button">
-                                        <a href="#" class="btn disabled">
-                                            <i class="lni lni-checkmark-circle"></i> Aready in cart
-                                        </a>
-                                    </div>
+                                @if (in_array($category->id, $isBoughtCategories))
+                                    @if ($category->inCart)
+                                        <div class="button">
+                                            <a href="#" class="btn disabled">
+                                                <i class="lni lni-checkmark-circle"></i> Already in cart
+                                            </a>
+                                        </div>
+                                    @endif
                                 @else
-                                    <div class="button">
-                                        <form class="addToCartForm" id="addToCartForm_{{ $index }}" method="post" action="{{ route('cart.store') }}" style="display:inline;">
-                                            @csrf
-                                            <input type="hidden" name="category_id" value="{{ $category->id }}">
-                                            <button id="addToCartButton" type="button" class="btn" onclick="addToCart('{{ $index }}', '{{ $category->id }}')">
-                                                <i class="lni lni-cart"></i> Add to Cart
-                                            </button>
-                                        </form>
-                                    </div>
+                                    @if ($category->inCart)
+                                        <div class="button">
+                                            <a href="#" class="btn disabled">
+                                                <i class="lni lni-checkmark-circle"></i> Already in cart
+                                            </a>
+                                        </div>
+                                    @else
+                                        <div class="button">
+                                            <form class="addToCartForm" id="addToCartForm_{{ $index }}" method="post" action="{{ route('cart.store') }}" style="display:inline;">
+                                                @csrf
+                                                <input type="hidden" name="category_id" value="{{ $category->id }}">
+                                                <button id="addToCartButton" type="button" class="btn" onclick="addToCart('{{ $index }}', '{{ $category->id }}')">
+                                                    <i class="lni lni-cart"></i> Add to Cart
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
-                    <div class="product-info">
-                        <span class="category">{{$category->parent->name}}</span>
-                        <h4 class="title">
-                            <a href="{{ route('category.getCategoryBySlug' ,['slug' => $category->slug] )}}">{{$category->name}}</a>
-                        </h4>
-                        <ul class="review">
-                            <li><i class="lni lni-star-filled"></i></li>
-                            <li><i class="lni lni-star-filled"></i></li>
-                            <li><i class="lni lni-star-filled"></i></li>
-                            <li><i class="lni lni-star-filled"></i></li>
-                            <li><i class="lni lni-star"></i></li>
-                            <li><span>4.0 Review(s)</span></li>
-                        </ul>
-                        <div class="price">
-                            <span>{{$category->price}}</span>
+                            <div class="product-info">
+                                <span class="category">{{$category->parent->name}}</span>
+                                <h4 class="title">
+                                    <a href="{{ route('category.getCategoryBySlug' ,['slug' => $category->slug] )}}">{{$category->name}}</a>
+                                </h4>
+                                <ul class="review">
+                                    <li><i class="lni lni-star-filled"></i></li>
+                                    <li><i class="lni lni-star-filled"></i></li>
+                                    <li><i class="lni lni-star-filled"></i></li>
+                                    <li><i class="lni lni-star-filled"></i></li>
+                                    <li><i class="lni lni-star"></i></li>
+                                    <li><span>4.0 Review(s)</span></li>
+                                </ul>
+                                <div class="price">
+                                    <span>{{$category->price}}</span>
+                                </div>
+                            </div>
                         </div>
+                        <!-- End Single Product -->
                     </div>
-                </div>
-                <!-- End Single Product -->
-            </div>
-            @endif
+                    
+                @endif
             @endforeach
 
         </div>

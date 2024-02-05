@@ -50,6 +50,7 @@ class CheckoutController extends Controller
                 // dd($order);
                 Finshing_Order::create([
                     'order_id' => $order->id,
+                    'category_id' => $cartItem->category_id,
                     'user_id' => Auth::id(),
                     'is_finishing_order' => true,
                 ]);
