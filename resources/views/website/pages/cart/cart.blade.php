@@ -116,68 +116,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script>
-// function deleteForm(index, itemId) {
-//     var form = $('#delete_form_' + index);
-//     $.ajax({
-//         type: form.attr('method'),
-//         url: form.attr('action'),
-//         data: form.serialize(),
-//         success: function (response) {
-//             console.log('Item ' + itemId + ' deleted successfully.');
-            
-//             $('#cartContainer').load(location.href + ' #cartContainer>*', '');
-
-//         },
-//         error: function (error) {
-//             console.log('Error deleting item ' + itemId + '.');
-//         }
-//     });
-// }
-
-function deleteForm(index, itemId) {
-        // Display SweetAlert confirmation dialog
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var form = $('#delete_form_' + index);
-                $.ajax({
-                    type: form.attr('method'),
-                    url: form.attr('action'),
-                    data: form.serialize(),
-                    success: function (response) {
-                        $('#cartContainer').load(location.href + ' #cartContainer>*', '');
-                        $('#shopping-item').load(location.href + ' #shopping-item>*', '');
-                        $('#addedToCart').load(location.href + ' #addedToCart>*', '');
-                        Swal.fire(
-                            'Deleted!',
-                            'Your item has been deleted.',
-                            'success'
-                        );
-
-                    },
-                    error: function (error) {
-                        console.log('Error deleting item ' + itemId + '.');
-                        // Optionally, you can handle the error and provide feedback to the user.
-
-                        // Show SweetAlert error message
-                        Swal.fire(
-                            'Error!',
-                            'An error occurred while deleting the item.',
-                            'error'
-                        );
-                    }
-                });
-            }
-        });
-    }
-
     function checkout(itemCount) {
         if (itemCount === 0) {
             Swal.fire({

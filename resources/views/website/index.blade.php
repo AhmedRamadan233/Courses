@@ -293,6 +293,7 @@ function addToCart(index, categoryId) {
             disableAddCartButton();
             $('#shopping-item').load(location.href + ' #shopping-item>*', '');
             $('#addedToCart').load(location.href + ' #addedToCart>*', '');
+            
             Swal.fire({
                 icon: 'success',
                 title: 'Added to Cart!',

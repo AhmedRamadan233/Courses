@@ -7,11 +7,14 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\DescriptionController;
 use App\Http\Controllers\Dashboard\GeneralSettingController;
 use App\Http\Controllers\Dashboard\ImageController;
+use App\Http\Controllers\Dashboard\Payments\GenerarPaymentController;
+use App\Http\Controllers\Dashboard\Payments\PaymobController;
 use App\Http\Controllers\Dashboard\SectionController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\QuestionController;
 use App\Http\Controllers\Dashboard\QuizController;
 use App\Http\Controllers\Dashboard\Shared\CreateSharedController;
+use App\Http\Controllers\Dashboard\Shared\EnvController;
 use App\Http\Controllers\Dashboard\SlideShowController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Website\WebsiteController;
@@ -135,6 +138,23 @@ Route::prefix('/')->middleware(['auth', 'verified', 'checkRole:super_admin'])->g
             Route::get('/', [ImageController::class, 'index'])->name('images.index');
             Route::get('/create', [ImageController::class, 'create'])->name('images.create');
             Route::post('/store', [ImageController::class, 'store'])->name('images.store');
+            // Route::get('/edit/{answer}',   [SlideShowController::class, 'edit'])->name('slides_show.edit');
+            // Route::post('/update/{answer}', [SlideShowController::class, 'update'])->name('slides_show.update');
+            // Route::delete('/destroy/{answer}', [SlideShowController::class, 'destroy'])->name('slides_show.destroy');
+        });
+
+        Route::prefix('all_payments')->group(function () {
+            Route::get('/', [GenerarPaymentController::class,'index'])->name('all_payments.index');
+            Route::get('/create', [GenerarPaymentController::class, 'create'])->name('all_payments.create');
+            Route::post('/store', [GenerarPaymentController::class, 'store'])->name('all_payments.store');
+            // Route::get('/edit/{answer}',   [SlideShowController::class, 'edit'])->name('slides_show.edit');
+            // Route::post('/update/{answer}', [SlideShowController::class, 'update'])->name('slides_show.update');
+            // Route::delete('/destroy/{answer}', [SlideShowController::class, 'destroy'])->name('slides_show.destroy');
+        });
+        Route::prefix('update_env')->group(function () {
+            Route::post('/',[EnvController::class, 'update'])->name('updateEnv');
+            // Route::get('/create', [ImageController::class, 'create'])->name('images.create');
+            // Route::post('/store', [ImageController::class, 'store'])->name('images.store');
             // Route::get('/edit/{answer}',   [SlideShowController::class, 'edit'])->name('slides_show.edit');
             // Route::post('/update/{answer}', [SlideShowController::class, 'update'])->name('slides_show.update');
             // Route::delete('/destroy/{answer}', [SlideShowController::class, 'destroy'])->name('slides_show.destroy');

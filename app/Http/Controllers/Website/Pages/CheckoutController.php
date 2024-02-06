@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Website\Pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\AllPayment;
 use App\Models\Finshing_Order;
 use App\Models\Order;
 use App\Models\Order_item;
@@ -21,8 +22,9 @@ class CheckoutController extends Controller
         }
         $items = $cart->get();
         $total = $cart->total();
+        $allPayments = AllPayment::with('images')->active()->get();
 
-        return view('website.pages.checkout.checkout', compact('items','total'));
+        return view('website.pages.checkout.checkout', compact('items','total' ,'allPayments'));
     }
 
 

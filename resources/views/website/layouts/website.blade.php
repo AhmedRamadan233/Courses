@@ -1,27 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
 
-{{-- <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>@yield('title')</title>
 
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.svg')}}" />
-
-
-
-
-    <!-- ========================= CSS here ========================= -->
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css')}}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/LineIcons.3.0.css')}}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/tiny-slider.css')}}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/glightbox.min.css')}}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css')}}" />
-
-
-</head> --}}
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -302,9 +282,14 @@
                     url: form.attr('action'),
                     data: form.serialize(),
                     success: function (response) {
+                       
                         $('#cartContainer').load(location.href + ' #cartContainer>*', '');
                         $('#addedToCart').load(location.href + ' #addedToCart>*', '');
                         $('#shopping-item').load(location.href + ' #shopping-item>*', '');
+                        $('#checkoutCartList').load(location.href + ' #checkoutCartList>*', '');
+                        $('#checkoutOrder').load(location.href + ' #checkoutOrder>*', '');
+                       
+
                         Swal.fire(
                             'Deleted!',
                             'Your item has been deleted.',
@@ -327,6 +312,7 @@
     }
     function checkout(itemCount) {
         if (itemCount === 0) {
+            window.location.href = '/website/courses';
             Swal.fire({
                 icon: 'warning',
                 title: 'Oops...',
@@ -335,6 +321,9 @@
             });
         }
     }
+
+
+
 </script>
 </body>
 

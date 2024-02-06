@@ -314,16 +314,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
 
-          {{-- <li class="nav-item">
-            <a href="{{route('website.index')}}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Website
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li> --}}
-
           <li class="nav-item">
             <a href="{{route('general_settings.index')}}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -355,14 +345,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
          
           <li class="nav-item">
-            <a href="{{route('coursesWebsite.index')}}" class="nav-link">
+            <a href="{{route('all_payments.index')}}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Go To Website
-                {{-- <span class="right badge badge-danger">New</span> --}}
+                ALL Payments
               </p>
             </a>
           </li>
+
           <li class="nav-item">
             <a href="{{route('coursesWebsite.index')}}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
