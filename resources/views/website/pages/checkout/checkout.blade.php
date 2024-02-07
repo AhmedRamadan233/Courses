@@ -13,24 +13,12 @@
                     <div class="checkout-steps-form-style-1">
                         <ul id="accordionExample">
                             <li>
-                                <h5 class="title">Pricing Table</h5>
+                                <h5 class="title">All Payments</h5>
                                 <section class="checkout-steps-form-content p-3 ">
-                                    <div class="checkout-sidebar-coupon">
-                                        <p>Appy Coupon to get discount!</p>
-                                        <form action="#">
-                                            <div class="single-form form-default">
-                                                <div class="form-input form">
-                                                    <input type="text" placeholder="Coupon Code">
-                                                </div>
-                                                <div class="button">
-                                                    <button class="btn">apply</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    
                                     <div class="row p-3"> 
                                         @foreach ($allPayments as $payment)
-                                        <div class="col-3 m-3 d-flex align-items-center justify-content-center border  btn">
+                                        <div class="col-3 m-3 d-flex align-items-center justify-content-center border shadow btn">
                                             <div class="p-3">
                                                 <div class="single-form form-default text-center">
                                                     <div class="form-input form">
@@ -46,24 +34,9 @@
                                         </div>
                                         @endforeach
                                     </div>
-                                    <div class="checkout-sidebar-price-table mt-30 p-3">
-                                        <h5 class="titlee">Pricing Table</h5>
-                                        
-                                        <div class="total-payable" id="checkoutOrder">
-                                            <div class="payable-price">
-                                                <p class="value">Subotal Price:</p>
-                                                <p class="price">${{$total}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="price-table-btn button">
-                                            <form class="checkout-form" action="{{ route('checkout.store') }}" method="POST">
-                                                @csrf
-                                                @method('POST')
-                                                <button type="submit"  class="btn btn-alt">Checkout</button>
-                                            </form>
-                                
-                                        </div>
-                                    </div>                                    
+                                    <div class="col-12 m-3 d-flex align-items-center justify-content-center">
+                                        <p>Go to payment</p>
+                                    </div>                        
                                 </section>
                             </li>
                             
@@ -123,8 +96,20 @@
                 </div> 
                 <div class="col-lg-4">
                     <div class="checkout-sidebar">
-                        
-                        <div class="cart-list-head">
+                        <div class="checkout-sidebar-coupon">
+                            <p>Appy Coupon to get discount!</p>
+                            <form action="#">
+                                <div class="single-form form-default">
+                                    <div class="form-input form">
+                                        <input type="text" placeholder="Coupon Code">
+                                    </div>
+                                    <div class="button">
+                                        <button class="btn">apply</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="cart-list-head mt-3">
                             <!-- Cart List Title -->
                             <div class="cart-list-title">
                                 <div class="row">
@@ -133,14 +118,11 @@
                                         <p>Id</p>
                                     </div>
                                     
-                                    <div class="col-lg-4 col-md-2 col-12">
+                                    <div class="col-lg-5 col-md-2 col-12">
                                         <p>Product Name</p>
                                     </div>
-                                    <div class="col-lg-4 col-md-2 col-12">
+                                    <div class="col-lg-5 col-md-2 col-12">
                                         <p>Price</p>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-12">
-                                        <p>Remove</p>
                                     </div>
                                 </div>
                             </div>
@@ -154,7 +136,7 @@
                                             <p> {{ $loop->iteration }}</p>
                                         </div>
                                     
-                                        <div class="col-lg-4 col-md-3 col-12">
+                                        <div class="col-lg-5 col-md-3 col-12">
                                             <h5 class="product-name"><a href="product-details.html">
                                                     {{$item->category->name}}</a></h5>
                                             <p class="product-des">
@@ -162,18 +144,11 @@
                                             </p>
                                         </div>
                                         
-                                        <div class="col-lg-4 col-md-2 col-12">
+                                        <div class="col-lg-5 col-md-2 col-12">
                                             <p> {{$item->category->price}}</p>
                                         </div>
             
-                                        <div class="col-lg-2 col-md-2 col-12">
-                                            <form class="delete-form" id="delete_form_{{ $index }}" action="{{ route('cart.destroy', ['id' => $item->id]) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="remove-item" onclick="deleteForm('{{ $index }}', '{{ $item->id }}')"><i class="lni lni-close"></i></button>
-                                            </form>
-                                            
-                                        </div>
+                                       
                                         
                                     </div>
                                 </div>
@@ -181,6 +156,39 @@
                             </div>
                             <!-- End Single List list -->
                         </div>
+
+                        <div class="checkout-sidebar-price-table mt-30 p-3" id="checkoutOrder">
+                            <h5 class="title">Pricing Table</h5>
+
+
+                            <div class="sub-total-price">
+                               
+                                
+                                <div class="total-price discount">
+                                    <p class="value">Subotal Price:</p>
+                                    <p class="price">${{$total}}</p>
+                                </div>
+
+                                <div class="total-price">
+                                    <p class="value">Coupon:</p>
+                                    <p class="price">$0</p>
+                                </div>
+                            </div>
+                            <div class="total-payable" >
+                                <div class="payable-price">
+                                    <p class="value">Total Price:</p>
+                                    <p class="price">${{$total}}</p>
+                                </div>
+                            </div>
+                            {{-- <div class="price-table-btn button">
+                                <form class="checkout-form" action="{{ route('checkout.store') }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button type="submit"  class="btn btn-alt">Checkout</button>
+                                </form>
+                    
+                            </div> --}}
+                        </div>     
                     </div>
                 </div>
             </div>
