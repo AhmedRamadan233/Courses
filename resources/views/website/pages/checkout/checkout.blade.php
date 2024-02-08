@@ -18,7 +18,11 @@
                                     
                                     <div class="row p-3"> 
                                         @foreach ($allPayments as $payment)
-                                        <div class="col-3 m-3 d-flex align-items-center justify-content-center border shadow btn">
+                                        <form class="checkout-form" action="{{ route('checkout.store') }}" method="POST">
+                                            @csrf
+                                            @method('POST')
+                                        
+                                        <button class="col-3 m-3 d-flex align-items-center justify-content-center border shadow btn"  type="submit">
                                             <div class="p-3">
                                                 <div class="single-form form-default text-center">
                                                     <div class="form-input form">
@@ -31,7 +35,8 @@
                                                     <h6 class="mt-3">{{$payment->name}}</h6>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </button>
+                                    </form>
                                         @endforeach
                                     </div>
                                     <div class="col-12 m-3 d-flex align-items-center justify-content-center">
@@ -181,11 +186,7 @@
                                 </div>
                             </div>
                             <div class="price-table-btn button">
-                                <form class="checkout-form" action="{{ route('checkout.store') }}" method="POST">
-                                    @csrf
-                                    @method('POST')
-                                    <button type="submit"  class="btn btn-alt">Checkout</button>
-                                </form>
+                                
                     
                             </div>
                         </div>     

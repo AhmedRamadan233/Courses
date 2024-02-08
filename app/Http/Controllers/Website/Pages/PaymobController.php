@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Website\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -146,10 +147,18 @@ class PaymobController extends Controller
     public function callback(Request $request): RedirectResponse
     {
       
+        // $value = $request['success'];
+        // $type = gettype($value);
+        
+        // // Or alternatively, directly type-cast it to a string
+        // $typeString = (string) $value;
+        
+        // dd($type, $typeString);
+
         $payment_details = json_encode($request->all());
-        if ($request->success === "true")
+        if ($request->success === 'false')
         {
-            return (new CheckoutController)->checkout_done($request->merchant_order_id, $payment_details);
+            return (new CheckoutController)->checkout_done($request->merchant_order_id, $payment_details, app(CartRepository::class));
         } else {
             // flash(translate('Payment Failed'))->error();
             return redirect()->route('coursesWebsite.index');

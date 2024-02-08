@@ -30,7 +30,7 @@ use App\Http\Controllers\Website\Pages\LectureController as WebsiteLectureContro
 use App\Http\Controllers\Website\Pages\CommentController as WebsiteCommentController;
 use App\Http\Controllers\Website\Pages\CheckoutController as WebsiteCheckoutController;
 use App\Http\Controllers\Website\Pages\PaymobController as WebsitePaymobController;
-
+use App\Http\Controllers\Website\Shared\SuccessController;
 
 /*
 |--------------------------------------------------------------------------
@@ -221,7 +221,11 @@ Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_
         Route::post('/store', [WebsiteCheckoutController::class, 'store'])->name('checkout.store');
 
     });
-    
+    Route::prefix('success')->group(function () {
+        Route::get('/email', [SuccessController::class, 'emailSuccess'])->name('email.success');
+        Route::get('/payment', [SuccessController::class, 'paymentSuccess'])->name('payment.success');
+
+    });
    
 });
 //----------------------------------------- user -------------------------------------- 

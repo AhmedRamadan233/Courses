@@ -96,21 +96,18 @@ class CheckoutController extends Controller
         return redirect()->route('coursesWebsite.index');
     }
 
-    public function checkout_done($merchant_order_id, $payment_details): RedirectResponse
+    public function checkout_done($merchant_order_id, $payment_details , CartRepository $cart): RedirectResponse
     {
-        dd($merchant_order_id);
-        // Process the successful checkout and update the order status, etc.
-        // You can access the $merchant_order_id and $payment_details here
-
-        // For example, you can update the order status
-        $order = Order::findOrFail($merchant_order_id);
-        $order->status = 'completed';
-        $order->save();
-
-        // Flash a success message
-        // flash(translate('Payment Successful'))->success();
-
+        $items = $cart->get();
+        foreach ($items as $cartItem) {
+            Finshing_Order::create([
+                'order_id' => $merchant_order_id,
+                'category_id' => $cartItem->category_id,
+                'user_id' => Auth::id(),
+                'is_finishing_order' => true,
+            ]);
+        }
         // Redirect the user to a success page or any other desired route
-        return redirect()->route('success_page');
+        return redirect()->route('payment.success');
     } 
 }
