@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Website\Pages;
 
+use App\Events\OrderCreated;
 use App\Http\Controllers\Controller;
 use App\Models\AllPayment;
 use App\Models\Finshing_Order;
@@ -96,7 +97,7 @@ class CheckoutController extends Controller
         return redirect()->route('coursesWebsite.index');
     }
 
-    public function checkout_done($merchant_order_id, $payment_details , CartRepository $cart): RedirectResponse
+    public function checkout_done($merchant_order_id, $payment_details , CartRepository $cart , Order $order): RedirectResponse
     {
         $items = $cart->get();
         foreach ($items as $cartItem) {
@@ -107,6 +108,7 @@ class CheckoutController extends Controller
                 'is_finishing_order' => true,
             ]);
         }
+        event(new OrderCreated($order));
         // Redirect the user to a success page or any other desired route
         return redirect()->route('payment.success');
     } 

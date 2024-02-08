@@ -49,8 +49,7 @@ class PaymobController extends Controller
     //     $payment = new PaymobPayment();
     //     if($gateway == 'paymob'){
     //         $payed = $payment->verify($request);
-    //         if($payed['success'] == 0){
-    //             dd('ahmed');
+    //        dd( $payed);
     //         }
     //     }
     // }
@@ -105,7 +104,7 @@ class PaymobController extends Controller
             "billing_data"=>[
                 "first_name"            => $first_name,
                 "last_name"             => $last_name,
-                "phone_number"          => $user->phone ?: "NA",
+                "phone_number"          => "01020412199",
                 "email"                 => $user->email,
                 "apartment"             => "NA",
                 "floor"                 => "NA",
@@ -122,7 +121,7 @@ class PaymobController extends Controller
         ]);
 
         $response_final_final_json=$response_final_final->json();
-
+// dd($response_final_final_json);
         if ($payment_method == 'paymob_mobile_wallet_payment') {
             $response_iframe =Http::withHeaders([
                 'content-type' => 'application/json'
@@ -156,20 +155,21 @@ class PaymobController extends Controller
         // dd($type, $typeString);
 
         $payment_details = json_encode($request->all());
-        if ($request->success === 'false')
+        // dd($payment_details);
+        if ($request->success === "false")
         {
-            return (new CheckoutController)->checkout_done($request->merchant_order_id, $payment_details, app(CartRepository::class));
+            return (new CheckoutController)->checkout_done($request->merchant_order_id, $payment_details, app(CartRepository::class) , app(Order::class));
         } else {
             // flash(translate('Payment Failed'))->error();
             return redirect()->route('coursesWebsite.index');
         }
     }
 
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
