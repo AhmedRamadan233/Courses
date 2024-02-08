@@ -238,9 +238,15 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
+                                            @if (in_array($category->id, $isBoughtCategories))
                                             <div class="button">
                                                 <button type="button" id="postComment" class="btn" onclick="addComment()">Post Comment</button>
                                             </div>
+                                            @else
+                                            <div class="button">
+                                                <button type="button" id="postComment" class="btn" onclick="goToBuyCourse()">Post Comment</button>
+                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </form>
@@ -284,14 +290,24 @@
                                                                     <div class="single-form form-default">
                                                                         @foreach ($courseSection->products as $courseProduct)
                                                                         <div class="single-popular-feed">
+                                                                            
                                                                             <div class="feed-desc">
+                                                                                @if (in_array($category->id, $isBoughtCategories))
                                                                                 <a class="feed-img" href="{{ route('lectureWebsite.getLectureByID', ['lectureId' => $courseProduct->id]) }}">
+                                                                                @else
+                                                                                <a class="feed-img" onclick="goToBuyCourse()">
+                                                                                @endif
                                                                                     {{-- Add your video thumbnail or other content here --}}
                                                                                 </a>
                                                                                 <h2 class="post-title">
+                                                                                    @if (in_array($category->id, $isBoughtCategories))
                                                                                     <a class="lecture-link" href="{{ route('lectureWebsite.getLectureByID', ['lectureId' => $courseProduct->id]) }}">{{ $courseProduct->name }}</a>
+                                                                                    @else
+                                                                                    <a class="lecture-link" onclick="goToBuyCourse()">{{ $courseProduct->name }}</a>
+                                                                                    @endif
                                                                                 </h2>
                                                                             </div>
+                                                                           
                                                                         </div>
                                                                     @endforeach
                                                                     
@@ -300,18 +316,14 @@
                                                                             @foreach ($courseSection->quizzes as $courseQuiz)
                                                                             <div class="single-popular-feed">
                                                                                 <div class="feed-desc">
-                                                                                    {{-- <a class="feed-img" href="blog-single-sidebar.html">
-                                                                                        <video 
-                                                                                            style="width:200px; height: 200px;" 
-                                                                                            id="video" 
-                                                                                            class="embed-responsive-item" 
-                                                                                            controls
-                                                                                        >
-                                                                                            <source src="{{ asset('upload/' . $showCategory->video) }}" type="video/mp4">
-                                                                                        </video>
-                                                                                    </a> --}}
+                                                                                   
                                                                                     <h2 class="post-title">
+                                                                                        @if (in_array($category->id, $isBoughtCategories))
                                                                                         <a href="{{ route('quizWebsite.index', ['id' => $courseQuiz->section->id]) }}">{{ $courseQuiz->name }}</a>
+                                                                                        @else
+                                                                                        <a onclick="goToBuyCourse()">{{ $courseQuiz->name }}</a>
+
+                                                                                        @endif
 
                                                                                     </h2>
                                                                                 </div>
@@ -428,6 +440,7 @@ function addComment() {
         }
     });
 }
+
 
 
 

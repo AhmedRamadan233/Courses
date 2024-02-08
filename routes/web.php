@@ -178,7 +178,7 @@ Route::prefix('/')->middleware(['auth', 'verified', 'checkRole:super_admin'])->g
     });
 });
 //----------------------------------------- website -------------------------------------- 
-Route::prefix('website')->group(function () {
+Route::prefix('website')->middleware(['check.bought.categories'])->group(function () {
     Route::prefix('courses')->group(function () {
         Route::get('/', [WebsitePagesController::class, 'index'])->name('coursesWebsite.index');
     });
@@ -191,7 +191,7 @@ Route::prefix('website')->group(function () {
 
     });
 });
-Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_admin,student'])->group(function () {
+Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_admin,student' ,'check.bought.categories'])->group(function () {
     Route::prefix('categories')->group(function () {
         Route::get('/',[WebsiteCategoryController::class , 'index'])->name('categoryWebsite.index');
         Route::get('/category/{slug}', [WebsiteCategoryController::class, 'getCategoryBySlug'])->name('category.getCategoryBySlug');

@@ -20,10 +20,10 @@ class WebsiteController extends Controller
         $items =  $cart->get();
         $total = $cart->total();
         $isBought = Finshing_Order::with('user')->get();
-        $isBoughtCategories = Finshing_Order::where('is_finishing_order', true)
-            ->where('user_id', auth()->id())
-            ->pluck('category_id')
-            ->toArray();
+        // $isBoughtCategories = Finshing_Order::where('is_finishing_order', true)
+        //     ->where('user_id', auth()->id())
+        //     ->pluck('category_id')
+        //     ->toArray();
         
         // dd($isBoughtCategories);
 
@@ -50,9 +50,9 @@ class WebsiteController extends Controller
 
             $category->inCart = $itemInCart;
         }
-
+        // 'isBoughtCategories'
      
-        return view('website.index', compact('categories','items', 'total' ,'slideShows' , 'generalSettings' , 'user' , 'descriptions' , 'isBoughtCategories'));
+        return view('website.index', compact('categories','items', 'total' ,'slideShows' , 'generalSettings' , 'user' , 'descriptions'));
 
     }
 

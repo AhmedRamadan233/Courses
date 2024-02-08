@@ -98,6 +98,7 @@
                                     <source src="{{ asset('upload/' . $category->video) }}" type="video/mp4">
                                 </video>
                                 @if (in_array($category->id, $isBoughtCategories))
+
                                     @if ($category->inCart)
                                         <div class="button">
                                             <a href="#" class="btn disabled">

@@ -322,7 +322,23 @@
         }
     }
 
-
+    function goToBuyCourse()
+    {
+        Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'Please Go To Buy Course',
+        showCancelButton: true,
+        confirmButtonText: 'Buy Now',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // window.location.href = 'your_buy_now_url_here';
+        }
+    });
+    }
 
 </script>
 </body>
