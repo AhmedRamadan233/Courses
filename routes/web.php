@@ -29,6 +29,7 @@ use App\Http\Controllers\Website\Pages\SolutionController as WebsiteSolutionCont
 use App\Http\Controllers\Website\Pages\LectureController as WebsiteLectureController;
 use App\Http\Controllers\Website\Pages\CommentController as WebsiteCommentController;
 use App\Http\Controllers\Website\Pages\CheckoutController as WebsiteCheckoutController;
+use App\Http\Controllers\Website\Pages\PaymobController as WebsitePaymobController;
 
 
 /*
@@ -151,8 +152,10 @@ Route::prefix('/')->middleware(['auth', 'verified', 'checkRole:super_admin'])->g
             // Route::post('/update/{answer}', [SlideShowController::class, 'update'])->name('slides_show.update');
             // Route::delete('/destroy/{answer}', [SlideShowController::class, 'destroy'])->name('slides_show.destroy');
         });
-        Route::prefix('update_env')->group(function () {
-            Route::post('/',[EnvController::class, 'update'])->name('updateEnv');
+        Route::prefix('paymob')->group(function () {
+            Route::get('/', [PaymobController::class,'index'])->name('paymob.index');
+            Route::get('/create', [PaymobController::class,'create'])->name('paymob.create');
+            Route::post('/update',[EnvController::class, 'update'])->name('updateEnv');
             // Route::get('/create', [ImageController::class, 'create'])->name('images.create');
             // Route::post('/store', [ImageController::class, 'store'])->name('images.store');
             // Route::get('/edit/{answer}',   [SlideShowController::class, 'edit'])->name('slides_show.edit');
@@ -216,13 +219,12 @@ Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_
     Route::prefix('checkout')->group(function () {
         Route::get('/create', [WebsiteCheckoutController::class, 'create'])->name('checkout.create');
         Route::post('/store', [WebsiteCheckoutController::class, 'store'])->name('checkout.store');
+
     });
     
-
-
+   
 });
 //----------------------------------------- user -------------------------------------- 
-
 
 
 
@@ -295,6 +297,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Route::get('/payments/verify/{payment?}',[WebsitePaymobController::class,'payment_verify'])->name('verify-payment');
+Route::prefix('call_back')->group(function () {
+     
+    Route::get('/', [WebsitePaymobController::class, 'callback'])->name('call_back');
+
 });
 
 require __DIR__.'/auth.php';

@@ -9,7 +9,11 @@ class PaymobController extends Controller
 {
     public function index(Request $request)
     {
-        
-        return view('dashboard.pages.payment.index');
+        return view('dashboard.pages.createDataOfAllPayments.paymob.index');
+    }
+
+    public function create(Request $request)
+    {
+        return view('dashboard.pages.createDataOfAllPayments.paymob.create');
     }
 }

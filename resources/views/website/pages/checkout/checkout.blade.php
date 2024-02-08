@@ -180,14 +180,14 @@
                                     <p class="price">${{$total}}</p>
                                 </div>
                             </div>
-                            {{-- <div class="price-table-btn button">
+                            <div class="price-table-btn button">
                                 <form class="checkout-form" action="{{ route('checkout.store') }}" method="POST">
                                     @csrf
                                     @method('POST')
                                     <button type="submit"  class="btn btn-alt">Checkout</button>
                                 </form>
                     
-                            </div> --}}
+                            </div>
                         </div>     
                     </div>
                 </div>
