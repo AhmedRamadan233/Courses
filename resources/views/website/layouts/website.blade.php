@@ -146,7 +146,7 @@
                             <div class="single-footer f-link">
                                 <h3>Shop Departments</h3>
                                 <ul>
-                                    @foreach ($categories as $index=>$category )  
+                                    @foreach ($mainCategories as $index=>$category )  
                                         @if ($category->parent_id == null)
                                             <li><a href="javascript:void(0)">{{$category->name}}</a></li>
                                         @endif
