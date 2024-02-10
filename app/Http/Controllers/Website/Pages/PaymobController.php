@@ -145,15 +145,6 @@ class PaymobController extends Controller
 
     public function callback(Request $request): RedirectResponse
     {
-      
-        // $value = $request['success'];
-        // $type = gettype($value);
-        
-        // // Or alternatively, directly type-cast it to a string
-        // $typeString = (string) $value;
-        
-        // dd($type, $typeString);
-
         $payment_details = json_encode($request->all());
         // dd($payment_details);
         if ($request->success === "false")

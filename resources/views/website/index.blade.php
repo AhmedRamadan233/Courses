@@ -68,15 +68,15 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <h2>All Category</h2>
-                    <div >
+                    <h2>Displaying Only the Newest 4 Categories</h2>
+                    {{-- <div >
                         <a class="btn btn-outline-primary text-dark m-1">ALL</a>
                         @foreach ($categories as $category)
                         @if ($category->parent_id == null)
                         <a class="btn btn-outline-primary text-dark m-1">{{ $category->name }}</a>
                         @endif
                         @endforeach
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -149,8 +149,18 @@
                     
                 @endif
             @endforeach
-
         </div>
+
+        <div class="section-title pt-5">
+            <div >
+                <a href="{{route('shop.index')}}" class="btn btn-outline-primary text-dark ">
+                    Get ALL Category Shop
+                </a>
+               
+            </div>
+        </div>
+        
+
     </div>
 </section>
 <!-- End Trending Product Area -->
@@ -190,10 +200,10 @@
 <!-- End Call Action Area -->
 
 <!-- Start Banner Area -->
-{{-- <section class="banner section">
+<section class="banner section">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-12">
+            {{-- <div class="col-lg-6 col-md-6 col-12">
                 <div class="single-banner" style="background-image:url('assets/images/banner/banner-1-bg.jpg')">
                     <div class="content">
                         <h2>Smart Watch 2.0</h2>
@@ -203,42 +213,90 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-12">
-                <div class="single-banner custom-responsive-margin"
-                    style="background-image:url('assets/images/banner/banner-2-bg.jpg')">
+            </div> --}}
+            <div class="col-lg-6 col-md-6 col-12">                                                      
+                <div class="single-banner custom-responsive-margin">
                     <div class="content">
-                        <h2>Smart Headphone</h2>
-                        <p>Lorem ipsum dolor sit amet, <br>eiusmod tempor
-                            incididunt ut labore.</p>
-                        <div class="button">
-                            <a href="product-grids.html" class="btn">Shop Now</a>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <h2>They Said About Us</h2>   
+                           </div>     
+                        <div class="comments-logo-carousel d-flex align-items-center justify-content-center">
+                            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                        @foreach ($comments as $index => $comment)
+                                            <div class="carousel-item {{$index == 0 ? 'active' : ''}}">
+                                                <div class="single-blog">
+                                                    <div class="blog-content">
+                                                        <div class="single-product" >
+                        
+                                                            <div class="btn btn-primary col-lg-12 col-md-12 col-12">
+                                                                <a href="#" class="btn">
+                                                                   
+                                                                    <span class="text-light"> <i class="lni lni-user text-light"></i>  {{$comment->user->name}}</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="product-info">
+                                                            
+                                                                <p class="title">
+                                                                    {{$comment->comment}}
+                                                                </p>
+                                                                
+                                                                {{-- <div class="price">
+                                                                    <span> {{$comment->created_at}} </span>
+                                                                </div> --}}
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section> --}}
+</section>
 <!-- End Banner Area -->
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- Start Shipping Info -->
 <section class="shipping-info">
     <div class="container">
         <ul>
-        
-          
-                <li>
-                    <div class="media-icon">
-                        <a href="{{$generalSettings->github_link}}">
-                            <i class="lni lni-github-original"></i>
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <h5>Github</h5>
-                    </div>
-                </li>
-                <!-- Repeat similar code for other links -->
+            <li>
+                <div class="media-icon">
+                    <a href="{{$generalSettings->github_link}}">
+                        <i class="lni lni-github-original"></i>
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h5>Github</h5>
+                </div>
+            </li>
+            <!-- Repeat similar code for other links -->
            
             <!-- Money Return -->
             <!-- Support 24/7 -->

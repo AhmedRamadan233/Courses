@@ -19,27 +19,18 @@ class CheckoutController extends Controller
 {
     public function create(CartRepository $cart)
     {
+
+        // $items = $cart->get();
+        // $total = $cart->total();
+
         if($cart->get()->count() == 0){
 
             return redirect()->route('coursesWebsite.index');
         }
-        $items = $cart->get();
-        $total = $cart->total();
+        
         $allPayments = AllPayment::with('images')->active()->get();
-        // foreach( $allPayments as $payment)
-        // if ($payment->name == 'PaymobCard'){
-
-        //     return (new PaymobController)->paymobCheckout( 
-        //         $payment->name, 
-        //         4454443 , 
-        //         3 
-        //         ,
-        //         821329
-        //     );
-        // }
-
-
-        return view('website.pages.checkout.checkout', compact('items','total' ,'allPayments'));
+    
+        return view('website.pages.checkout.checkout', compact('allPayments'));
     }
 
 
@@ -65,30 +56,14 @@ class CheckoutController extends Controller
                         'options' => $cartItem->options,
                     ]);
                 }
-
-
- 
-                // Finshing_Order::create([
-                //     'order_id' => $order->id,
-                //     'category_id' => $cartItem->category_id,
-                //     'user_id' => Auth::id(),
-                //     'is_finishing_order' => true,
-                // ]);
                 DB::commit();
                 $allPayments = AllPayment::with('images')->active()->get();
                 foreach( $allPayments as $payment)
                 if ($payment->name == 'paymob'){
                         // return (new PaymobController)->paymobCheckout($payment->name, $order->id);
-
-
                         $integration_id = env('PAYMOB_INTEGRATION_ID');
                         $iframe_id_or_wallet_number =env('PAYMOB_IFRAME_ID');
                         return (new PaymobController)->checkingOut($payment->name, $integration_id, $order->id, $iframe_id_or_wallet_number);
-
-
-
-
-
                 }
         } catch (\Throwable $e) {
             DB::rollBack();

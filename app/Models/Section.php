@@ -19,6 +19,11 @@ class Section extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+    public function myCourse()
+    {
+        return $this->belongsTo(MyCourse::class, 'category_id', 'id');
+    }
+    
     public function products(){
         return $this->hasMany(Product::class , 'section_id' , 'id');
     }

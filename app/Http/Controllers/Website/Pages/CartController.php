@@ -13,11 +13,11 @@ class CartController extends Controller
 {
     public function index(CartRepository $cart)
     {
+        // using middleware 
+        // $items =  $cart->get();
+        // $total = $cart->total();
 
-        $items =  $cart->get();
-        $total = $cart->total();
-
-        return view('website.pages.cart.cart', compact('items', 'total'));
+        return view('website.pages.cart.cart');
 
     }
 

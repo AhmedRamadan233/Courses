@@ -3,6 +3,8 @@
 
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>@yield('title')</title>
@@ -91,13 +93,13 @@
                             <!-- Single Widget -->
                             <div class="single-footer f-contact">
                                 <h3>Get In Touch With Us</h3>
-                                <p class="phone">Phone: +1 (900) 33 169 7720</p>
+                                <p class="phone">(02){{$generalSettings->phone_number}}</p>
                                 <ul>
                                     <li><span>Monday-Friday: </span> 9.00 am - 8.00 pm</li>
                                     <li><span>Saturday: </span> 10.00 am - 6.00 pm</li>
                                 </ul>
                                 <p class="mail">
-                                    <a href="mailto:support@shopgrids.com">support@shopgrids.com</a>
+                                    <a href="mailto:{{$generalSettings->gmail_link}}">{{$generalSettings->gmail_link}}</a>
                                 </p>
                             </div>
                             <!-- End Single Widget -->
@@ -108,14 +110,14 @@
                                 <h3>Our Mobile App</h3>
                                 <ul class="app-btn">
                                     <li>
-                                        <a href="javascript:void(0)">
+                                        <a href="{{$generalSettings->app_store_iphone_link}}">
                                             <i class="lni lni-apple"></i>
                                             <span class="small-title">Download on the</span>
                                             <span class="big-title">App Store</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)">
+                                        <a href="{{$generalSettings->app_store_android_link}}">
                                             <i class="lni lni-play-store"></i>
                                             <span class="small-title">Download on the</span>
                                             <span class="big-title">Google Play</span>
@@ -144,11 +146,11 @@
                             <div class="single-footer f-link">
                                 <h3>Shop Departments</h3>
                                 <ul>
-                                    <li><a href="javascript:void(0)">Computers & Accessories</a></li>
-                                    <li><a href="javascript:void(0)">Smartphones & Tablets</a></li>
-                                    <li><a href="javascript:void(0)">TV, Video & Audio</a></li>
-                                    <li><a href="javascript:void(0)">Cameras, Photo & Video</a></li>
-                                    <li><a href="javascript:void(0)">Headphones</a></li>
+                                    @foreach ($categories as $index=>$category )  
+                                        @if ($category->parent_id == null)
+                                            <li><a href="javascript:void(0)">{{$category->name}}</a></li>
+                                        @endif
+                                    @endforeach
                                 </ul>
                             </div>
                             <!-- End Single Widget -->
@@ -180,10 +182,18 @@
                                 <li>
                                     <span>Follow Us On:</span>
                                 </li>
-                                <li><a href="javascript:void(0)"><i class="lni lni-facebook-filled"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="lni lni-twitter-original"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="lni lni-instagram"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="lni lni-google"></i></a></li>
+                                <li>
+                                    <a href="{{$generalSettings->facebook_link}}"><i class="lni lni-facebook-filled"></i></a>
+                                </li>
+                                <li>
+                                    <a href="{{$generalSettings->github_link}}"><i class="lni lni-github-original"></i></a>
+                                </li>
+                                <li>
+                                    <a href="{{$generalSettings->linkedin_link}}"><i class="lni lni-linkedin-original"></i></a>
+                                </li>
+                                <li>
+                                    <a href="mailto:{{$generalSettings->gmail_link}}"><i class="lni lni-envelope"></i></a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -239,7 +249,7 @@
             autoplay: true,
             autoplayButtonOutput: false,
             mouseDrag: true,
-            gutter: 15,
+            gutter: 1,
             nav: false,
             controls: false,
             responsive: {
@@ -247,16 +257,20 @@
                     items: 1,
                 },
                 540: {
-                    items: 3,
+                    items: 1,
                 },
                 768: {
-                    items: 5,
+                    items: 1,
                 },
                 992: {
-                    items: 6,
+                    items: 1,
                 }
             }
         });
+
+        
+
+       
     </script>
     <!-- jQuery -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -335,11 +349,44 @@
         cancelButtonColor: '#d33',
     }).then((result) => {
         if (result.isConfirmed) {
-            // window.location.href = 'your_buy_now_url_here';
+            window.location.href = '/website/shop';
         }
     });
     }
 
+    function addToCart(index, categoryId) {
+    var form = $('#addToCartForm_' + index);
+    $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function (response) {
+            disableAddCartButton();
+            $('#shopping-item').load(location.href + ' #shopping-item>*', '');
+            $('#addedToCart').load(location.href + ' #addedToCart>*', '');
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Added to Cart!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        },
+        error: function (error) {
+            console.log('Error adding ' + categoryId + ' to cart.');
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'An error occurred while adding to the cart.'
+            });
+        }
+    });
+}
+
+function disableAddCartButton() {
+    $('#addToCartButton').prop('disabled', true);
+}
 </script>
 </body>
 

@@ -17,11 +17,11 @@ class SuccessController extends Controller
     }
 
 
-    public function paymentSuccess(CartRepository $cart)
+    public function paymentSuccess()
     {
-        $items =  $cart->get();
-        $total = $cart->total();
-        return view('website.pages.success.paymentSuccess', compact('items', 'total'));
+        // $items =  $cart->get();
+        // $total = $cart->total();
+        return view('website.pages.success.paymentSuccess');
 
 
     }

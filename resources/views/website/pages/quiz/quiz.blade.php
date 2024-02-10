@@ -29,8 +29,8 @@
                             @endif
                         </div>
                         <div class="product-info">
-                            <span class="category">{{ $quiz->section->category->parent->name }}</span>
-                            <span class="category">{{ $quiz->section->category->name }}</span>
+                            <span class="category">{{ $quiz->section->name }}</span>
+                            <span class="category">{{ $quiz->section->myCourse->name }}</span>
                             <h4 class="title">
                                 <a href="product-grids.html">{{ $quiz->name }}</a>
                             </h4>

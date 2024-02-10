@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class SolutionController extends Controller
 {
-    public function getSolutions(CartRepository $cart)
+    public function getSolutions()
     {
         $solutions = Solution::withTotalCorrectAnswers()
             ->with(['user', 'quiz'])
@@ -19,9 +19,8 @@ class SolutionController extends Controller
         $finishedQuizIds = FinishingQuiz::where('is_finished', true)
             ->where('user_id', auth()->id())
             ->exists();
-        $items =  $cart->get();
-        $total = $cart->total();
-        return view('website.pages.quiz.solutions', compact('solutions', 'finishedQuizIds' , 'items' , 'total'));
+      
+        return view('website.pages.quiz.solutions', compact('solutions', 'finishedQuizIds'));
     }
     
 }

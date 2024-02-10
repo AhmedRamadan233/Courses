@@ -31,7 +31,11 @@ use App\Http\Controllers\Website\Pages\CommentController as WebsiteCommentContro
 use App\Http\Controllers\Website\Pages\CheckoutController as WebsiteCheckoutController;
 use App\Http\Controllers\Website\Pages\PaymobController as WebsitePaymobController;
 use App\Http\Controllers\Website\Shared\SuccessController;
+use App\Http\Controllers\Website\Pages\ShopController as WebsiteShopController;
+use App\Http\Controllers\Website\Pages\MyCourseController as WebsiteMyCourseController;
+use App\Http\Controllers\Website\Pages\AbutUsController as WebsiteAboutUsController;
 
+// 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -178,7 +182,7 @@ Route::prefix('/')->middleware(['auth', 'verified', 'checkRole:super_admin'])->g
     });
 });
 //----------------------------------------- website -------------------------------------- 
-Route::prefix('website')->middleware(['check.bought.categories'])->group(function () {
+Route::prefix('website')->middleware(['check.bought.categories' , 'inject.data'])->group(function () {
     Route::prefix('courses')->group(function () {
         Route::get('/', [WebsitePagesController::class, 'index'])->name('coursesWebsite.index');
     });
@@ -191,7 +195,7 @@ Route::prefix('website')->middleware(['check.bought.categories'])->group(functio
 
     });
 });
-Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_admin,student' ,'check.bought.categories'])->group(function () {
+Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_admin,student' ,'check.bought.categories' , 'inject.data'])->group(function () {
     Route::prefix('categories')->group(function () {
         Route::get('/',[WebsiteCategoryController::class , 'index'])->name('categoryWebsite.index');
         Route::get('/category/{slug}', [WebsiteCategoryController::class, 'getCategoryBySlug'])->name('category.getCategoryBySlug');
@@ -226,7 +230,22 @@ Route::prefix('website')->middleware(['auth', 'verified', 'checkRole:user,super_
         Route::get('/payment', [SuccessController::class, 'paymentSuccess'])->name('payment.success');
 
     });
-   
+    Route::prefix('shop')->group(function () {
+        Route::get('/', [WebsiteShopController::class, 'index'])->name('shop.index');
+        Route::post('/update-price-range', [WebsiteShopController::class, 'update'])->name('update-price-range');
+        Route::get('/search',  [WebsiteShopController::class, 'search'])->name('shop.search');
+
+    });
+    Route::prefix('my_courses')->group(function () {
+        Route::get('/', [WebsiteMyCourseController::class, 'index'])->name('MyCourse.index');
+        Route::get('/category/{slug}', [WebsiteMyCourseController::class, 'getMyCategoryBySlug'])->name('category.getMyCategoryBySlug');
+
+    });
+    Route::prefix('aboutus')->group(function () {
+        Route::get('/' , [WebsiteAboutUsController::class, 'index'])->name('aboutus.index');
+        // Route::get('/category/{slug}', [WebsiteMyCourseController::class, 'getMyCategoryBySlug'])->name('category.getMyCategoryBySlug');
+
+    });
 });
 //----------------------------------------- user -------------------------------------- 
 

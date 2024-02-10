@@ -18,49 +18,33 @@ use Illuminate\Support\Str;
 
 class QuizController extends Controller
 {
-    public function index(CartRepository $cart , $id)
+    public function index($id)
     {
-        // $quiz = Quiz::findOrFail($id);
-        // $quizzes = $quiz->get();
-        // // dd($quizzes);
-        // $categoryId = Section::with('category')->where('category_id', 2)->get();
-        // dd($categoryId);
+        // $items =  $cart->get();
+        // $total = $cart->total();
         $quizzes = Quiz::with('section')->where('section_id', $id)->get();
-        // dd($quizzes);
-
-
-
-
-
-
-
-
-
-
-
-
-        $items =  $cart->get();
-        $total = $cart->total();
         $finishedQuizIds = FinishingQuiz::where('is_finished', true)
             ->where('user_id', auth()->id())
             ->pluck('quiz_id')
             ->toArray();
 
-        return view('website.pages.quiz.quiz', compact('quizzes' , 'finishedQuizIds' , 'items' ,'total'));
+        return view('website.pages.quiz.quiz', compact('quizzes' , 'finishedQuizIds'));
     }
 
 
-    public function getQuizById(CartRepository $cart,$id)
+    public function getQuizById($id)
     {
+        // $items =  $cart->get();
+        // $total = $cart->total(); 
+
         $quiz = Quiz::findOrFail($id);
         $questions = $quiz->questions()->get();
-        $items =  $cart->get();
-        $total = $cart->total();
+
         $finishedQuizIds = FinishingQuiz::where('is_finished', true)
             ->where('user_id', auth()->id())
             ->pluck('quiz_id')
             ->toArray();
-        return view('website.pages.quiz.question', compact('quiz', 'questions' , 'finishedQuizIds' , 'items' , 'total'));
+        return view('website.pages.quiz.question', compact('quiz', 'questions' , 'finishedQuizIds'));
     }
 
     

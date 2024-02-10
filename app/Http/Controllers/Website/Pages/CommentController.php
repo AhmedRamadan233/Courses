@@ -9,14 +9,10 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-
-
-      
     public function store(Request $request, $categorySlug)
     {
         // Retrieve category_id from the slug
         $category = Category::where('slug', $categorySlug)->first();
-    
         $comment = new Comment();
         $comment->user_id = auth()->user()->id;
         $comment->category_id = $category->id;

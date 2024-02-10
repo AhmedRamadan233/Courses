@@ -20,6 +20,26 @@ class Category extends Model
         'video',
         'status',
     ];
+    public static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('isBoughtCategories', function ($query) {
+            $query->whereNotIn('id', self::isBoughtCategories());
+        });
+    }
+
+    public static function isBoughtCategories()
+    {
+        return Finshing_Order::where('is_finishing_order', true)
+                    ->where('user_id', auth()->id())
+                    ->pluck('category_id')
+                    ->toArray();
+    }
+    public function scopeNewest($query, $limit)
+    {
+        return $query->orderBy('created_at', 'desc')->take($limit);
+    }
 
     public function scopeFilter(EloquentBuilder $builder, $filters)
     {
@@ -77,4 +97,10 @@ class Category extends Model
     {
         return $this->hasMany(Finshing_Order::class);
     }
+
+    public function scopePriceRange($query, $minPrice, $maxPrice)
+    {
+        return $query->whereBetween('price', [$minPrice, $maxPrice]);
+    }
+
 }

@@ -11,9 +11,10 @@ class LectureController extends Controller
 {
     public function getLectureByID(Request $request, $lectureId, CartRepository $cart)
     {
+        // $items =  $cart->get();
+        // $total = $cart->total();
+        
         $lecture = Product::findOrFail($lectureId);
-        $items =  $cart->get();
-        $total = $cart->total();
         return response()->json(['lecture' => $lecture]);      
     }
 }
