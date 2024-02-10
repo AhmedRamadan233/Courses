@@ -168,7 +168,7 @@
                                 @if ($category->parent_id == null)
                                     <li><a>{{$category->name}} <i class="lni lni-chevron-right"></i></a>
                                         <ul class="inner-sub-category">
-                                            @foreach ($categories as $index=>$category )  
+                                            @foreach ($mainCategories as $index=>$category )  
                                                 @if ($category->parent_id !== null)
                                                     <li>
                                                         <a href="{{ route('category.getCategoryBySlug' ,['slug' => $category->slug] )}}">{{$category->name}}</a>

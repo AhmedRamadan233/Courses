@@ -52,7 +52,7 @@ Route::get('/', function () {
 });
 
 
-Route::prefix('/')->middleware(['auth', 'verified', 'checkRole:super_admin'])->group(function () {
+Route::prefix('/')->middleware(['auth', 'verified', 'checkRole:super_admin' , 'inject.data'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('/',[DashboardController::class , 'index'])->name('dashboard');
 
